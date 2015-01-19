@@ -1,2 +1,14 @@
 \section{Introduction}
+
 Here is the Spring XD introduction. We'll talk about the UNIX philosophy, pipes, filters, and so on.
+
+Consider the following shell command:
+
+\texttt{tail -f /tmp/log.txt | grep ERROR}
+
+The tail command will continuously display the file. The | will pipe the output of tail to grep, which will filter out all lines that do not contain the string ERROR.
+
+The equivalent using Spring XD looks like this:
+
+\texttt{stream create --name error-filter --definition "tail --name=/tmp/log.txt | filter --expression=payload.contains('ERROR') | log" --deploy}
+
