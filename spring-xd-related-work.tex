@@ -1,2 +1,99 @@
 \section{Related Work}
 This section compares Spring XD to similar projects.
+
+\subsection{Spring XD and Spark}
+Spark is a general purpose framework for for large-scale data processing.
+
+For customers who need a rock solid ingestion platform based on mature open source technology, analytical stream APIs for the 80 perecentage use-case, RESTful control over stream processing and batch jobs across a range of big data technologies, as well as simplifying development and testing of Spark applications, Spring XD is available and supported today.
+
+Spring XD can do the following which Spark Streaming can't do.
+
+\begin{itemize}
+\item Reliably operate 24/7.
+\item Ingest data into HDFS following to best practices (no small files) and with zero code.
+\item Microbatching based on event count.
+\item One event at a time processing.
+\item Specify specific hosts where calculations are performed.
+\item Decouple infrastructure code from business logic/analytics.
+\end{itemize}
+
+It can do the following which Spark Batch processing can't do.
+
+\begin{itemize}
+\item Provider a REST API and lifecycle management of Spark jobs.
+\item Integrate with other Batch systems.
+\end{itemize}
+
+In the future Spring XD will continue to provide additional integration with Spark features such as MLLib and SparkSQL.
+
+\subsection{Spring XD and Storm}
+Storm is a distributed computation system for real-time stream processing.
+
+For customers who are in need of real-time stream processing, distributed data computations, and ETL capabilities, Spring XD as an unified runtime supports variety of use-cases ranging from classic enterprise to Big Data and IoT. 
+
+Spring XD can do the following which Storm can't do.
+
+\begin{itemize}
+\item Spring XD's Shell compared with Storm's API programming-paradigm delivers immediate productivity. No coding, IDE, bundling or packaging necessary. The high-level DSL abstracts complexities through developer-friendly fixtures.
+\item REST-APIs allows topology be built in isolation without having to disrupt existing pipelines.
+\item Loosely coupled `modules' that may be responsible for ingestion, analytics, data-processing, machine-learning or data-export can be individually managed and dynamically scaled.
+\item Simplified governance model for `modules' (unit-of-work) and colocation capabilities.
+\item Composition of `modules' (unit-of-work) improves performance characteristics. 
+\item Building upon reactive-streams specification, customers have the option to choose from Spring Reactor, Spark Streaming or RxJava functional APIs, to build complex data-centric applications.
+\end{itemize}
+
+Spring XD provides you the right tool for the job, not forcing unnecessary complexity while remaining open and extensible.
+
+\subsection{Spring XD and Flume}
+Flume is a distributed system for collecting, aggregating and moving large data sets. 
+
+For customers who need collecting and moving data, Spring XD simplifies lifecycle-management, coordination, and automation of data pipelines. A high-level DSL is all you need to operationalize data movements. 
+
+Spring XD can do the following which Flume can't do.
+
+\begin{itemize}
+\item Nothing manual and no coding! The high-level DSL abstracts configuration and setup. One-line DSL declaration automates data collection, processing, and export to a desired format or destination.
+\item Manage data-centric workflows with REST-APIs either via DSL, admin-ui, or custom applications.
+\item Administer or monitor data pipelines through Jolokia or JMX endpoints. 
+\item >500 combinations of data pipelines/flows can be created OOTB.
+\item Granular control options to intercept step-execution of data pipeline to create complex data-driven workflows.
+\item Flexibility through `Deployment Manifest' to declaratively configure data partitioning strategy to route data to a specific consumer instance in the cluster. Improves performance characteristics by virtue of colocation.
+\end{itemize}
+
+No more config files, IDE, bundling, packaging or deploying artifacts. Spring XD's developer-friendly fixtures delivers productivity. 
+
+\subsection{Spring XD and Oozie}
+Oozie is a workflow scheduler engine to manage Hadoop workloads such as MapReduce or Pig jobs. 
+
+For customers who need workflow or a coordinator engine, Spring XD, as a unified platform provides orchestration of directed graph processes to govern not just Hadoop but any data workflows. 
+
+Spring XD can do the following which Oozie can't do.
+
+\begin{itemize}
+\item Building upon Spring Batch, a JSR standardization (JSR-352) of batch workload data processing, Spring XD inherits rich enterprise features and customer trust.
+\item Ready-to-use frequently used workflow-jobs such as file-to-jdbc, file-to-hdfs, ftp-to-hdfs, hdfs-to-jdbc, hdfs-to-mongo, jdbc-to-hdfs, spark-job, and sqoop-job.
+\item Flexibility to create custom-workflow-jobs through REST-APIs.
+\item Dynamic scaling of OOTB workflow-jobs and custom-workflow-jobs without having to bring down the runtime cluster or the currently running topology.
+\item Runtime offers bidirectionality between real-time streaming and offline batch-workflows to accommodate complex data processing use-cases.
+\item Ability to create and launch workflow-jobs from admin-ui. Historical snapshots of execution, errors and states are available for exploration via admin-ui.
+\item Portable runtime that can run where there is JVM. On-prem, Pivotal CloudFoundry, YARN, Mesos, Docker or EC2.
+\end{itemize}
+
+Bridging the gaps between offline and near-real-time data, Spring XD will continue to evolve as one-stop platform for data workflows to efficiently process the data in-transit, at-rest, and in-use.
+
+\subsection{Spring XD and Sqoop}
+Sqoop assists with data transmission between Hadoop and relational databases.
+
+For customers who need data ingest and export between various databases and Hadoop, Spring XD's unified platform facilitates out-of-the-box fixtures to orchestrate data movements reliably. 
+
+Spring XD can do the following which Sqoop can't do.
+
+\begin{itemize}
+\item Building upon Spring Batch, a JSR standardization (JSR-352) of batch workload data processing, Spring XD inherits rich enterprise features and customer trust
+\item Comprehensive lifecycle management platform for not just data transmission between Hadoop and Databases but also real-time data ingest, analytics and export use-cases.
+\item Simplified linux-style semantics to create, deploy and destroy data pipelines.
+\item Flexibility to introduce custom data pipelines through REST-APIs.
+\item Unified functional-programming runtime to support reactive-streams specifications. Either Spring Reactor, Spark Streaming or RxJava functional APIs can be used to build reactive data pipelines.
+\end{itemize}
+
+Sqoop offers data-validation, data-merge, incremental data imports, and HCatalog integration among others. As a unified platform, Spring XD provides an OOTB Sqoop job to take advantage of the features at the same time also efficiently orchestrate lifecycle of data workload use-cases efficiently.
