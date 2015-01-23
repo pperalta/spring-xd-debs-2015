@@ -12,6 +12,19 @@ Modules in Spring XD are defined in their own application context. This allows f
 \subsection{Message Bus}
 Modules require a data transport in order to transfer stream data. Spring XD supports pluggable transports via the Message Bus. Spring XD includes implementations based on Redis, RabbitMQ, and Kafka.
 
+\subsection{Containers}
+A Spring XD container consists of a JVM running an application context which loads child application contexts for modules on demand. Depending on the modules being executed by the container, the container will also create connections to the message bus.
+
+\subsection{Admin}
+The Spring XD admin server hosts a REST service used for Spring XD administration and the orchestration of streams and jobs.
+
+\subsection{ZooKeeper}
+Apache ZooKeeper is a distributed configuration and synchronization service. It provides primitives required for coordination of distributed systems. In the case of Spring XD, ZooKeeper is used for: \begin{itemize*}
+	\item Centralized storage for streams and jobs
+	\item Tracking of containers and the modules they are hosting
+	\item Notification of arriving and departing containers
+	\item Notification of stream/job deployments and un-deployments
+\end{itemize*}
 \begin{figure}[ht]
 \centering
 \epsfig{file=XD-sample.eps, height=2in, width=2in}
@@ -19,4 +32,3 @@ Modules require a data transport in order to transfer stream data. Spring XD sup
 \label{fig:architecture}
 \end{figure}
 
-Here is where we get into the fine grained details.
