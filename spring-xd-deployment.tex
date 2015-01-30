@@ -1,2 +1,52 @@
 \section{Deployment}
 This section describes deployment architectures with Spring XD.
+\subsection{Lambda architecture}
+
+The Lambda Architecture, introduced by Nathan Marz \cite{lambda-architecture-paper} is a generic, scalable and fault tolerant data processing archictecture. It attempts to provide a comprehensive solution to the problem of processing an extremely large set of data.
+
+
+The Lambda Architecture has the following components:
+
+\begin{itemize*}
+\item A \emph{master dataset} comprising of all data known to the system, ideally in its rawest form;
+\item A \emph{serving} or \emph{view layer} that provides the latest, most up-to-date view of the processed data, available for low-latency, ad-hoc querying;
+\item A \emph{batch layer} that performs computationally intense calculations that and prepares the \emph{batch views} displayed by the \emph{serving layer};
+\item A \emph{speed layer} that performs calculations on recent data only, its output combined with the \emph{batch views} by the \emph{serving layer}.
+\end{itemize*}
+
+The guiding principle of the Lambda architecture is an attempt to combine the high throughput of batch operations with the low latency of real-time computations. Each on its own, has its strenghts and weakness. While the highest throughput for computing large datasets is attained by relying on batch computations, the latter have the disadvantage of higher latency. Meanwhile, real-time computations may operate with low latency and produce results based on latest data quickly, but can't really handle the large amounts of data that batch processing can deal with. So, instead of relying on a single paradigm, the lambda architecture employs both, allowing them to complement each other.
+
+A detailed view of the Lambda Architecture can be viewed in figure [TBD]
+
+\subsubsection {Master dataset in Spring XD}
+
+While Spring XD does not provide a storage mechanism of its own, it integrates with a variety of data sources, allowing both reading (through its source[reference tbd, provide example] components), as well as writing, through its sink[reference tbd, provide examples] components. As such, it provides all the necessary means for ingesting data into a master dataset, also allowing for consolidating data from a variety of sources. 
+
+TBD: provide an example of a simple stream
+
+TBD: provide example of multiple streams with a namd queue sink and a stream with a named queue source. By sharing the sink, we create the master dataset out of multiple sources.
+
+\subsubsection {Speed layer in Spring XD}
+
+The Speed layer in Spring XD is handled by the streams. Transformers. Illustrate transformation of data, aggregation via counters.  
+
+\subsubsection {Batch layer in Spring XD}
+
+Jobs.
+
+\subsubsection {Combining the two}
+
+Stream-driven batch jobs. Taps. 
+
+\subsubsection {View layer in Spring XD}
+
+Externalized via sinks, output of batch jobs. Microservice architecture Example of a web application reading data off a set of tables written on by Spring XD. 
+
+\subsubsection {Critique of the Lambda Architecture and Spring XD}
+
+An often raised objection to the LA is the duplication of work (Quote Jay Kreps) that occurs during processing. More specifically, the necessity of writing the same processing code twice: once for the speed and once for the batch layer. However, due to the nature of Spring XD, the same business code can be shared between the two layers. This objection does not apply!
+
+
+\subsection {Reactive architectures}
+
+\subsection {Cloud deployment - does this even belong here??}
