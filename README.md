@@ -7,7 +7,7 @@ To generate the PDF on OS X, an installation of [MacTeX](https://tug.org/mactex/
 Once installed, generate the PDF with the following command:
 
 ```
-pdflatex spring-xd.tex
+./generate.sh
 ```
 
 This will generate a PDF which can be viewed via:
