@@ -1,10 +1,10 @@
 \section{Related Work}
-This section compares Spring XD to similar projects.
+This section compares and contrasts Spring XD to similar projects.
 
 \subsection{Spring XD and Spark}
 Spark is a general purpose framework for for large-scale data processing.
 
-For customers who need a rock solid ingestion platform based on mature open source technology, analytical stream APIs for the 80 perecentage use-case, RESTful control over stream processing and batch jobs across a range of big data technologies, as well as simplifying development and testing of Spark applications, Spring XD is available and supported today.
+For customers who need a rock solid ingestion platform based on mature open source technology, analytical stream APIs for the 80 percentage use-case, RESTful control over stream processing and batch jobs across a range of big data technologies, as well as simplifying development and testing of Spark applications, Spring XD is available and supported today.
 
 Spring XD can do the following which Spark Streaming can't do.
 
@@ -35,8 +35,8 @@ Spring XD can do the following which Storm can't do.
 
 \begin{itemize*}
 \item Spring XD's Shell compared with Storm's API programming-paradigm delivers immediate productivity. No coding, IDE, bundling or packaging necessary. The high-level DSL abstracts complexities through developer-friendly fixtures.
-\item REST-APIs allows topology be built in isolation without having to disrupt existing pipelines.
-\item Loosely coupled `modules' that may be responsible for ingestion, analytics, data-processing, machine-learning or data-export can be individually managed and dynamically scaled.
+\item REST-APIs allows topology to be built in isolation without having to disrupt existing pipelines.
+\item Loosely coupled `modules' that are responsible for ingestion, analytics, data-processing, machine-learning or data-export can be individually managed and dynamically scaled.
 \item Simplified governance model for `modules' (unit-of-work) and colocation capabilities.
 \item Composition of `modules' (unit-of-work) improves performance characteristics. 
 \item Building upon reactive-streams specification, customers have the option to choose from Spring Reactor, Spark Streaming or RxJava functional APIs, to build complex data-centric applications.
@@ -54,7 +54,7 @@ Spring XD can do the following which Flume can't do.
 \begin{itemize*}
 \item Nothing manual and no coding! The high-level DSL abstracts configuration and setup. One-line DSL declaration automates data collection, processing, and export to a desired format or destination.
 \item Manage data-centric workflows with REST-APIs either via DSL, admin-ui, or custom applications.
-\item Administer or monitor data pipelines through Jolokia or JMX endpoints. 
+\item Administer or monitor data pipelines through the UI, Jolokia or JMX endpoints. 
 \item >500 combinations of data pipelines/flows can be created OOTB.
 \item Granular control options to intercept step-execution of data pipeline to create complex data-driven workflows.
 \item Flexibility through `Deployment Manifest' to declaratively configure data partitioning strategy to route data to a specific consumer instance in the cluster. Improves performance characteristics by virtue of colocation.
