@@ -1,14 +1,33 @@
 \section{Introduction}
 
-Here is the Spring XD introduction. We'll talk about the UNIX philosophy, pipes, filters, and so on.
+The era of Big Data has introduced many new technologies for data storage
+and processing. The success and high demand for horizontally scalable
+solutions such as HDFS, Spark, and Kafka demonstrates this need. At the
+same time, enterprises have invested heavily in older and proven
+technologies such as SQL databases and messaging systems. For enterprises
+to adopt the emerging technologies, there must be a way to easily
+connect with existing systems.
 
-Consider the following shell command:
+Expanding upon the success of existing technologies in the Spring portfolio
+such as Spring Integration and Spring Batch, Spring XD provides a runtime
+environment that integrates with a plethora of technologies, both established
+and up-and-coming.
 
-\texttt{tail -f /tmp/log.txt | grep ERROR}
+Creating a stream in Spring XD is a simple concept for those familiar with
+UNIX streams and pipes. Consider the following shell command:
 
-The tail command will continuously display the file. The | will pipe the output of tail to grep, which will filter out all lines that do not contain the string ERROR.
+\verb;tail -f /tmp/log.txt | grep ERROR;
+
+The tail command will continuously display the file. The |
+will pipe the output of tail to grep, which will filter out all
+lines that do not contain the string ERROR.
 
 The equivalent using Spring XD looks like this:
 
-\texttt{stream create --name error-filter --definition "tail --name=/tmp/log.txt | filter --expression=payload.contains('ERROR') | log" --deploy}
+\verb;stream create -name error-filter -definition;\\*
+\verb;  "tail -name=/tmp/log.txt | filter;\\*
+\verb;  --expression=payload.contains('ERROR') | log";
 
+While this specific example will only tail a local file, an ingestion stream
+that aggregates, filters, and stores log file analytics can just as easily
+be created with Spring XD.
