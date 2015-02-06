@@ -46,7 +46,7 @@ the stream (see figure~\ref{fig:sourcembc}.)
 \subsection{Module Integrations: Sink}
 Sink modules convert and deliver messages from a stream in a format consumable by an external application.
 There are two types of sinks: counter/gauge and delegate.
-A counter/gauge is a specialized sink that increments a field on a datastore every time a
+A counter/gauge is a specialized sink that increments a field on a data store every time a
 message is received. (Refer to the Analytics section for more information.)  A delegate
 sink translates messages to the format expected by the external application.
 After transforming the message, the resulting data is sent to the external application.
@@ -70,7 +70,7 @@ in Spring XD have configurable options for retries.
 
 \subsection{Module Integrations: Job}
 Spring XD uses Spring Batch \cite{spring-batch-reference} as the foundation for implementing
-job modules.  Jobs enables users to execute enterprise batch processes within Spring XD.
+job modules. A job enables users to execute enterprise batch processes within Spring XD.
 Jobs are typically used when running long lasting tasks that have transactional requirements.
 Thus in cases that the job fails, a job can be designed to be restarted and
 pickup where it left off or rollback the changes that were in transaction.
