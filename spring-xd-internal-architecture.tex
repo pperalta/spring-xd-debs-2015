@@ -29,10 +29,26 @@ Spring Integration project.
 
 \subsection{Containers}
 A Spring XD container consists of a JVM running an application context which
-load child application contexts for modules on demand. Depending on the modules
+loads child application contexts for modules on demand. Depending on the modules
 being executed by the container, the container will also create connections to
-the message bus. The capacity of a Spring XD system can be expanded by running
-multiple containers.
+the message bus. The container is responsible for reporting the status of its deployed 
+modules to the admin via Zookeeper.  
+
+XD supports 1 or more containers within a cluster. The decision criteria
+for selecting the number of containers is based on: capacity or access to specific 
+resources.  A typical XD cluster has a base set of containers running at all times 
+so that streams or jobs can be created, deployed or launched as needed.  However in cases 
+a user may spin up extra containers to meet the load during peak times and then scale back 
+as need.  Another reason to have more than one container is so that if there are 
+resources that are located in one region but not others, a set of containers may be 
+deployed to that region.  These containers can then be associated to a group.  And when
+when deploying modules that need those resources, the user can specify the group 
+(of containers) they want the modules to be deployed.  
+An example of this would be if a user has a set of servers (Set A) that had access to a 
+hadoop cluster, however the other servers (Set B) did not.  The user could deploy a set of 
+XD Containers to the "Set A" servers and place them in group "A".  The other containers
+that don't need access to hadoop can be deployed in the "Set B" servers.  Thus when 
+deploying hdfs based modules the user specifes that they should be deployed to group "A".
 
 \subsection{Admin}
 The Spring XD admin server hosts a REST service used for Spring XD
