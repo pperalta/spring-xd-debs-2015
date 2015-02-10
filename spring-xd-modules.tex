@@ -1,7 +1,13 @@
-\section{Integrations}
-Spring XD integration modules are Message Endpoints \cite{enterprise-integration-pattern-message-endpoint} 
+\section{Modules}
+A Spring XD Module is a unit of data processing and as mentioned above there are four 
+types: source, processor, sink, and job. Modules in Spring XD are defined in their 
+own application context. This allows for easy encapsulation and life cycle management 
+for modules. Additionally, the use of an application context allows for easy module 
+expansion.
+
+Spring XD sink and source modules are Message Endpoints 
+\cite{enterprise-integration-pattern-message-endpoint} 
 that are responsible for sending data to and receiving data from external applications.
-There are three types of message endpoints: sources, sinks and batch jobs.
 A source is the entry point for data into the stream. A sink is the module that dispatches
 the stream's results to an external application or storage system. Batch jobs are used to
 execute batch processing steps on a set of data.
@@ -16,7 +22,7 @@ modules.
 
 \par
 
-\subsection{Module Integrations: Source}
+\subsection{Modules: Source}
 Source modules receive inbound data and convert it to messages for
 use by modules in a stream or by a batch job.
 There are two source types: poller and event driven.  A poller source is based on the polling
@@ -43,7 +49,7 @@ the stream (see figure~\ref{fig:sourcembc}.)
 \label{fig:sourcembc}
 \end{figure}
 
-\subsection{Module Integrations: Sink}
+\subsection{Modules: Sink}
 Sink modules convert and deliver messages from a stream in a format consumable by an external application.
 There are two types of sinks: counter/gauge and delegate.
 A counter/gauge is a specialized sink that increments a field on a data store every time a
@@ -68,7 +74,9 @@ in Spring XD have configurable options for retries.
 \label{fig:sinkmbc}
 \end{figure}
 
-\subsection{Module Integrations: Job}
+\subsection{Modules: Processor}
+
+\subsection{Modules: Job}
 Spring XD uses Spring Batch \cite{spring-batch-reference} as the foundation for implementing
 job modules. A job enables users to execute enterprise batch processes within Spring XD.
 Jobs are typically used when running long lasting tasks that have transactional requirements.
@@ -90,39 +98,10 @@ In some cases the job definition alone is sufficient to implement the desired be
 \label{fig:batchmbc}
 \end{figure}
 
-\subsection{Deployment}
-Integration modules are deployed in the modules directory and are segregated in
+\subsection{Modules: Deployment}
+Modules are deployed in the modules directory and are segregated in
 subdirectories by type: modules/source, modules/sink and modules/job.
 These modules are dynamically loaded when a stream or job is deployed that requires that
 specific module.
 
 \par
-
-\subsection{Integration Examples}
-With the advent of microservices \cite{microservices-pattern} applications are becoming 
-evermore integrated.  In cases where an application needs access to microservices but does not 
-have the capability to transmit the request via the API presented, or an application needs to 
-take the results of a microservice and transmit it to  an external application in the application's 
-accepted format, XD can bridge that chasm. 
-An example of this would be if we needed a service that would receive sensor data via mqtt 
-and write that the data to hdfs. The following stream would be used to do this: "mqtt|hdfs".
-Another example of this would be a scenario if a database is being updated by a service 
-but while the database is updated we need to update a mongo collection 
-with this data.  This can be done by creating a stream that would monitor a table(s) 
-retrieve changes and write the results to the mongo collection.  This would be 
-represented by the following stream: 
-"jdbc --fixedDelay=1 --split=1 --query='select * from testfoo where tag = 0' --update=
-'update testfoo set tag=1 where fooid in (:fooid)'|log" 
-\begin{description}
-\item[Example Source] \hfill \\
-jdbc - is a poller source that will execute a query against a database and generate a 
-message for each row that is retrieved.  \cite{jdbc-module}
-mqtt - is a event driven source that awaits for mqtt messages to be received once the message is
- received the payload of the message is sent as an XD message to the next module in the 
- stream.  \cite{mqtt-module}
-\item[Example Sink] \hfill \\
-Mongo - The Mongo sink writes messages into a Mongo collection \cite{mongo-module}
-hdfs - writes messages to the specified location on a hadoop instance. \cite{hadoop-hdfs-module}
-\item[Example Job] \hfill \\
-filejdbc -A module which loads CSV files into a JDBC table\par
-\end{description}
