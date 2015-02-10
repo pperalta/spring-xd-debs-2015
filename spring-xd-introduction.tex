@@ -8,17 +8,29 @@ technologies such as SQL databases and messaging systems. For enterprises
 to adopt the emerging technologies, there must be a way to easily
 connect with existing systems.
 
+Since its inception in 2004, the main objective of the Spring Framework
+has been to simplify application development. At the time, Java developers
+were struggling with EJBs, boilerplate JDBC, and JMS. Today's developers
+are dealing with an explosion of data and the leading-edge tools to
+manage and process this data.
+
 Expanding upon the success of existing technologies in the Spring portfolio
 such as Spring Integration and Spring Batch, Spring XD provides a runtime
 environment that integrates with a plethora of technologies, both established
 and up-and-coming.
+
+Although enterprise system integration is one of the strengths of Spring XD,
+it is a compelling technology for brand new applications that have streaming
+or batch data processing requirements. Spring XD features a built in
+interactive shell for creating streams or jobs without writing any Java code.
+This allows for quick development cycles and easy experimentation.
 
 Creating a stream in Spring XD is a simple concept for those familiar with
 UNIX streams and pipes. Consider the following shell command:
 
 \verb;tail -f /tmp/log.txt | grep ERROR;
 
-The tail command will continuously display the file. The |
+The tail command will continuously display the file contents. The |
 will pipe the output of tail to grep, which will filter out all
 lines that do not contain the string ERROR.
 
@@ -28,6 +40,6 @@ The equivalent using Spring XD looks like this:
 \verb;  "tail -name=/tmp/log.txt | filter;\\*
 \verb;  --expression=payload.contains('ERROR') | log";
 
-While this specific example will only tail a local file, an ingestion stream
-that aggregates, filters, and stores log file analytics can just as easily
-be created with Spring XD.
+While this specific example will only tail a local file, a distributed 
+ingestion stream that aggregates, filters, and stores log file analytics
+can just as easily be created with Spring XD.
