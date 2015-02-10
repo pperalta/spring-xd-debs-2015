@@ -1,6 +1,9 @@
 \section{Architecture}
-This section describes the internal architecture of Spring XD. See
-figure~\ref{fig:architecture}.
+This section describes the internal architecture of Spring XD. Spring XD
+relies on the Spring Application Context for module encapsulation and
+life cycle management, a messaging system for data
+transfer between modules in a stream or job, and ZooKeeper for overall
+coordination. (See figure~\ref{fig:architecture}.)
 
 \subsection{Application Context}
 The foundation of Spring XD is the Spring application context. The application
@@ -67,7 +70,7 @@ In the case of Spring XD, ZooKeeper is used for: \begin{itemize*}
 \end{itemize*}
 \begin{figure}[ht]
 \centering
-\epsfig{file=XD-sample.eps, height=2in, width=2in}
+\epsfig{file=xd-architecture.eps, height=2in, width=3in}
 \caption{Spring XD Architecture.}
 \label{fig:architecture}
 \end{figure}
