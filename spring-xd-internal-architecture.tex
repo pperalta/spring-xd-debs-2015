@@ -17,7 +17,8 @@ Spring portfolio depend on the application context.
 A Spring XD Module is a unit of data processing. A stream processing module
 for Spring XD consists of one of three types: sources, processors, and sinks.
 A stream consists of a collection of modules that define a pipeline for data. 
-Job modules are responsible for the execution of batch jobs.
+Job modules are responsible for the execution of batch jobs. Modules are
+covered in detail in section~\ref{sec:Modules}.
 
 \subsection{Message Bus}
 Modules require a data transport in order to transfer data. Spring XD
@@ -31,7 +32,7 @@ A Spring XD container consists of a JVM running an application context which
 loads child application contexts for modules on demand. Depending on the modules
 being executed by the container, the container will also create connections to
 the message bus. The container is responsible for reporting the status of its deployed
-modules to the admin via Zookeeper (see section on admin server below).
+modules to the admin via Zookeeper (see subsection~\ref{subsec:Admin}.)
 
 Spring XD supports one or more containers within a cluster. The decision criteria
 for selecting the number of containers is based on capacity requirements and/or access
@@ -48,6 +49,7 @@ This allows for streams that include the hdfs module to target deployment of
 that module only to containers within the "hdfs" group.
 
 \subsection{Admin}
+\label{subsec:Admin}
 The Spring XD admin server hosts a REST service used for Spring XD
 administration and the orchestration of streams and jobs. While a single
 admin server is required, multiple admin servers may be present in a Spring XD
