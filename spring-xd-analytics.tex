@@ -30,8 +30,11 @@ POJO (Java Bean), Tuple, JSON string
   Rich Gauge is a metric that holds a double value associated with a unique name. In addition to the value, this metric keeps a running average along with the minimum and maximum values and the count.
 
 \subsection {Predictive Analytics using PMML}
+  Spring XD provides support for running real time model scoring using PMML model evaluator. One can write an XD process module that does the real time evaluation of various machine learning scoring algorithms using JPMML evaluator. This evaluator supports wide range of model types and is interoperable with models exported from R, Rattle, KNIME, and RapidMiner. Once the analytical model is defined as a PMML model, the evaluator can run model scoring based on the input data being ingested.
 
-\subsection {Shell based processor/sink implementation}
+\par
+
+   Shell based processor/sink implementation could be useful to run some of the predictive analytics algorithms  and dynamically update the model which makes predictive analytics more adaptive.
 
 \subsection{Spark MLLib}
-
+   Using out of the box sparkApp job module, one can run any spark application as an XD job. A spark MLLib algorithm can be run as a sparkApp job in XD.
