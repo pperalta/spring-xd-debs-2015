@@ -44,9 +44,9 @@ and then scale back as required.
 A container may be associated with one or more groups. This functionality is useful
 for targeting module deployments within a stream or job to container groups.
 For example, if a set of containers within a Spring XD cluster has access to
-a Hadoop file system, that set of containers can be configured as the "hdfs" group.
+a Hadoop file system, that set of containers can be configured as the ``hdfs'' group.
 This allows for streams that include the hdfs module to target deployment of
-that module only to containers within the "hdfs" group.
+that module only to containers within the ``hdfs'' group.
 
 \subsection{Admin}
 \label{subsec:Admin}
@@ -54,7 +54,7 @@ The Spring XD admin server hosts a REST service used for Spring XD
 administration and the orchestration of streams and jobs. While a single
 admin server is required, multiple admin servers may be present in a Spring XD
 system for redundancy. A single admin server will be responsible for stream
-and job deployments. If multiple admin servers are present, a "supervisor"
+and job deployments. If multiple admin servers are present, a ``supervisor''
 server will be selected 
 
 \subsection{ZooKeeper}
