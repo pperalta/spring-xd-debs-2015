@@ -1,33 +1,59 @@
 \section{Analytics}
 
-Spring XD provides support to perform data analytics by adding analytical operations into an XD module. While the main stream collects the data from various sources into big data store such as HDFS , the main stream can be tapped at various stages and the tapped data can further be analyzed. This capability lets the analysts to perform data analytics in a non-invasive manner. The analytics module can also be implemented to write the analytics data result into a data store (sink module) or sending the results to subsequent modules for processing (processor module). 
+Spring XD provides support to perform data analytics by adding analytical operations into 
+an XD module. While the main stream collects the data from various sources into big data 
+store such as HDFS , the main stream can be tapped at various stages and the tapped data 
+can further be analyzed. This capability lets the analysts to perform data analytics in a
+non-invasive manner. The analytics module can also be implemented to write the analytics 
+data result into a data store (sink module) or sending the results to subsequent modules 
+for processing (processor module). 
 
 \par
 
-Spring XD has out of the box analytics modules such as counter, field value counter, aggregate counter, gauge, rich gauge. Spring XD provides support for running predictive analytics using PMML model scoring. There is a support to run a module that executes shell command. This helps running R or python based processor or sink module implementation which could perform dynamic model scoring easier. One can also run Spark MLLib job as a XD job and get out of the box capability to monitor and manage the job.
+Spring XD has out of the box analytics modules such as counter, field value counter, 
+aggregate counter, gauge, rich gauge. Spring XD provides support for running predictive 
+analytics using PMML model scoring. There is a support to run a module that executes s
+hell command. This helps running R or python based processor or sink module implementation
+ which could perform dynamic model scoring easier. One can also run Spark MLLib job as a 
+ XD job and get out of the box capability to monitor and manage the job.
 
 \subsection {Basic Analytics}
 
-To perform some of the basic analytic operations, Spring XD provides following out of the box modules. Since these modules are implemented to write the analytic results back to a data store they are considered as XD sink modules. Writing the analytic data into a data store is implemented using an extensible data store repository implementation (currently in-memory and Redis). The written analytic data are exposed via REST API. This way one can write a simple end-to-end application quickly to gain access to the analytic data results.
+To perform some of the basic analytic operations, Spring XD provides following out of the 
+box modules. Since these modules are implemented to write the analytic results back to a
+data store they are considered as XD sink modules. Writing the analytic data into a data 
+store is implemented using an extensible data store repository implementation 
+(currently in-memory and Redis). The written analytic data are exposed via REST API. 
+This way one can write a simple end-to-end application quickly to gain access to the 
+analytic data results.
 
 \subsubsection {Counter}
 
- This module counts the number of events triggered on various stages of a stream. The main stream can be tapped at various stages and one can count the number of messages sent out at each stage. The counter value gets written to the data store which can subsequently accessed using the REST API.
+This module counts the number of events triggered on various stages of a stream. 
+The main stream can be tapped at various stages and one can count the number of 
+messages sent out at each stage. The counter value gets written to the data store.
  
 \subsubsection {Field Value Counter} 
 
-  When there is a need to count the occurrence of a specific field from the message payload at various stages of a stream, field value counter can be used. Out of the box, XD supports the following message payload types:
+When there is a need to count the occurrence of a specific field from the message 
+payload at various stages of a stream, field value counter can be used. Out of the box, 
+XD supports the following message payload types:
 POJO (Java Bean), Tuple, JSON string
 
 \subsubsection {Aggregate Counter}
 
-   Aggregate counter is similar to the simple counter but also keeps track of time period. One can query the total count values for each minute, hour, day and month of the period in which data was collected/analyzed. 
+Aggregate counter is similar to the simple counter but also keeps track of time period. 
+One can query the total count values for each minute, hour, day and month of the period in 
+which data was collected/analyzed. 
 
 \subsubsection {Gauge}
-  Gauge is a metric that represents a single long value associated with a unique name. In Spring XD, the gauge metric sink expects a numeric value as a payload.
+Gauge is a metric that represents a single long value associated with a unique name. 
+In Spring XD, the gauge metric sink expects a numeric value as a payload.
 
 \subsubsection {Rich Gauge}
-  Rich Gauge is a metric that holds a double value associated with a unique name. In addition to the value, this metric keeps a running average along with the minimum and maximum values and the count.
+Rich Gauge is a metric that holds a double value associated with a unique name. In 
+addition to the value, this metric keeps a running average along with the minimum and 
+maximum values and the count.
 
 \subsection {Predictive Analytics using PMML}
 
