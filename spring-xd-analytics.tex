@@ -3,7 +3,7 @@
 Spring XD provides support to perform data analytics by adding analytical operations into
 an XD module. While the main stream collects the data from various sources into big data
 store such as HDFS , the main stream can be tapped at various stages and the tapped data
-can further be analyzed. This capability lets the analysts to perform data analytics in a
+can further be analyzed. This capability lets analysts perform data analytics in a
 non-invasive manner. The analytics module can also be implemented to write the analytics
 data result into a data store (sink module) or sending the results to subsequent modules
 for processing (processor module). 
@@ -11,19 +11,20 @@ for processing (processor module).
 \par
 
 Spring XD has out of the box analytics modules such as counter, field value counter,
-aggregate counter, gauge, rich gauge. Spring XD provides support for running predictive
-analytics using PMML model scoring. There is a support to run a module that executes
-shell command. This helps running R or python based processor or sink module implementation
- which could perform dynamic model scoring easier. One can also run Spark MLLib job as a
- XD job and get out of the box capability to monitor and manage the job.
+aggregate counter, gauge, rich gauge. It also provides support for running predictive
+analytics using PMML model scoring. XD out of the box has a module that executes
+shell command. This shell module can run a R or Python based processor or sink 
+implementation which could perform dynamic model scoring. One can also run Spark 
+MLLib job as a XD job and get out of the box capability to monitor and manage the job.
 
 \subsection {Basic Analytics}
 
-To perform some of the basic analytic operations, Spring XD provides following out of the
-box modules. Since these modules are implemented to write the analytic results back to a
-data store they are considered as XD sink modules. Writing the analytic data into a data
-store is implemented using an extensible data store repository implementation
-(currently in-memory and Redis). The written analytic data are exposed via REST API.
+To perform some of the basic analytic operations, Spring XD provides the following out of 
+the box modules. Since these modules are implemented to write the analytic results 
+back to a data store they are considered as XD sink modules. Writing the analytic 
+data into a data store is implemented using an extensible data store repository 
+(currently in-memory and Redis). 
+The written analytic data are exposed via the REST API provided by the admin server.
 This way one can write a simple end-to-end application quickly to gain access to the
 analytic data results.
 
@@ -31,7 +32,7 @@ analytic data results.
 
 This module counts the number of events triggered on various stages of a stream.
 The main stream can be tapped at various stages and one can count the number of
-messages sent out at each stage. The counter value gets written to the data store.
+messages sent out at each stage.
  
 \subsubsection {Field Value Counter}
 
@@ -70,6 +71,5 @@ predictive analytics algorithms  and dynamically update the model which makes
 predictive analytics more adaptive.
 
 \subsection{Spark MLLib}
-Using out of the box sparkApp job module, one can run any spark application
-as an XD job. A spark MLLib algorithm can be run as a sparkApp job in XD.
+A spark MLLib algorithm can be run as a sparkApp job in XD.
 
