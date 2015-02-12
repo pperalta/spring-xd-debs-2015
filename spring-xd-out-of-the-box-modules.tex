@@ -1,0 +1,36 @@
+\section{Out of the box Modules}
+ Spring XD provides wide range of Streaming and batch Batch job modules out of the box which implement 
+some of the most commonly used streaming and batch job workflows. All the modules can readily be configured and deployed.
+Spring XD also supports developing a custom module for any usecase driven functionality.
+
+\subsection{Source modules}
+
+  These modules ingest data from outside into Spring XD which include, file, gemfire,
+http, jdbc, jms, kafka, mail, mqtt, rabbit, reactor-ip, reactor-syslog, sftp, syslog(tcp/udp),
+tail, tcp-client, tcp, twittersearch, twitterstreams.
+
+\subsection{Processor Modules}
+  These mdoules get the data out of source module or the previous processor module, computes
+the data and make the data available for the subsequent processor module or a sink module.
+These include aggregator, analytic-pmml, bridge, filter, http-client, json-to-tuple,
+object-to-json, script, shell command processor, splitter, transform.
+
+\subsection{Sink Modules}
+  These modules write the data into the final destination in the streaming application.
+These include file, gemfire, hdfs with dataset, hdfs, jdbc, kafka, log, mail, mongodb,
+mqtt, rabbit, redis, router, shell command processor, splunk, tcp and metrics modules.
+
+\subsection{Job Modules}
+
+Job modules provide complete support to run batch jobs that adhere to JSR standardization of
+batch processing JSR-352. By deploying these module into Spring XD, one can availe the 
+features like partitioning, job execution orchestration, monitoring and  management
+automatically. 
+
+\par
+
+The use cases that out of the box job modules address are Poll a directory and import CSV files to HDFS, 
+Import CSV files to JDBC, HDFS to JDBC export, JDBC to HDFS import, HFDS to mongodb export, Copy files from FTP to HDFS, 
+Run a Spark application (Spark MLLib, Streaming etc.,) as a batch job and 
+Run a Sqoop application as a batch job
+
