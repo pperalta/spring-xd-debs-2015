@@ -1,44 +1,45 @@
 \section{Modules}
 \label{sec:Modules}
-A Spring XD Module \cite{modules} is a unit of data processing and as mentioned above 
+A Spring XD Module \cite{modules} is a data processing unit and as mentioned above
 there are four types: source, processor, sink, and job. Modules in Spring XD are defined 
 in their own application context. This allows for easy encapsulation and life cycle 
 management for modules. Additionally, the use of an application context allows for easy 
 module expansion.  Spring XD uses Spring Integration \cite{spring-integration-reference} 
-as its foundation for implementing modules. A module is comprised of one or more channels 
-and an integration bean.
+as its foundation for implementing modules. A module is comprised of component that
+implements the data processing logic and one or more connectors(known as channels)
+that connect to the underlying message bus.
 
 \par
 
 Spring XD offers a suite of 23 sources, 24 sinks, 9 processors and 9 jobs that are ready 
-to use at startup.  These modules integrate with a variety of well
-known and popular data stores and processing systems such as JDBC, HDFS, MongoDB, Spark,
-and Sqoop.  If an existing module does not meet the needs of a given use case, Spring XD
-supports custom modules.
+to use at startup.  These modules integrate with a variety of well known and popular
+data stores and processing systems such as JDBC, HDFS, MongoDB, Spark, Kafka, RabbitMQ,
+Sqoop etc.,  If an existing module does not meet the needs of a given use case, Spring XD
+supports developing custom modules.
 
 Spring XD sink and source modules are Message Endpoints 
 \cite{enterprise-integration-pattern-message-endpoint} 
-that are responsible for sending data to and receiving data from external applications.
-A source is the entry point for data into the stream. A sink is the module that dispatches
-the stream's results to an external application or storage system. Batch jobs are used to
-execute batch processing steps on a set of data.
+that are responsible for sending data to and receiving data from external applications
+respectively. A source is the entry point for data into the stream. A sink is the module that dispatches
+the stream's results to an external application or storage system. A Processor
+module is used to modify data transmitted from the source to sink. Multiple processors may be chained together.
+Batch jobs are used to execute batch processing steps on a set of data.
 
 \par
 
 \subsection{Source}
-Source modules receive inbound data and convert it to messages for
-use by modules in a stream or by a batch job.
-There are two source types: poller and event driven.  A poller source is based on the polling
-consumer pattern \cite{enterprise-integration-pattern-pollingconsumer}. It
-will poll an external application (such as a web service, FTP server, database) for data at a
+Source modules receive inbound data and send to downstream modules in the stream or to a batch job
+which could be triggered with the data. There are two source types: poller and event driven.
+A poller source is based on the polling consumer pattern \cite{enterprise-integration-pattern-pollingconsumer}.
+It polls an external application (such as a web service, FTP server, database) for data at a
 configurable interval. An event driven source is based on the event driven
-consumer pattern \cite{enterprise-integration-pattern-eventdrivenconsumer} which will
-open a port to listen for incoming data that is pushed from an external application.
+consumer pattern \cite{enterprise-integration-pattern-eventdrivenconsumer} which
+opens a port to listen for incoming data that is pushed from an external application.
 
 \par
 
-In the case of a source module there is an ``output'' channel to dispatch messages 
-transmitted by the bean to the stream (see figure~\ref{fig:sourcembc}.)
+In the case of a source module there is an ``output'' connector channel to dispatch data
+transmitted by the module to a downstream module(see figure~\ref{fig:sourcembc}.)
 
 \par
 
@@ -52,13 +53,14 @@ transmitted by the bean to the stream (see figure~\ref{fig:sourcembc}.)
 \par
 
 \subsection{Processor}
-A Processor module is used to modify the data as it passes on its way from the source to
-the sink.  The basic processor is comprised of both an ``input'' and an ``output'' channel
-and a bean.
-The input channel receives all messages from the stream and dispatches
-messages to the integration bean (see figure~\ref{fig:processormbc}.) It is the responsibility of
-the bean to modify the data. The modified message is then sent to next module 
-via the output channel.  
+A processor is the module that receives data from a source or a previous processor
+module's output and performs the transformation operation and sends the data
+into a sink module or a downstream processor module. The basic processor is
+comprised of both an ``input'' and an ``output'' connector channels and the data processing component.
+The input channel receives all data from the upstream module and dispatches them to
+the data processing component(see figure~\ref{fig:processormbc}.) It is the responsibility of
+this component to transform the data. The transformed data is then sent to the downstream module
+via the output channel.
 
 \par
 
@@ -72,20 +74,19 @@ via the output channel.
 \par
 
 \subsection{Sink}
-Sink modules convert and deliver messages from a stream in a format consumable by 
-an external application.  There are two types of sinks: counter/gauge and delegate.
-A counter/gauge is a specialized sink that increments a field on a data store every time a
-message is received. (See section~\ref{sec:Analytics}.) A delegate
-sink translates messages to the format expected by the external application.
-After transforming the message, the resulting data is sent to the external application.
+Sink modules convert and deliver data out of the stream in a format consumable by
+an external application.  There are two types of sinks: analytic and delegate.
+An analytic sink is used to perform analytic operations such as count, gauge on the
+incoming data and store the result into metric repository(See section~\ref{sec:Analytics}.)
+A delegate sink translates data to the format expected by the external application.
+After transforming the data, the resulting data is sent to the external application.
 
 \par
 
-The basic sink is comprised of a ``input'' channel and a bean.
-The input channel receives all messages from the stream and dispatches
-messages to the bean (see figure~\ref{fig:sinkmbc}.) It is the responsibility 
-of the bean to implement retry behavior in cases of failure. The sinks 
-included in Spring XD have configurable options for retries.
+The basic sink is comprised of a ``input'' channel connector and a data processing
+component. The input channel receives data from the stream and dispatches
+messages to the bean (see figure~\ref{fig:sinkmbc}.) The sinks
+included in Spring XD have configurable options for retries in case of failure.
 
 \par
 
@@ -99,16 +100,19 @@ included in Spring XD have configurable options for retries.
 \par
 
 \subsection{Job}
-Spring XD uses Spring Batch \cite{spring-batch-reference} as the foundation for implementing
+Spring XD uses Spring Batch \cite{spring-batch-reference}, a JSR standardization (JSR-352)
+of batch workload data processing as the foundation for implementing
 job modules. A job enables users to execute enterprise batch processes within Spring XD.
 Jobs are typically used when running long lasting tasks that have transactional requirements.
 To account for failure scenarios, the workflow in the job can be designed to restart and 
-resume operation or roll-back the transaction altogether.
+resume operation or roll-back the transaction altogether. A job can be triggered by the
+stream with the data that act as the input to start the batch processing. This makes
+streams and job modules unified under a single platform.
 
 \par
 
 A job is typically comprised of a job definition along with the supporting
-bean(s) as shown in figure~\ref{fig:batchmbc}.
+data processing components as shown in figure~\ref{fig:batchmbc}.
 In some cases the job definition alone is sufficient to implement the desired behavior.
 
 \par
@@ -122,20 +126,23 @@ In some cases the job definition alone is sufficient to implement the desired be
 
 \par 
 
-\subsection{Deployment}
-Modules are deployed in the modules directory and are segregated in
-subdirectories by type: \texttt{modules/source}, \texttt{modules/processor}, 
-\texttt{modules/sink} and \texttt{modules/job}.
-These modules are dynamically loaded when a stream or job is deployed that requires that
-specific module.
-
-\par
 \subsection{Composite}
-A Composite module provides a way to create a single module 
-comprised of other modules (processing chain).  A composite module can be used to prevent 
-duplication when a processing chain of modules is used frequently.  
+A Composite module provides a way to create a single module comprised of
+multiple modules (processing chain) together.  A composite module can be used to prevent
+duplication when a processing chain of modules is used frequently.
 Performance is another reason to use composite modules, because messages between the 
 modules that comprise the composite module will be transmitted in memory vs. the message 
 bus.  
 
 \par
+
+\subsection{Module Registry}
+Module Registry is the place where Spring XD looks for the modules for
+deployment. A module can be bundled as an archive or defined along with its
+dependencies inside the module registry. The modules are defined in
+the modules directory and are segregated in subdirectories by
+type: \texttt{modules/source}, \texttt{modules/processor},
+\texttt{modules/sink} and \texttt{modules/job}. The module registry is
+configurable and one can upload the modules to module registry via REST request.
+During the deployment of the module, Spring XD runtime will load the modules
+dynamically from the module registry.
