@@ -5,8 +5,8 @@ there are four types: source, processor, sink, and job. Modules in Spring XD are
 in their own application context. This allows for easy encapsulation and life cycle 
 management for modules. Additionally, the use of an application context allows for easy 
 module expansion.  Spring XD uses Spring Integration \cite{spring-integration-reference} 
-as its foundation for implementing modules. A module is comprised of component that
-implements the data processing logic and one or more connectors(known as channels)
+as its foundation for implementing modules. A module is comprised of components that
+implement the data processing logic and one or more connectors (known as channels)
 that connect to the underlying message bus.
 
 \par
@@ -15,15 +15,16 @@ Spring XD offers a suite of 23 sources, 24 sinks, 9 processors and 9 jobs that a
 to use at startup.  These modules integrate with a variety of well known and popular
 data stores and processing systems such as JDBC, HDFS, MongoDB, Spark, Kafka, RabbitMQ,
 Sqoop etc.,  If an existing module does not meet the needs of a given use case, Spring XD
-supports developing custom modules.
+supports custom modules.
 
 Spring XD sink and source modules are Message Endpoints 
 \cite{enterprise-integration-pattern-message-endpoint} 
 that are responsible for sending data to and receiving data from external applications
-respectively. A source is the entry point for data into the stream. A sink is the module that dispatches
-the stream's results to an external application or storage system. A Processor
-module is used to modify data transmitted from the source to sink. Multiple processors may be chained together.
-Batch jobs are used to execute batch processing steps on a set of data.
+respectively. A source is the entry point for data into the stream. A sink is
+the module that dispatches the stream's results to an external application or storage system.
+A processor module is used to modify data transmitted from the source to sink.
+Multiple processors may be chained together. Batch jobs are used to execute batch
+processing steps on a set of data.
 
 \par
 
@@ -54,9 +55,9 @@ transmitted by the module to a downstream module(see figure~\ref{fig:sourcembc}.
 
 \subsection{Processor}
 A processor is the module that receives data from a source or a previous processor
-module's output and performs the transformation operation and sends the data
+module's output, performs the transformation operation and sends the data
 into a sink module or a downstream processor module. The basic processor is
-comprised of both an ``input'' and an ``output'' connector channels and the data processing component.
+comprised of both ``input'' and an ``output'' connector channels and the data processing component.
 The input channel receives all data from the upstream module and dispatches them to
 the data processing component(see figure~\ref{fig:processormbc}.) It is the responsibility of
 this component to transform the data. The transformed data is then sent to the downstream module
