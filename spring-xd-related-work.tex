@@ -24,7 +24,11 @@ The following features differentiate Spring XD and Spark Batch processing.
 \item Integrate with other Batch systems.
 \end{itemize*}
 
-In the future Spring XD will continue to provide additional integration with Spark features such as MLLib and SparkSQL.
+Spring XD supports running Spark applications such as Streaming, MLLib, SparkSQL as job modules.
+There is also a deep integration with Spark streaming where one can run spark streaming application by just implemenating
+the computation logic and leave the setup/launching of the application to Spring XD. This way, Spring XD leverages the
+capabilities of Spark streaming while supporting all the distributed runtime features along with automatic spark driver
+failover.
 
 \subsection{Spring XD and Storm}
 Storm is a distributed computation system for real time stream processing.
