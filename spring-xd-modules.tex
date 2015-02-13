@@ -77,8 +77,8 @@ via the output channel.
 \subsection{Sink}
 Sink modules convert and deliver data out of the stream in a format consumable by
 an external application.  There are two types of sinks: analytic and delegate.
-An analytic sink is used to perform analytic operations such as count, gauge on the
-incoming data and store the result into metric repository(See section~\ref{sec:Analytics}.)
+An analytic sink is used to perform analytic operations (such as count, gauge) on the
+incoming data and store the result into a metric repository(See section~\ref{sec:Analytics}.)
 A delegate sink translates data to the format expected by the external application.
 After transforming the data, the resulting data is sent to the external application.
 
@@ -86,8 +86,9 @@ After transforming the data, the resulting data is sent to the external applicat
 
 The basic sink is comprised of a ``input'' channel connector and a data processing
 component. The input channel receives data from the stream and dispatches
-messages to the bean (see figure~\ref{fig:sinkmbc}.) The sinks
-included in Spring XD have configurable options for retries in case of failure.
+them to the data processing component which is responsible for connecting to the external
+application(see figure~\ref{fig:sinkmbc}.) The sinks included in Spring XD have
+configurable options for retries in case of failure.
 
 \par
 
@@ -101,8 +102,8 @@ included in Spring XD have configurable options for retries in case of failure.
 \par
 
 \subsection{Job}
-Spring XD uses Spring Batch \cite{spring-batch-reference}, a JSR standardization (JSR-352)
-of batch workload data processing as the foundation for implementing
+Spring XD uses Spring Batch \cite{spring-batch-reference}, a JSR standard (JSR-352)
+for batch workload data processing as the foundation for implementing
 job modules. A job enables users to execute enterprise batch processes within Spring XD.
 Jobs are typically used when running long lasting tasks that have transactional requirements.
 To account for failure scenarios, the workflow in the job can be designed to restart and 
@@ -128,7 +129,7 @@ In some cases the job definition alone is sufficient to implement the desired be
 \par 
 
 \subsection{Composite}
-A Composite module provides a way to create a single module comprised of
+A composite module provides a way to create a single module comprised of
 multiple modules (processing chain) together.  A composite module can be used to prevent
 duplication when a processing chain of modules is used frequently.
 Performance is another reason to use composite modules, because messages between the 
