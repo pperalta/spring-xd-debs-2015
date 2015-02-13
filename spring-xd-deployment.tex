@@ -1,58 +1,87 @@
 \section{Deployment}
-This section describes deployment architectures with Spring XD.
+This section describes deployment architectures that are possible with Spring XD.
+Note that this is not an exhaustive list of all deployment types. See
+section~\ref{sec:Use Cases} for descriptions of real world deployments.
+
 \subsection{Lambda architecture}
 
-The Lambda Architecture, introduced by Nathan Marz \cite{lambda-architecture-paper} is a generic, scalable and fault tolerant data 
-processing archictecture. It attempts to provide a comprehensive solution to the problem of processing an extremely large set of data.
+The Lambda Architecture, introduced by Nathan Marz \cite{lambda-architecture-paper}
+is a generic, scalable and fault tolerant data  processing architecture. It attempts
+to provide a comprehensive solution to the problem of processing an extremely large
+set of data.
 
 The Lambda Architecture has the following components:
 
 \begin{itemize*}
-\item A \emph{master dataset} comprising of all data known to the system, ideally in its rawest form;
-\item A \emph{serving} or \emph{view layer} that provides the latest, most up-to-date view of the processed data, available for low-
-latency, ad-hoc querying;
-\item A \emph{batch layer} that performs computationally intense calculations that and prepares the \emph{batch views} displayed by the \
-emph{serving layer};
-\item A \emph{speed layer} that performs calculations on recent data only, its output combined with the \emph{batch views} by the \emph{
-serving layer}.
+\item A \emph{master dataset} comprising of all data known to the system,
+ideally in its rawest form;
+\item A \emph{serving} or \emph{view layer} that provides the latest,
+most up-to-date view of the processed data, available for low-latency,
+ad-hoc querying;
+\item A \emph{batch layer} that performs computationally intense 
+calculations that and prepares the \emph{batch views} displayed by the 
+\emph{serving layer};
+\item A \emph{speed layer} that performs calculations on recent data only, 
+its output combined with the \emph{batch views} by the \emph{serving layer}.
 \end{itemize*}
 
-The guiding principle of the Lambda architecture is an attempt to combine the high throughput of batch operations with the low latency of 
-real-time computations. Each on its own, has its strenghts and weakness. While the highest throughput for computing large datasets is 
-attained by relying on batch computations, the latter have the disadvantage of higher latency. Meanwhile, real-time computations may 
-operate with low latency and produce results based on latest data quickly, but can't really handle the large amounts of data that batch 
-processing can deal with. So, instead of relying on a single paradigm, the lambda architecture employs both, allowing them to complement 
-each other.
+The guiding principle of the Lambda architecture is an attempt to combine the
+high throughput of batch operations with the low latency of real-time
+computations. Each on its own, has its strengths and weakness. While the
+highest throughput for computing large datasets is attained by relying on
+batch computations, the latter have the disadvantage of higher latency.
+Meanwhile, real-time computations may operate with low latency and produce
+results based on latest data quickly, but can't really handle the large
+amounts of data that batch processing can deal with. So, instead of relying
+on a single paradigm, the lambda architecture employs both, allowing them
+to complement each other.
 
 A detailed view of the Lambda Architecture can be viewed in figure [TBD].
 
-In the following subsections we will examine how the different components of the Lambda architecture can be implemented with Spring XD.
+In the following subsections we will examine how the different components
+of the Lambda architecture can be implemented with Spring XD.
 
 \subsubsection {Master dataset in Spring XD}
 
-While Spring XD does not provide a storage mechanism of its own, it integrates with a variety of storage technologies, both for reading, 
-via its source[reference tbd] components, as well as for writing, via its sink[reference tbd, provide examples] components. A \emph{data ingestion} stream can be used to consolidate data from external sources into a central storage, where it can wait processing.
+While Spring XD does not provide a storage mechanism of its own, it 
+integrates with a variety of storage technologies, both for reading,
+via its source[reference tbd] components, as well as for writing, via 
+its sink[reference tbd, provide examples] components. A \emph{data ingestion}
+stream can be used to consolidate data from external sources into a
+central storage, where it can wait processing.
 
-For example, the following stream definition can be used to ingest MQTT data sent by a number of sensors directly into HDFS:
+For example, the following stream definition can be used to ingest 
+MQTT data sent by a number of sensors directly into HDFS:
 
 \verb;stream create ingest --definition "mqtt | hdfs";\\*
 
-In a more elaborate setting, an application can collect data from different sources, and Spring XD can provide a means to merge them in a single master dataset. The streams \texttt{in-mqtt} and \texttt{in-http} collect data from sensors via MQTT and HTTP, respectively, and contribute to a single queue \texttt{hdfs-in}. The merged result is saved into HDFS.
+In a more elaborate setting, an application can collect data from
+different sources, and Spring XD can provide a means to merge them
+in a single master dataset. The streams \texttt{in-mqtt} and \texttt{in-http}
+collect data from sensors via MQTT and HTTP, respectively, and
+contribute to a single queue \texttt{hdfs-in}. The merged result
+is saved into HDFS.
 
 \verb;stream create in-mqtt --definition ;\\*
-\verb;"mqtt > queue:hdfs-in ";\\*
+\verb;  "mqtt > queue:hdfs-in";\\*
 
 \verb;stream create in-http --definition  ;\\*
-\verb;"http > queue:hdfs-in";\\*
+\verb;  "http > queue:hdfs-in";\\*
 
 \verb;stream create ingest --definition  ;\\*
-\verb;"queue:hdfs-in > hdfs";\\*
+\verb;  "queue:hdfs-in > hdfs";\\*
 
 \subsubsection {Batch layer in Spring XD}
 
-Once data is collected into the \emph{master dataset}, it can be processed by \emph{jobs} (see \ref{batch-jobs}). The similarities between Spring XD's notion of a \emph{job} and Lambda Architecture's corresponding notion of a \emph{batch job} make the mapping fairly straighforward.
+Once data is collected into the \emph{master dataset}, it can be processed
+by \emph{jobs} (see \ref{batch-jobs}). The similarities between Spring XD's
+notion of a \emph{job} and Lambda Architecture's corresponding notion of
+a \emph{batch job} make the mapping fairly straighforward.
 
-An important characteristic of the \emph{batch layer} is the regular execution of jobs, as well as the ability of replaying older datasets, for instance for reconstructing the \emph{data views} in case of loss or error. For that, Spring XD provides the following mechanisms:
+An important characteristic of the \emph{batch layer} is the regular
+execution of jobs, as well as the ability of replaying older datasets, for
+instance for reconstructing the \emph{data views} in case of loss or error.
+For that, Spring XD provides the following mechanisms:
 
 \begin{itemize*}
 \item \emph{scheduled} job launch according to a \texttt{cron} expression;
@@ -61,11 +90,13 @@ An important characteristic of the \emph{batch layer} is the regular execution o
 
 \subsubsection {Speed layer in Spring XD}
 
-The Speed layer in Spring XD is handled by the streams. Transformers. Illustrate transformation of data, aggregation via counters.  
+The Speed layer in Spring XD is handled by the streams. Transformers.
+Illustrate transformation of data, aggregation via counters.
 
 \subsubsection {View layer in Spring XD}
 
-Externalized via sinks, output of batch jobs. Microservice architecture Example of a web application reading data off a set of tables 
+Externalized via sinks, output of batch jobs. Microservice architecture
+Example of a web application reading data off a set of tables
 written on by Spring XD. 
 
 \subsubsection {Combining the two}
@@ -75,8 +106,12 @@ Stream-driven batch jobs. Taps.
 
 \subsubsection {Critique of the Lambda Architecture and Spring XD}
 
-An often raised objection to the LA is the duplication of work (Quote Jay Kreps) that occurs during processing. More specifically, the necessity of writing the same processing code twice: once for the speed and once for the batch layer. However, due to the nature of Spring XD, the same business code can be shared between the two layers. This objection does not apply!
-
+An often raised objection to the LA is the duplication of work
+(Quote Jay Kreps) that occurs during processing. More specifically,
+the necessity of writing the same processing code twice: once for the
+speed and once for the batch layer. However, due to the nature of
+Spring XD, the same business code can be shared between the two 
+layers. This objection does not apply!
 
 \subsection {Reactive architectures}
 
