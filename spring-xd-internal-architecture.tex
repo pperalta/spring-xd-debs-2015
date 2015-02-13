@@ -1,8 +1,11 @@
 \section{Architecture}
 This section describes the internal architecture of Spring XD. Spring XD
-relies on the Spring application context for module encapsulation and
-life cycle management, a messaging system for data
-transfer between modules in a stream or job, and ZooKeeper for overall
+runtime has admin and container server JVM processes. The admin server supervises
+the containers for the deployment of the data (either stream or batch data)
+processing components called modules. All these processes rely on the
+Spring application context for encapsulation and life cycle managemen.
+A pluggable messaging system is used for data transfer between modules
+in a stream or job, and ZooKeeper is used for overall
 coordination. (See figure~\ref{fig:architecture}.)
 
 \subsection{Application Context}
@@ -15,7 +18,7 @@ Spring portfolio depend on the application context.
 
 \subsection{Modules}
 A Spring XD Module is a unit of data processing. A stream processing module
-for Spring XD consists of one of three types: sources, processors, and sinks.
+for Spring XD consists of one of three types: source, processor, and sink.
 A stream consists of a collection of modules that define a pipeline for data. 
 Job modules are responsible for the execution of batch jobs. Modules are
 covered in detail in section~\ref{sec:Modules}.
@@ -57,16 +60,19 @@ system for redundancy. A single admin server will be responsible for stream
 and job deployments. If multiple admin servers are present, a ``supervisor''
 server will be selected via leadership election coordinated by ZooKeeper.
 If more than one admin server is running, any of the admin servers
-can service REST requests.
+can service REST requests which helps load balancing the incoming requests.
+
 
 \subsection{ZooKeeper}
 Apache ZooKeeper is a distributed configuration and synchronization service.
 It provides primitives required for the coordination of distributed systems.
 In the case of Spring XD, ZooKeeper is used for: \begin{itemize*}
-	\item Centralized storage for streams and jobs
+	\item Admin supervisor leadership election
+	\item Centralized storage for streams and jobs definitions
+	\item Centralized storage for runtime deployment properties
+	\item Notification of stream/job deployments and un-deployments
 	\item Tracking of containers and the modules they are hosting
 	\item Notification of arriving and departing containers
-	\item Notification of stream/job deployments and un-deployments
 \end{itemize*}
 \begin{figure}[ht]
 \centering
