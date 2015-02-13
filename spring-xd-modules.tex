@@ -6,7 +6,7 @@ in their own application context. This allows for easy encapsulation and life cy
 management for modules. Additionally, the use of an application context allows for easy 
 module expansion.  Spring XD uses Spring Integration \cite{spring-integration-reference} 
 as its foundation for implementing modules. A module is comprised of one or more channels 
-and an integration bean.
+and a bean.
 
 \par
 
@@ -38,7 +38,7 @@ open a port to listen for incoming data that is pushed from an external applicat
 \par
 
 In the case of a source module there is an "output" channel to dispatch messages 
-transmitted by the integration bean to the stream (see figure~\ref{fig:sourcembc}.)
+transmitted by the bean to the stream (see figure~\ref{fig:sourcembc}.)
 
 \par
 
@@ -54,10 +54,10 @@ transmitted by the integration bean to the stream (see figure~\ref{fig:sourcembc
 \subsection{Modules: Processor}
 A Processor module is used to modify the data as it passes on its way from the source to 
 the sink.  The basic processor is comprised of both an "input" and an "output" channel 
-and an integration bean.
+and a bean.
 The input channel receives all messages from the stream and dispatches
-messages to the integration bean (see figure~\ref{fig:processormbc}.) It is the responsibility of
-the integration bean to modify the data. The modified message is then sent to next module 
+messages to the bean (see figure~\ref{fig:processormbc}.) It is the responsibility of
+the bean to modify the data. The modified message is then sent to next module 
 via the output channel.  
 
 \par
@@ -81,10 +81,10 @@ After transforming the message, the resulting data is sent to the external appli
 
 \par
 
-The basic sink is comprised of a ``input'' channel and an integration bean.
+The basic sink is comprised of a ``input'' channel and a bean.
 The input channel receives all messages from the stream and dispatches
-messages to the integration bean (see figure~\ref{fig:sinkmbc}.) It is the responsibility 
-of the integration bean to implement retry behavior in cases of failure. The sinks 
+messages to the bean (see figure~\ref{fig:sinkmbc}.) It is the responsibility 
+of the bean to implement retry behavior in cases of failure. The sinks 
 included in Spring XD have configurable options for retries.
 
 \par
