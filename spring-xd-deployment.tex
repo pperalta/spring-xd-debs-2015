@@ -6,9 +6,9 @@ section~\ref{sec:Use Cases} for descriptions of real world deployments.
 \subsection{Lambda architecture}
 
 The Lambda Architecture, introduced by Nathan Marz \cite{lambda-architecture-paper}
-is a generic, scalable and fault tolerant data  processing architecture. It attempts
-to provide a comprehensive solution to the problem of processing an extremely large
-set of data.
+is a generic, scalable and fault tolerant data  processing architecture. It 
+attemptsto provide a comprehensive solution to the problem of processing an 
+extremely largeset of data.
 
 The Lambda Architecture has the following components:
 
@@ -78,6 +78,24 @@ by \emph{jobs} (see \ref{batch-jobs}). The similarities between Spring XD's
 notion of a \emph{job} and Lambda Architecture's corresponding notion of
 a \emph{batch job} make the mapping fairly straighforward.
 
+
+The data ingested in master dataset can be consumed by a batch job, created 
+as follows:
+
+\verb;job create sensorProcess;\\*
+\verb;  --definition "sensors";\\*
+
+(This example already assumes an existing module job named \emph{sensors} that 
+implements the processing logic).
+
+For maximum efficiency, and reducing the latency of batch job execution, Spring 
+XD allows for jobs to be divided into partitions that can be executed 
+concurrently on separate containers. Such execution parameters are defined 
+during deployment, as follows:
+
+\verb;job deploy sensor-process;\\*
+\verb;  --properties module.sensorProcess.count=3;\\*
+
 An important characteristic of the \emph{batch layer} is the regular
 execution of jobs, as well as the ability of replaying older datasets, for
 instance for reconstructing the \emph{data views} in case of loss or error.
@@ -85,13 +103,34 @@ For that, Spring XD provides the following mechanisms:
 
 \begin{itemize*}
 \item \emph{scheduled} job launch according to a \texttt{cron} expression;
-\item \emph{manual} job launch through its shell user interface or administrative UI.
+\item \emph{manual} job launch through its shell user interface or 
+administrative UI;
 \end{itemize*}
+
+(There is also a way to integrate with stream processing which we will discuss 
+later)
 
 \subsubsection {Speed layer in Spring XD}
 
-The Speed layer in Spring XD is handled by the streams. Transformers.
-Illustrate transformation of data, aggregation via counters.
+
+The role of the \emph{speed layer} is to complement the \emph{batch layer} 
+by performing real-time computations on the incoming data, thus filling the 
+inherent latency gap. This functionality can be implemented in Spring XD by the 
+\ref{analytics} support, more specifically taps, counters, and analytics.
+
+Considering the previous example, while ingesting data from sensors and 
+populating the master dataset, the application may perform various computations 
+on the datastream. For example, it can perform a count of the incoming elements. 
+
+\verb;stream create count --definition  ;\\*
+\verb;"tap:stream:ingest > aggregate-counter";\\*
+
+Of course, in an even more elaborate scenario, it is possible to actually do 
+some processing of the data in-flight and store the results 
+
+\verb;stream create count --definition  ;\\*
+\verb;"tap:stream:ingest > extract-tags | jdbc";\\*
+
 
 \subsubsection {View layer in Spring XD}
 
