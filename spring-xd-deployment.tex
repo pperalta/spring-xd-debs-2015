@@ -41,7 +41,7 @@ A detailed view of the Lambda Architecture can be viewed in figure [TBD].
 In the following subsections we will examine how the different components
 of the Lambda architecture can be implemented with Spring XD.
 
-\subsubsection {Master dataset in Spring XD}
+\subsubsection {Master dataset with Spring XD}
 
 While Spring XD does not provide a storage mechanism of its own, it 
 integrates with a variety of storage technologies, both for reading,
@@ -116,8 +116,8 @@ For example, a job can be launched manually as follows:
 Or, more typically, it can be launched on a schedule:
 
 \verb;stream create --name launchSensorProcess;\\*
-\verb; --definition "trigger --cron='0/5 * * * * *';\\* 
-\verb;    > queue:job:myCronJob" --deploy;\\*
+\verb;--definition "trigger --cron='0/5 * * * * *';\\* 
+\verb;> queue:job:myCronJob" --deploy;\\*
 
 \subsubsection {Speed layer in Spring XD}
 
@@ -140,23 +140,11 @@ for being combinedwith the batch views.
 \verb;stream create count --definition  ;\\*
 \verb;"tap:stream:ingest > extract-tags | jdbc";\\*
 
-\subsubsection {View layer in Spring XD}
+\subsubsection {Serving layer with Spring XD}
 
-Externalized via sinks, output of batch jobs. Microservice architecture
-Example of a web application reading data off a set of tables
-written on by Spring XD. 
-
-\subsubsection {Combining the two}
-
-Stream-driven batch jobs. Taps. 
-
-\subsubsection {Critique of the Lambda Architecture and Spring XD}
-
-An often raised objection to the LA is the duplication of work
-(Quote Jay Kreps) that occurs during processing. More specifically,
-the necessity of writing the same processing code twice: once for the
-speed and once for the batch layer. However, due to the nature of
-Spring XD, the same business code can be shared between the two 
-layers. This objection does not apply!
+Spring XD does not provide a serving layer of its own, but, once the 
+\emph{speed layer} and the \emph{batch layer} store their data in 
+\emph{views}, a serving layer can be easily built using Spring Boot in
+combination with Spring Data or Spring Data REST.
 
 \subsection {Reactive architectures}
