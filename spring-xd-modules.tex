@@ -26,6 +26,7 @@ execute batch processing steps on a set of data.
 \par
 
 \subsection{Source}
+\label{sec:Source}
 Source modules receive inbound data and convert it to messages for
 use by modules in a stream or by a batch job.
 There are two source types: poller and event driven.  A poller source is based on the polling
@@ -52,6 +53,7 @@ transmitted by the bean to the stream (see figure~\ref{fig:sourcembc}.)
 \par
 
 \subsection{Processor}
+\label{sec:Processor}
 A Processor module is used to modify the data as it passes on its way from the source to
 the sink.  The basic processor is comprised of both an ``input'' and an ``output'' channel
 and a bean.
@@ -72,6 +74,7 @@ via the output channel.
 \par
 
 \subsection{Sink}
+\label{sec:Sink}
 Sink modules convert and deliver messages from a stream in a format consumable by 
 an external application.  There are two types of sinks: counter/gauge and delegate.
 A counter/gauge is a specialized sink that increments a field on a data store every time a
@@ -99,6 +102,7 @@ included in Spring XD have configurable options for retries.
 \par
 
 \subsection{Job}
+\label{sec:Job}
 Spring XD uses Spring Batch \cite{spring-batch-reference} as the foundation for implementing
 job modules. A job enables users to execute enterprise batch processes within Spring XD.
 Jobs are typically used when running long lasting tasks that have transactional requirements.

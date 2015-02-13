@@ -7,8 +7,8 @@ section~\ref{sec:Use Cases} for descriptions of real world deployments.
 
 The Lambda Architecture, introduced by Nathan Marz \cite{lambda-architecture-paper}
 is a generic, scalable and fault tolerant data  processing architecture. It 
-attemptsto provide a comprehensive solution to the problem of processing an 
-extremely largeset of data.
+attempts to provide a comprehensive solution to the problem of processing an 
+extremely large set of data.
 
 The Lambda Architecture has the following components:
 
@@ -25,14 +25,14 @@ calculations that and prepares the \emph{batch views} displayed by the
 its output combined with the \emph{batch views} by the \emph{serving layer}.
 \end{itemize*}
 
-The guiding principle of the Lambda architecture is an attempt to combine the
+The guiding principle of the Lambda architecture is to combine the
 high throughput of batch operations with the low latency of real-time
-computations. Each on its own, has its strengths and weakness. While the
-highest throughput for computing large datasets is attained by relying on
+computations. On its own, each has its strengths and weaknesses. While the
+highest throughput for computing large datasets is reached by relying on
 batch computations, the latter have the disadvantage of higher latency.
 Meanwhile, real-time computations may operate with low latency and produce
 results based on latest data quickly, but can't really handle the large
-amounts of data that batch processing can deal with. So, instead of relying
+amounts of data that batch processing can process. So, instead of relying
 on a single paradigm, the lambda architecture employs both, allowing them
 to complement each other.
 
@@ -45,10 +45,10 @@ of the Lambda architecture can be implemented with Spring XD.
 
 While Spring XD does not provide a storage mechanism of its own, it 
 integrates with a variety of storage technologies, both for reading,
-via its source[reference tbd] components, as well as for writing, via 
-its sink[reference tbd, provide examples] components. A \emph{data ingestion}
+via its source (see~\ref{sec:Source}) components, as well as for writing, via 
+its sink (see~\ref{sec:Sink}) components. A \emph{data ingestion}
 stream can be used to consolidate data from external sources into a
-central storage, where it can wait processing.
+central storage.
 
 For example, the following stream definition can be used to ingest 
 MQTT data sent by a number of sensors directly into HDFS:
@@ -56,7 +56,7 @@ MQTT data sent by a number of sensors directly into HDFS:
 \verb;stream create ingest --definition "mqtt | hdfs";\\*
 
 In a more elaborate setting, an application can collect data from
-different sources, and Spring XD can provide a means to merge them
+different sources, and Spring XD can provide the means to merge them
 in a single master dataset. The streams \texttt{in-mqtt} and \texttt{in-http}
 collect data from sensors via MQTT and HTTP, respectively, and
 contribute to a single queue \texttt{hdfs-in}. The merged result
@@ -74,7 +74,7 @@ is saved into HDFS.
 \subsubsection {Batch layer in Spring XD}
 
 Once data is collected into the \emph{master dataset}, it can be processed
-by \emph{jobs} (see \ref{batch-jobs}). The similarities between Spring XD's
+by \emph{jobs} (see~\ref{sec:Job}). The similarities between Spring XD's
 notion of a \emph{job} and Lambda Architecture's corresponding notion of
 a \emph{batch job} make the mapping fairly straighforward.
 
@@ -123,8 +123,8 @@ Or, more typically, it can be launched on a schedule:
 
 The role of the \emph{speed layer} is to complement the \emph{batch layer} 
 by performing real-time computations on the incoming data, thus filling the 
-inherent latency gap. This functionality can be implemented in Spring XD by the 
-\ref{analytics} support, more specifically taps, counters, and analytics.
+inherent latency gap. This functionality can be implemented in Spring XD by 
+the its analytics support (see~\ref{sec:Analytics}).
 
 Considering the previous example, while ingesting data from sensors and 
 populating the master dataset, the application may perform various computations 
@@ -149,7 +149,6 @@ written on by Spring XD.
 \subsubsection {Combining the two}
 
 Stream-driven batch jobs. Taps. 
-
 
 \subsubsection {Critique of the Lambda Architecture and Spring XD}
 
