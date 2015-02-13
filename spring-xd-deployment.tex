@@ -102,13 +102,22 @@ instance for reconstructing the \emph{data views} in case of loss or error.
 For that, Spring XD provides the following mechanisms:
 
 \begin{itemize*}
-\item \emph{scheduled} job launch according to a \texttt{cron} expression;
 \item \emph{manual} job launch through its shell user interface or 
 administrative UI;
+\item \emph{stream-controlled} where the jobs are lanched by stream of 
+\emph{trigger} messages;
+\item \emph{scheduled} job launch according to a \texttt{cron} expression;
 \end{itemize*}
 
-(There is also a way to integrate with stream processing which we will discuss 
-later)
+For example, a job can be launched manually as follows:
+
+\verb;job launch sensor-process;\\*
+
+Or, more typically, it can be launched on a schedule:
+
+\verb;stream create --name launchSensorProcess;\\*
+\verb; --definition "trigger --cron='0/5 * * * * *';\\* 
+\verb;    > queue:job:myCronJob" --deploy;\\*
 
 \subsubsection {Speed layer in Spring XD}
 
@@ -125,12 +134,12 @@ on the datastream. For example, it can perform a count of the incoming elements.
 \verb;stream create count --definition  ;\\*
 \verb;"tap:stream:ingest > aggregate-counter";\\*
 
-Of course, in an even more elaborate scenario, it is possible to actually do 
-some processing of the data in-flight and store the results 
+In a more elaborate scenario, it is possible to actually do 
+some processing of the data in-flight and store the results in real-time views
+for being combinedwith the batch views.
 
 \verb;stream create count --definition  ;\\*
 \verb;"tap:stream:ingest > extract-tags | jdbc";\\*
-
 
 \subsubsection {View layer in Spring XD}
 
