@@ -1,19 +1,19 @@
 \section{Modules}
 \label{sec:Modules}
-A Spring XD Module \cite{modules} is a unit of data processing and as mentioned above 
-there are four types: source, processor, sink, and job. Modules in Spring XD are defined 
-in their own application context. This allows for easy encapsulation and life cycle 
-management for modules. Additionally, the use of an application context allows for easy 
-module expansion.  Spring XD uses Spring Integration \cite{spring-integration-reference} 
-as its foundation for implementing modules. A module is comprised of one or more channels 
+A Spring XD Module \cite{modules} is a unit of data processing. There are four module
+types: source, processor, sink, and job. Modules in Spring XD are defined
+in their own application context. This allows for easy encapsulation and life cycle
+management for modules. Additionally, the use of an application context allows for easy
+module expansion.  Spring XD uses Spring Integration \cite{spring-integration-reference}
+as its foundation for implementing modules. A module is comprised of one or more channels
 and an integration bean.
 
 \par
 
 Spring XD offers a suite of 23 sources, 24 sinks, 9 processors and 9 jobs that are ready 
-to use at startup.  These source, sink and job modules integrate with a variety of well 
-known and popular data stores and processing systems such as JDBC, HDFS, MongoDB, Spark, 
-and Sqoop.  If an existing module does not meet the needs of a given use case, Spring XD 
+to use at startup.  These modules integrate with a variety of well
+known and popular data stores and processing systems such as JDBC, HDFS, MongoDB, Spark,
+and Sqoop.  If an existing module does not meet the needs of a given use case, Spring XD
 supports custom modules.
 
 Spring XD sink and source modules are Message Endpoints 
@@ -25,7 +25,7 @@ execute batch processing steps on a set of data.
 
 \par
 
-\subsection{Modules: Source}
+\subsection{Source}
 Source modules receive inbound data and convert it to messages for
 use by modules in a stream or by a batch job.
 There are two source types: poller and event driven.  A poller source is based on the polling
@@ -37,7 +37,7 @@ open a port to listen for incoming data that is pushed from an external applicat
 
 \par
 
-In the case of a source module there is an "output" channel to dispatch messages 
+In the case of a source module there is an ``output'' channel to dispatch messages 
 transmitted by the integration bean to the stream (see figure~\ref{fig:sourcembc}.)
 
 \par
@@ -51,14 +51,14 @@ transmitted by the integration bean to the stream (see figure~\ref{fig:sourcembc
 
 \par
 
-\subsection{Modules: Processor}
-A Processor module is used to modify the data as it passes on its way from the source to 
-the sink.  The basic processor is comprised of both an "input" and an "output" channel 
+\subsection{Processor}
+A Processor module is used to modify the data as it passes on its way from the source to
+the sink.  The basic processor is comprised of both an ``input'' and an ``output'' channel
 and an integration bean.
 The input channel receives all messages from the stream and dispatches
-messages to the integration bean (see figure~\ref{fig:processormbc}.) It is the responsibility of
-the integration bean to modify the data. The modified message is then sent to next module 
-via the output channel.  
+messages to the integration bean (see figure~\ref{fig:processormbc}.) It is the
+responsibility of the integration bean to modify the data; afterwards the modified
+message is sent to the next module via the output channel.
 
 \par
 
@@ -71,11 +71,11 @@ via the output channel.
 
 \par
 
-\subsection{Modules: Sink}
+\subsection{Sink}
 Sink modules convert and deliver messages from a stream in a format consumable by 
 an external application.  There are two types of sinks: counter/gauge and delegate.
 A counter/gauge is a specialized sink that increments a field on a data store every time a
-message is received. (Refer to the Analytics section for more information.)  A delegate
+message is received. (See section~\ref{sec:Analytics}.) A delegate
 sink translates messages to the format expected by the external application.
 After transforming the message, the resulting data is sent to the external application.
 
@@ -98,7 +98,7 @@ included in Spring XD have configurable options for retries.
 
 \par
 
-\subsection{Modules: Job}
+\subsection{Job}
 Spring XD uses Spring Batch \cite{spring-batch-reference} as the foundation for implementing
 job modules. A job enables users to execute enterprise batch processes within Spring XD.
 Jobs are typically used when running long lasting tasks that have transactional requirements.
@@ -122,7 +122,7 @@ In some cases the job definition alone is sufficient to implement the desired be
 
 \par 
 
-\subsection{Modules: Deployment}
+\subsection{Deployment}
 Modules are deployed in the modules directory and are segregated in
 subdirectories by type: \texttt{modules/source}, \texttt{modules/processor}, 
 \texttt{modules/sink} and \texttt{modules/job}.
@@ -130,7 +130,7 @@ These modules are dynamically loaded when a stream or job is deployed that requi
 specific module.
 
 \par
-\subsection{Modules: Composite}
+\subsection{Composite}
 A Composite module provides a way to create a single module 
 comprised of other modules (processing chain).  A composite module can be used to prevent 
 duplication when a processing chain of modules is used frequently.  

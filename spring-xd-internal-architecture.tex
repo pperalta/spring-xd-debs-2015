@@ -1,6 +1,6 @@
 \section{Architecture}
 This section describes the internal architecture of Spring XD. Spring XD
-relies on the Spring Application Context for module encapsulation and
+relies on the Spring application context for module encapsulation and
 life cycle management, a messaging system for data
 transfer between modules in a stream or job, and ZooKeeper for overall
 coordination. (See figure~\ref{fig:architecture}.)
@@ -42,7 +42,7 @@ as needed. A user may spin up extra containers to handle the load during peak ti
 and then scale back as required.
 
 A container may be associated with one or more groups. This functionality is useful
-for targeting module deployments within a stream or job to container groups.
+for targeting module deployments within a stream or job to specific containers.
 For example, if a set of containers within a Spring XD cluster has access to
 a Hadoop file system, that set of containers can be configured as the ``hdfs'' group.
 This allows for streams that include the hdfs module to target deployment of
@@ -55,7 +55,9 @@ administration and the orchestration of streams and jobs. While a single
 admin server is required, multiple admin servers may be present in a Spring XD
 system for redundancy. A single admin server will be responsible for stream
 and job deployments. If multiple admin servers are present, a ``supervisor''
-server will be selected 
+server will be selected via leadership election coordinated by ZooKeeper.
+If more than one admin server is running, any of the admin servers
+can service REST requests.
 
 \subsection{ZooKeeper}
 Apache ZooKeeper is a distributed configuration and synchronization service.
