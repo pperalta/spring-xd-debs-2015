@@ -5,24 +5,24 @@ Spring XD also supports developing a custom module for any usecase driven functi
 
 \subsection{Source modules}
 
-  These modules ingest data from outside into Spring XD which include, file, gemfire,
+  Source modules ingest data from outside into Spring XD which include, file, gemfire,
 http, jdbc, jms, kafka, mail, mqtt, rabbit, reactor-ip, reactor-syslog, sftp, syslog(tcp/udp),
-tail, tcp-client, tcp, twittersearch, twitterstreams.
+tail, tcp-client, tcp, twittersearch, twitterstream.
 
 \subsection{Processor Modules}
-  These mdoules get the data out of source module or the previous processor module, computes
+  Processor modules get the data out of source module or the previous processor module, transforms
 the data and make the data available for the subsequent processor module or a sink module.
 These include aggregator, analytic-pmml, bridge, filter, http-client, json-to-tuple,
 object-to-json, script, shell command processor, splitter, transform.
 
 \subsection{Sink Modules}
-  These modules write the data into the final destination in the streaming application.
+  Sink modules write the data into the final destination in the streaming application.
 These include file, gemfire, hdfs with dataset, hdfs, jdbc, kafka, log, mail, mongodb,
 mqtt, rabbit, redis, router, shell command processor, splunk, tcp and metrics modules.
 
 \subsection{Job Modules}
 
-Job modules provide complete support to run batch jobs that adhere to JSR standardization of
+  Job modules provide complete support to run batch jobs that adhere to JSR standardization of
 batch processing JSR-352. By deploying these module into Spring XD, one can availe the 
 features like partitioning, job execution orchestration, monitoring and  management
 automatically. 
