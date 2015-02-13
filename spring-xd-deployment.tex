@@ -79,19 +79,19 @@ notion of a \emph{job} and Lambda Architecture's corresponding notion of
 a \emph{batch job} make the mapping fairly straighforward.
 
 
-The data ingested in master dataset can be consumed by a batch job, created 
-as follows:
+The data ingested in the master dataset can be consumed by a batch job,
+created as follows:
 
 \verb;job create sensorProcess;\\*
 \verb;  --definition "sensors";\\*
 
-(This example already assumes an existing module job named \emph{sensors} that 
+(This example already assumes an existing module job named \emph{sensors} that
 implements the processing logic).
 
-For maximum efficiency, and reducing the latency of batch job execution, Spring 
-XD allows for jobs to be divided into partitions that can be executed 
-concurrently on separate containers. Such execution parameters are defined 
-during deployment, as follows:
+Spring XD supports the partitioning of jobs for concurrent execution on
+separate containers. This allows for maximum efficiency and reduced latency
+for job executions. Such execution parameters are defined during deployment,
+as follows:
 
 \verb;job deploy sensor-process;\\*
 \verb;  --properties module.sensorProcess.count=3;\\*
@@ -120,7 +120,6 @@ Or, more typically, it can be launched on a schedule:
 \verb;    > queue:job:myCronJob" --deploy;\\*
 
 \subsubsection {Speed layer in Spring XD}
-
 
 The role of the \emph{speed layer} is to complement the \emph{batch layer} 
 by performing real-time computations on the incoming data, thus filling the 
