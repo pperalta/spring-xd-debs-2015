@@ -1,0 +1,24 @@
+\section {Monitoring and Management}
+ Spring XD makes it easier to manage and monitor the XD cluster and the
+runtime components by providing useful metrics on those components and
+user interface (shell and GUI) to interact with them.
+
+\subsection {Monitoring via JMX and HTTP}
+Spring XD supports configuring, monitoring and managing the runtime components
+over HTTP and JMX. The admin, container, stream/job module components' runtime health,
+environment, metrics can be accessed via the REST endpoints exposed by 
+Spring Boot \cite{spring-boot}. One can also use JMX console to monitor and manage
+the runtime components. The JMX metrics can also be obtained over HTTP using Jolokia.
+
+\subsection {Management GUI}
+Spring XD comes with an Admin GUI which lets the user manage the cluster environment,
+stream and job monitoring and management which include monitoring the cluster health
+with the deployed streams/jobs, workflows such as creation of batch jobs,
+deployment of streams and jobs with runtime properties, monitoring the execution
+of batch job, stop/restart the batch job when needed.
+
+\subsection {Shell Interface}
+Spring XD has the shell interface which is the main entry point for the user
+to interact with XD admin to create/deploy and manage streams/jobs. This
+interface implements all the REST endpoints exposed by Spring XD.
+
