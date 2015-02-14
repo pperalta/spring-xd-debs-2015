@@ -3,7 +3,7 @@ This section describes deployment architectures that are possible with Spring XD
 Note that this is not an exhaustive list of all deployment types. See
 section~\ref{sec:Use Cases} for descriptions of real world deployments.
 
-\subsection{Lambda architecture}
+\subsection{Lambda Architecture}
 
 The Lambda Architecture, introduced by Nathan Marz \cite{lambda-architecture-paper}
 and shown in figure~\ref{fig:lambda}
@@ -14,13 +14,13 @@ extremely large set of data.
 The Lambda Architecture has the following components:
 
 \begin{itemize*}
-\item A \emph{master dataset} comprising of all data known to the system,
+\item A \emph{master dataset} consisting of all data known to the system,
 ideally in its rawest form;
 \item A \emph{serving} or \emph{view layer} that provides the latest,
 most up-to-date view of the processed data, available for low-latency,
 ad-hoc querying;
 \item A \emph{batch layer} that performs computationally intense 
-calculations that and prepares the \emph{batch views} displayed by the 
+calculations and prepares the \emph{batch views} displayed by the 
 \emph{serving layer};
 \item A \emph{speed layer} that performs calculations on recent data only, 
 its output combined with the \emph{batch views} by the \emph{serving layer}.
@@ -32,15 +32,15 @@ computations. On its own, each has its strengths and weaknesses. While the
 highest throughput for computing large datasets is reached by relying on
 batch computations, the latter have the disadvantage of higher latency.
 Meanwhile, real-time computations may operate with low latency and produce
-results based on latest data quickly, but can't really handle the large
-amounts of data that batch processing can process. So, instead of relying
-on a single paradigm, the lambda architecture employs both, allowing them
+results based on latest data quickly, but can't handle the large
+amounts of data that batch processing can. Therefore, instead of relying
+on a single paradigm, the Lambda architecture employs both, allowing them
 to complement each other.
 
 \begin{figure}[ht]
 \centering
 \epsfig{file=lambda.eps, height=2in, width=3in}
-\caption{Spring XD Architecture.}
+\caption{Lambda Architecture.}
 \label{fig:lambda}
 \end{figure}
 
@@ -49,11 +49,11 @@ of the Lambda architecture can be implemented with Spring XD.
 
 \subsubsection {Master dataset with Spring XD}
 
-While Spring XD does not provide a storage mechanism of its own, it 
+While Spring XD does not provide a storage mechanism of its own, it
 integrates with a variety of storage technologies, both for reading,
-via its source (see~\ref{sec:Source}) components, as well as for writing, via 
-its sink (see~\ref{sec:Sink}) components. A \emph{data ingestion}
-stream can be used to consolidate data from external sources into a
+via source modules (see~\ref{sec:Source}), as well as for writing, via
+sink modules (see~\ref{sec:Sink}). A \emph{data ingestion}
+stream can be used to consolidate data from external sources into
 central storage.
 
 For example, the following stream definition can be used to ingest 
@@ -82,7 +82,7 @@ is saved into HDFS.
 Once data is collected into the \emph{master dataset}, it can be processed
 by \emph{jobs} (see~\ref{sec:Job}). The similarities between Spring XD's
 notion of a \emph{job} and Lambda Architecture's corresponding notion of
-a \emph{batch job} make the mapping fairly straighforward.
+a \emph{batch job} make the mapping straightforward.
 
 
 The data ingested in the master dataset can be consumed by a batch job,
@@ -95,7 +95,7 @@ created as follows:
 implements the processing logic).
 
 Spring XD supports the partitioning of jobs for concurrent execution on
-separate containers. This allows for maximum efficiency and reduced latency
+separate containers. This allows for increased throughput and reduced latency
 for job executions. Such execution parameters are defined during deployment,
 as follows:
 
@@ -103,7 +103,7 @@ as follows:
 \verb;  --properties module.sensorProcess.count=3;\\*
 
 An important characteristic of the \emph{batch layer} is the regular
-execution of jobs, as well as the ability of replaying older datasets, for
+execution of jobs, as well as the ability to replay older datasets, for
 instance for reconstructing the \emph{data views} in case of loss or error.
 For that, Spring XD provides the following mechanisms:
 
@@ -122,26 +122,26 @@ For example, a job can be launched manually as follows:
 Or, more typically, it can be launched on a schedule:
 
 \verb;stream create --name launchSensorProcess;\\*
-\verb;--definition "trigger --cron='0/5 * * * * *';\\* 
-\verb;> queue:job:myCronJob" --deploy;\\*
+\verb;  --definition "trigger --cron='0/5 * * * * *';\\* 
+\verb;  > queue:job:myCronJob" --deploy;\\*
 
 \subsubsection {Speed layer in Spring XD}
 
 The role of the \emph{speed layer} is to complement the \emph{batch layer} 
 by performing real-time computations on the incoming data, thus filling the 
 inherent latency gap. This functionality can be implemented in Spring XD by 
-the its analytics support (see~\ref{sec:Analytics}).
+the its analytics support (see section~\ref{sec:Analytics}).
 
 Considering the previous example, while ingesting data from sensors and 
 populating the master dataset, the application may perform various computations 
-on the datastream. For example, it can perform a count of the incoming elements. 
+on the data stream. For example, it can perform a count of the incoming elements. 
 
 \verb;stream create count --definition  ;\\*
 \verb;"tap:stream:ingest > aggregate-counter";\\*
 
 In a more elaborate scenario, it is possible to actually do 
 some processing of the data in-flight and store the results in real-time views
-for being combinedwith the batch views.
+for being combined with the batch views.
 
 \verb;stream create count --definition  ;\\*
 \verb;"tap:stream:ingest > extract-tags | jdbc";\\*
@@ -155,6 +155,7 @@ the data stored by the \emph{batch jobs} in the
 can be easily made availabe through a serving layer using Spring Boot \cite{spring-boot}, 
 in combination with Spring Data \cite{spring-data} or Spring Data REST \cite{spring-data-rest}.
 
-\subsection {Reactive architectures}
+% Commented out pending completion
+% \subsection {Reactive architectures}
 
-This section will discuss the use of RxJava and Reactor for building reactive applications
+% This section will discuss the use of RxJava and Reactor for building reactive applications
