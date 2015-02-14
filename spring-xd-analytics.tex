@@ -17,7 +17,7 @@ aggregate counter, gauge and rich gauge. It also provides support for running
 predictive analytics using PMML model scoring. Spring XD also includes a module
 for executing arbitrary shell commands. This shell module can execute an R or
 Python based processor or sink implementation which could perform dynamic model
-scoring. Additionally, a Spark MLLib job may be executed as a Spring XD job,
+scoring. Additionally, a Spark MLlib job may be executed as a Spring XD job,
 benefiting from Spring XD's capability to monitor and manage the job.
 
 \subsection {Basic Analytics}
@@ -62,12 +62,17 @@ models exported from R, Rattle, KNIME, and RapidMiner. Once the analytical model
 is defined as a PMML model, the evaluator can run model scoring based on the 
 input data being ingested.
 
-\par
+\subsection {Shell command support}
+Spring XD supports processor and sink modules that invoke external shell command.
+A processor or sink module can be implemented to run predictive
+analytics algorithms written in other languages such as Python, R or any other language that
+supports shell command invocation. This way one can dynamically update the model based on the
+input data and performs model scoring. This approach makes predictive analytics more adaptive.
 
-The Shell based processor/sink implementation can be used to run predictive
-analytics algorithms written in other languages such as Python and dynamically
-update the model which makes predictive analytics more adaptive.
-
-\subsection{Spark MLLib}
-A spark MLLib algorithm can be run as a sparkApp job in XD.
-
+\subsection{Spark MLlib}
+A Spark MLlib algorithm can be run as a sparkApp job in XD. This makes the
+orchestration of Spark job workflow, monitoring and management easier.
+A Spark MLlib job can also be triggered by a stream with data that
+would act as the input for the MLlib algorithm. This closed loop
+integration (integration streaming data to trigger the job) is very powerful
+for the predictive analytics.
