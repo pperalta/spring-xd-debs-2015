@@ -142,9 +142,13 @@ for being combinedwith the batch views.
 
 \subsubsection {Serving layer with Spring XD}
 
-Spring XD does not provide a serving layer of its own, but, once the 
-\emph{speed layer} and the \emph{batch layer} store their data in 
-\emph{views}, a serving layer can be easily built using Spring Boot in
-combination with Spring Data or Spring Data REST.
+Spring XD provides out-of-the box RESTful services for its counters and gauges,
+which can operate as part of the serving layer. In addition to that,  
+the data stored by the \emph{batch jobs} in the 
+\emph{batch views}, as well as \emph{real time views} produced by the streams, 
+can be easily made availabe through a serving layer using Spring Boot \cite{spring-boot}, 
+in combination with Spring Data \cite{spring-data} or Spring Data REST \cite{spring-data-rest}.
 
 \subsection {Reactive architectures}
+
+This section will discuss the use of RxJava and Reactor for building reactive applications
