@@ -14,7 +14,7 @@ context is a dependency injection framework that is used to instantiate
 objects along with their dependencies \cite{spring-framework-reference}.
 The application context provides a consistent means of declaring dependencies
 and configuration for applications written in Java. All projects in the
-Spring portfolio depend on the application context.
+Spring\cite{spring} portfolio depend on the application context.
 
 \subsection{Modules}
 A Spring XD Module is a unit of data processing. A stream processing module
@@ -26,7 +26,7 @@ covered in detail in section~\ref{sec:Modules}.
 \subsection{Message Bus}
 Modules require a data transport in order to transfer data. Spring XD
 supports pluggable transports via a messaging abstraction known as 
-the Message Bus. Spring XD includes implementations based on Redis, RabbitMQ,
+the Message Bus. Spring XD includes implementations based on Redis\cite{redis}, RabbitMQ,
 and Kafka. Each of the message bus implementations are provided by the
 Spring Integration project.
 
@@ -47,7 +47,7 @@ and then scale back as required.
 A container may be associated with one or more groups. This functionality is useful
 for targeting module deployments within a stream or job to specific containers.
 For example, if a set of containers within a Spring XD cluster has access to
-a Hadoop file system, that set of containers can be configured as the ``hdfs'' group.
+a Hadoop\cite{hadoop} file system, that set of containers can be configured as the ``hdfs'' group.
 This allows for streams that include the hdfs module to target deployment of
 that module only to containers within the ``hdfs'' group.
 
