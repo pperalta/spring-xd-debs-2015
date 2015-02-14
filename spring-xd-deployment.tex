@@ -6,6 +6,7 @@ section~\ref{sec:Use Cases} for descriptions of real world deployments.
 \subsection{Lambda architecture}
 
 The Lambda Architecture, introduced by Nathan Marz \cite{lambda-architecture-paper}
+and shown in figure~\ref{fig:lambda}
 is a generic, scalable and fault tolerant data  processing architecture. It 
 attempts to provide a comprehensive solution to the problem of processing an 
 extremely large set of data.
@@ -36,7 +37,12 @@ amounts of data that batch processing can process. So, instead of relying
 on a single paradigm, the lambda architecture employs both, allowing them
 to complement each other.
 
-A detailed view of the Lambda Architecture can be viewed in figure [TBD].
+\begin{figure}[ht]
+\centering
+\epsfig{file=lambda.eps, height=2in, width=3in}
+\caption{Spring XD Architecture.}
+\label{fig:lambda}
+\end{figure}
 
 In the following subsections we will examine how the different components
 of the Lambda architecture can be implemented with Spring XD.
