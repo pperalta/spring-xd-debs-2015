@@ -10,10 +10,10 @@ ingesting machine data to apply predictive analytics to proactively monitor
 performance and adjust business operations.
 
 \textit{Solution}: Given the extensible architecture in Spring XD, a custom
-source module was created to handle proprietary data formats, thus allowing
+source module is created to handle proprietary data formats, thus allowing
 consumption and transformation of data complying with their proprietary
 standards. The predictive models, complying with PMML specification, were
-generated based on historical trends. Spring XD's analytic-pmml processor was
+generated based on historical trends. Spring XD's analytic-pmml processor is
 used in a stream to intercept machine events to compute predictions in
 real-time. The outliers were captured in Redis\cite{redis} for dashboard alerts 
 and ad-hoc data analysis via REST.
@@ -22,19 +22,16 @@ and ad-hoc data analysis via REST.
 \textit{Challenge}: A large retail provider is heavily invested in the Hadoop
 \cite{hadoop}
 ecosystem. They weren't keen on maintaining or supporting several products in
-production - operationalizing this was painful. They wanted to streamline and
+production - operationalization is painful. They want to streamline and
 modernize their Hadoop workflows.
 
 \textit{Solution}: As one-stop runtime, Spring XD provides dozens of data
 integration adapters to send and receive data from external applications, thus
 allowing the customer to use the unified approach for all ingestion use-cases.
-Building upon Spring Batch, Spring XD also provides multiple batch jobs for data
-movements along with granular workflow steps. This further eliminated the need
-for relying on different workflow and data movement tools. Whether it is 
-MapReduce, Hive, Pig, or HBase scripts -- the developer experience is the same.
+Building upon Spring Batch, Spring XD also provides multiple batch jobs for data movements along with granular workflow steps. This further eliminated the need for relying on different workflow and data movement tools. Whether it is MapReduce, Hive, Pig, or HBase scripts - the developer experience is the same in Spring XD.
 
 \subsection{Data Ingest}
-\textit{Challenge}: A startup in San Francisco was looking for a solution to
+\textit{Challenge}: A startup in San Francisco is looking for a solution to
 unify stream and batch operations. 
 
 \textit{Solution}: Spring XD is used as a standard tool for ingesting data 
@@ -45,9 +42,9 @@ integration, orchestration, and data movement capabilities were handled end
 to end by Spring XD.
 
 \subsection{24/7 Production Pipelines}
-\textit{Challenge}: A large IT enterprise wanted to build data pipelines to
+\textit{Challenge}: A large IT enterprise wants to build data pipelines to
 monitor current software and hardware sales in order to predict and forecast.
-Building pipelines in one; running them reliably 24/7 with strict SLAs is
+Building pipelines is one; running them reliably 24/7 with strict SLAs is
 another big challenege.
 
 \textit{Solution}: Spring XD is built as highly-available runtime. Automatic
@@ -59,16 +56,14 @@ pipeline. This results in no disruption with the primary pipeline, at the
 same time satisfying ad-hoc demands.
 
 \subsection{Closed-loop Analytics}
-\textit{Challenge}: A finance institution wanted to build a platform to detect
+\textit{Challenge}: A finance institution wants to build a platform to detect
 fraudulent transactions. They had years of historical data in varying formats
-and the transactions happening in real-time at high volume. They wanted to
+and the transactions happening in real-time, at high volume. They want to
 automate generation of historical models from raw dataset and apply the models
-to real-time events. No in-house talent to build one; neither had budget to buy
-expensive products.
+to real-time events. No in-house talent to build one; neither had the budget to buy expensive products.
 
-\textit{Solution}: A batch job was used to learn from historical data thus
-producing predictive models complying with PMML specification. The last step
+\textit{Solution}: A batch job is used to learn from historical data to
+produce predictive models complying with PMML specification. A step
 in the batch workflow is orchestrated to deliver the generated models to
-streams that ingest for real-time predictions. The predictions were persisted
-in in-memory data grids to feed the dashboard. Spring XD, thus eliminating
-top-talent hires to operationalize analytics pipeline.
+streams for real-time predictions. The predictions were persisted
+on in-memory data stores to visualize the data via dashboard. Spring XD eliminates top-talent hires to operationalize data analytics pipeline.
