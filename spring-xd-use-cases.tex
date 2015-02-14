@@ -15,11 +15,12 @@ consumption and transformation of data complying with their proprietary
 standards. The predictive models, complying with PMML specification, were
 generated based on historical trends. Spring XD's analytic-pmml processor was
 used in a stream to intercept machine events to compute predictions in
-real-time. The outliers were captured in Redis for dashboard alerts 
+real-time. The outliers were captured in Redis\cite{redis} for dashboard alerts 
 and ad-hoc data analysis via REST.
 
 \subsection{Enterprise Modernization}
 \textit{Challenge}: A large retail provider is heavily invested in the Hadoop
+\cite{hadoop}
 ecosystem. They weren't keen on maintaining or supporting several products in
 production - operationalizing this was painful. They wanted to streamline and
 modernize their Hadoop workflows.
@@ -37,7 +38,8 @@ MapReduce, Hive, Pig, or HBase scripts -- the developer experience is the same.
 unify stream and batch operations. 
 
 \textit{Solution}: Spring XD is used as a standard tool for ingesting data 
-into Hadoop. Whether it is real-time (i.e., online) or batch (i.e., offline),
+into Hadoop . Whether it is real-time (i.e., online) or batch 
+(i.e., offline),
 the out of the box fixtures delivered immediate benefits. Overall, the data
 integration, orchestration, and data movement capabilities were handled end
 to end by Spring XD.

@@ -14,17 +14,17 @@ subsequent processing module for further analysis.
 
 Spring XD includes analytics modules such as counter, field value counter,
 aggregate counter, gauge and rich gauge. It also provides support for running
-predictive analytics using PMML model scoring. Spring XD also includes a module
-for executing arbitrary shell commands. This shell module can execute an R or
-Python based processor or sink implementation which could perform dynamic model
-scoring. Additionally, a Spark MLlib job may be executed as a Spring XD job,
+predictive analytics using PMML\cite{pmml} model scoring. Spring XD also includes a module
+for executing arbitrary shell commands. This shell module can execute an R\cite{r-language}
+or Python\cite{python-language} based processor or sink implementation which could perform
+dynamic model scoring. Additionally, a Spark MLlib job may be executed as a Spring XD job,
 benefiting from Spring XD's capability to monitor and manage the job.
 
 \subsection {Basic Analytics}
 
 To perform some of the basic analytic operations, Spring XD provides the following
 modules. Since these modules write the analytic results to a data store, they are
-considered sinks. Currently in-memory and Redis are supported data stores. This
+considered sinks. Currently in-memory and Redis\cite{redis} are supported data stores. This
 data is exposed by the admin server via the REST API. This allows for simple
 development of an application to gain access to the analytic data results.
 
@@ -38,7 +38,7 @@ of messages sent out at each stage.
 
 This module counts the number of occurrences of a specific field from a message
 flowing through a stream. Spring XD supports the following message payload types
-out of the box: POJO (Java Bean), Tuple and JSON string.
+out of the box: POJO (Java Bean), Tuple and JSON\cite{json} string.
 
 \subsubsection {Aggregate Counter}
 
