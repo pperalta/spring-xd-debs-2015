@@ -62,16 +62,17 @@ models exported from R, Rattle, KNIME, and RapidMiner. Once the analytical model
 is defined as a PMML model, the evaluator can run model scoring based on the 
 input data being ingested.
 
-\par
-
-The Shell based processor/sink implementation can be used to run predictive
-analytics algorithms written in other languages such as Python and R which dynamically
-update the model which makes predictive analytics more adaptive.
+\subsection {Shell command support}
+Spring XD supports processor and sink modules that invoke external shell command.
+A processor or sink module can be implemented to run predictive
+analytics algorithms written in other languages such as Python, R or any other language that
+supports shell command invocation. This way one can dynamically update the model based on the
+input data and performs model scoring. This approach makes predictive analytics more adaptive.
 
 \subsection{Spark MLlib}
 A Spark MLlib algorithm can be run as a sparkApp job in XD. This makes the
-orchestration of job workflow, monitoring and management easier.
+orchestration of Spark job workflow, monitoring and management easier.
 A Spark MLlib job can also be triggered by a stream with data that
-would act as the input data for the MLlib algorithm. This closed loop
+would act as the input for the MLlib algorithm. This closed loop
 integration (integration streaming data to trigger the job) is very powerful
 for the predictive analytics.
