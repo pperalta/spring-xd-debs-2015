@@ -155,7 +155,44 @@ the data stored by the \emph{batch jobs} in the
 can be easily made availabe through a serving layer using Spring Boot \cite{spring-boot}, 
 in combination with Spring Data \cite{spring-data} or Spring Data REST \cite{spring-data-rest}.
 
-% Commented out pending completion
-% \subsection {Reactive architectures}
+\subsection {Reactive applications}
 
-% This section will discuss the use of RxJava and Reactor for building reactive applications
+The last few years have seen a significant change in application requirements:
+data volumes of terabyte order, response times within tens of milliseconds, more strict
+availability requirements. These new challenges require a new approach to application
+development, subsumed under the concepts of \emph{reactive applications} and \emph{reactive
+programming}. In what follows next, we will describe how these concepts are 
+illustrated by Spring XD, both from a runtime platform, as well as from a development perspective.
+
+\subsubsection {Spring XD as a platform for reactive applications}
+
+Reactive applications, as described by the Reactive Manifesto
+\cite{reactive-manifesto} are \emph{responsive},\emph{resilient},\emph{elastic}
+ and \emph{message-driven}. Spring XD, as a platform, provides the means for creating and 
+ running reactive applications.
+
+\emph{Responsiveness} represents system's ability to respond in a timely manner, if at all, possible.
+In the case of Spring XD, its stream processing model is designed for building fast, low-latency data pipelines.
+
+\emph{Resilience} represents system's ability to remain responsive in the face of failure. In Spring XD,
+this is provided out of the box by features such as automatic module redeployment if the host container
+has crashed, or the ability to elect a new admin node in case the existing one as failed. On a more granular level, 
+automatic retry and dead-letter queue support for RabbitMQ and Redis, allow to track and recover from failed computations.
+The use of messaging middleware ensures redelivery of data when a module recovers.
+
+\emph{Elasticity} represents system's ability to remain responsive under varying workload. In Spring XD, this is 
+provided by features such as the ability to scale up the processing power by deploying multiple instances of a 
+module or job in a stream. The use of messaging middleware provides backpressure allowing each component in the
+stream to consume data at its own pace.
+
+\emph{Message-driven} represents system's reliance on asynchronous message passing between components. 
+This is a core 
+feature of Spring XD, implemented by its message bus (see~\ref{subsec:MessageBus}).
+
+So, this is how Spring XD as a platform allows applications to meet the criteria for being considered \emph{reactive}. 
+In conjunction with that, it provides the ability of using a development model that is better suited for
+reactive applications, through its support for \emph{reactive programming} and \emph{observable streams}.
+
+\subsubsection {Reactive programming in Spring XD}
+
+\emph{Reactive programming} has emerged as a programming paradigm that is centered around the notion of data flows.
