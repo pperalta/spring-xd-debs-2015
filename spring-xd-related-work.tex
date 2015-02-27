@@ -28,10 +28,10 @@ Spring XD supports running Spark applications such as Streaming, MLLib, SparkSQL
 Spark users may implement the computation logic and leave the setup and launching of the
 application to Spring XD.
 
-Spring XD also supports running spark streaming application as an XD
+Spring XD also supports running Spark Streaming applications as a
 module. The module acts as the driver while the computation defined by the streaming application
-is executed in the spark cluster. The driver failure is automatically handled by Spring XD
-by re-deploying the module to the eligible XD container.
+is executed in the Spark cluster. Driver failure is automatically handled by Spring XD --
+the admin server will re-deploy a module from a failed container to another eligible container.
 
 \subsection{Spring XD and Storm}
 Storm\cite{storm} is a distributed computation system for real time stream processing.
