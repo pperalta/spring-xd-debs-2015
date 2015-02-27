@@ -6,17 +6,18 @@ volumes of data that need to be captured and analyzed. These data sources
 include (but are not limited to) mobile devices, vehicles (both autonomous
 and manually operated) and large scale applications.
 
-Many data processing applications fall into one of two categories:
+Most data processing applications fall into one of two categories:
 streaming or batching. Streaming applications are used to capture data
 in real time, typically as the data is being generated. Batching applications
-operate on data that has already been captured to stable storage. Batching
+operate on data that has already been captured to persistent storage. Batching
 works best when throughput is more important than latency.
 
-These requirements have led to the creation of new projects such as HDFS\cite{hdfs},
-Spark\cite{spark}, and Kafka\cite{kafka}. Each of these projects was conceived
+These requirements have led to the creation of new projects such as Apache Hadoop~\cite{hadoop},
+Apache Spark~\cite{spark}, and Apache Kafka~\cite{kafka}. Each of these projects was conceived
 to solve a specific data processing and/or storage requirement. While some
-of these projects overlap, many times they are complementary (for example
-a streaming application that writes data into Kafka and stores it into HDFS).
+of these projects overlap, they are often complementary - for example,
+a streaming application that collects event data in Kafka in real-time and also 
+stores it into Hadoop Distributed File System (HDFS)~\cite{hdfs} for batch processing.
 
 Integrating the best of breed solutions is a challenge for developers
 interested in building streaming and/or batching applications. Writing
