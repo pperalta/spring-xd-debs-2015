@@ -198,7 +198,29 @@ considered \emph{reactive}. In conjunction with that, it provides the ability of
 a development model that is better suited for reactive applications, through its support
 for \emph{reactive programming} and \emph{observable streams}.
 
-\subsubsection {Reactive programming in Spring XD}
+\subsubsection {Reactive programming and functional in Spring XD}
 
-\emph{Reactive programming} has emerged as a programming paradigm that is centered
-around the notion of data flows.
+\emph{Reactive programming} is a programming paradigm centered around asynchronous stream processing. The central
+notion is that incoming data can be processed in an ordered, asynchronous and event-driven manner, using functional
+operators to describe transformations that apply to an entire stream of incoming data. The operators can vary from
+individual item transformations, to grouping and aggregation over given time windows, and can be composed into 
+complex data processing pipelines that produce outbound streams of data. 
+
+ReactiveX~\cite{reactivex} is one of the most common set of APIs, centered around the \texttt{Observable} abstraction that
+extends the observer pattern to streams, together with a rich set of operators for composing and transforming sequences, and
+RxJava~\cite{rxjava} is the Java implementation of the ReactiveX API. Another reactive programming library for Java is provided
+by Project Reactor~\cite{projectreactor}, whose abstraction is called a \texttt{Stream}. Reactive Streams~\cite{reactivestreams} is an initiative 
+to provide a standard for asynchronous stream processing with non-blocking backpressure (the ability of the consumers to regulate
+the data flow and instruct the producers to adjust their production rate) on the JVM.
+
+Spring XD provides support for reactive programming through a special type of processors that transform asynchronous streams of 
+data. Both the APIs for RxJava and Project Reactor are supported. An example of an RxJava processor is shown in figure \ref{fig:rxjava}, and 
+Reactor integration is almost identical. Spring XD has the responsibility of transforming the flow of discrete messages arriving on processor's input channel into an RxJava \texttt{Observable}, as well as transforming the \texttt{Observable} returned by the processor module into a flow of discrete messages sent on the output channel. Inside the processor, RxJava operators are applied for performing transformations on the data stream. 
+
+\begin{figure}[ht]
+\centering
+\epsfig{file=rxjava.eps, height=2in, width=3in}
+\caption{Reactive module using RxJava}
+\label{fig:rxjava}
+\end{figure}
+
