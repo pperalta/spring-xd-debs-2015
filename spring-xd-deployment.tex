@@ -59,7 +59,7 @@ central storage.
 For example, the following stream definition can be used to ingest 
 MQTT\cite{mqtt} data sent by a number of sensors directly into HDFS:
 
-\verb;stream create ingest --definition "mqtt | hdfs";\\*
+\verb;stream create ingest --definition "mqtt | hdfs";
 
 In a more elaborate setting, an application can collect data from
 different sources, and Spring XD can provide the means to merge them
@@ -69,13 +69,13 @@ contribute to a single queue \texttt{hdfs-in}. The merged result
 is saved into HDFS.
 
 \verb;stream create in-mqtt --definition ;\\*
-\verb;  "mqtt > queue:hdfs-in";\\*
+\verb;  "mqtt > queue:hdfs-in";
 
 \verb;stream create in-http --definition  ;\\*
-\verb;  "http > queue:hdfs-in";\\*
+\verb;  "http > queue:hdfs-in";
 
 \verb;stream create ingest --definition  ;\\*
-\verb;  "queue:hdfs-in > hdfs";\\*
+\verb;  "queue:hdfs-in > hdfs";
 
 \subsubsection {Batch layer in Spring XD}
 
@@ -89,7 +89,7 @@ The data ingested in the master dataset can be consumed by a batch job,
 created as follows:
 
 \verb;job create sensorProcess;\\*
-\verb;  --definition "sensors";\\*
+\verb;  --definition "sensors";
 
 (This example already assumes an existing module job named \emph{sensors} that
 implements the processing logic).
@@ -100,7 +100,7 @@ for job executions. Such execution parameters are defined during deployment,
 as follows:
 
 \verb;job deploy sensor-process;\\*
-\verb;  --properties module.sensorProcess.count=3;\\*
+\verb;  --properties module.sensorProcess.count=3;
 
 An important characteristic of the \emph{batch layer} is the regular
 execution of jobs, as well as the ability to replay older datasets, for
@@ -117,13 +117,13 @@ administrative UI;
 
 For example, a job can be launched manually as follows:
 
-\verb;job launch sensor-process;\\*
+\verb;job launch sensor-process;
 
 Or, more typically, it can be launched on a schedule:
 
 \verb;stream create --name launchSensorProcess;\\*
 \verb;  --definition "trigger --cron='0/5 * * * * *';\\* 
-\verb;  > queue:job:myCronJob" --deploy;\\*
+\verb;  > queue:job:myCronJob" --deploy;
 
 \subsubsection {Speed layer in Spring XD}
 
@@ -137,14 +137,14 @@ populating the master dataset, the application may perform various computations
 on the data stream. For example, it can perform a count of the incoming elements. 
 
 \verb;stream create count --definition  ;\\*
-\verb;"tap:stream:ingest > aggregate-counter";\\*
+\verb;"tap:stream:ingest > aggregate-counter";
 
 In a more elaborate scenario, it is possible to actually do 
 some processing of the data in-flight and store the results in real-time views
 for being combined with the batch views.
 
 \verb;stream create count --definition  ;\\*
-\verb;"tap:stream:ingest > extract-tags | jdbc";\\*
+\verb;"tap:stream:ingest > extract-tags | jdbc";
 
 \subsubsection {Serving layer with Spring XD}
 
@@ -152,7 +152,7 @@ Spring XD provides out-of-the box RESTful services for its counters and gauges,
 which can operate as part of the serving layer. In addition to that,  
 the data stored by the \emph{batch jobs} in the 
 \emph{batch views}, as well as \emph{real time views} produced by the streams, 
-can be easily made availabe through a serving layer using Spring Boot \cite{spring-boot}, 
+can be easily made availabe through a serving layer using Spring Boot \cite{spring-boot},
 in combination with Spring Data \cite{spring-data} or Spring Data REST \cite{spring-data-rest}.
 
 \subsection {Reactive applications}
