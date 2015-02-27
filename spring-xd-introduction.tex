@@ -1,33 +1,43 @@
 \section{Introduction}
 
 The era of Big Data has introduced many new technologies for data storage
-and processing. The success and high demand for horizontally scalable
-solutions such as HDFS\cite{hdfs}, Spark\cite{spark}, and Kafka\cite{kafka} demonstrates
-this need.  At the same time, enterprises have invested heavily in older and proven
-technologies such as SQL databases and messaging systems. For enterprises
-to adopt the emerging technologies, there must be a way to easily
-connect with existing systems.
+and processing. The demand for these solutions is being driven by high
+volumes of data that need to be captured and analyzed. These data sources
+include (but are not limited to) mobile devices, vehicles (both autonomous
+and manually operated) and large scale applications.
 
-Since its inception in 2004, the main objective of the 
-Spring Framework\cite{spring-framework-reference}
-has been to simplify application development. At the time, Java developers
-were struggling with tedious and error-prone boilerplate EJBs\cite{ejb}, JDBC\cite{jdbc},
-and JMS\cite{jms}. Today's developers are dealing with an explosion of data and the
-leading-edge tools to manage and process this data.
+Many data processing applications fall into one of two categories:
+streaming or batching. Streaming applications are used to capture data
+in real time, typically as the data is being generated. Batching applications
+operate on data that has already been captured to stable storage. Batching
+works best when throughput is more important than latency.
 
-Expanding upon the success of existing technologies in the Spring portfolio
-such as Spring Integration\cite{spring-integration-reference},
-Spring Batch\cite{spring-batch-reference}, Spring Data\cite{spring-data-reference} and
-Spring Boot\cite{spring-boot-reference},
-Spring XD provides a runtime environment that integrates with
-a plethora of technologies, both established and up-and-coming.
+These requirements have led to the creation of new projects such as HDFS\cite{hdfs},
+Spark\cite{spark}, and Kafka\cite{kafka}. Each of these projects was conceived
+to solve a specific data processing and/or storage requirement. While some
+of these projects overlap, many times they are complimentary (for example
+a streaming application that writes data into Kafka and stores it into HDFS).
 
-Although enterprise system integration is one of the strengths of Spring XD,
-it is a compelling technology for brand new applications that have streaming
-or batch data processing requirements. Spring XD features a built in
-interactive shell for creating streams or jobs without writing any Java code.
-This allows for quick development cycles, easy experimentation, and ready
-to deploy into production.
+Integrating the best of breed solutions is a challenge for developers
+interested in building streaming and/or batching applications. Writing
+code to glue together a custom solution imposes an upfront cost,
+as well as the cost of ongoing maintenance.
+
+Spring XD provides the following features that improve developer
+productivity and operational efficiency for streaming and/or batching
+data applications:
+\begin{itemize*}
+\item A distributed runtime environment to manage streaming and batching applications
+\item Out of the box integration with a plethora of technologies, both established
+and up-and-coming
+\item An interactive shell for creating streams or jobs without writing any Java code
+\end{itemize*}
+
+Although enterprises are interested in adopting these new technologies to
+meet their data demands, they have already invested heavily in older and proven
+technologies such as SQL databases and messaging systems. Spring XD includes
+integrations with these technologies, thus simplifying the connection between
+existing systems with newer ones.
 
 Creating a stream in Spring XD is a simple concept for those familiar with
 UNIX streams and pipes. Consider the following shell command:
