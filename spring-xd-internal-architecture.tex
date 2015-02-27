@@ -1,12 +1,15 @@
 \section{Architecture}
-This section describes the internal architecture of Spring XD. The Spring XD
-runtime consists of admin and container server JVM processes. The admin server
-is responsible for deploying modules to containers. A module is a data
-processing unit used by streams and jobs. All of these processes rely on the
-Spring application context for encapsulation and life cycle management.
-A pluggable messaging system is used for data transfer between modules
-in a stream or job. ZooKeeper\cite{zookeeper} is used for overall coordination and process
-health monitoring. (See figure~\ref{fig:architecture}.)
+This section describes the internal architecture of Spring XD. The core of
+Spring XD consists of modules. A module is a data processing unit used by
+streams and jobs. Each module type is used to integrate with a specific
+technology, such as HTTP or HDFS. Modules are bound together at runtime
+to form a stream or job. Data is transferred between modules via a pluggable
+messaging system. Spring XD container (JVM) processes host module instances.
+A typical Spring XD system will consist of multiple containers. A Spring XD
+admin (JVM) process is responsible for deploying modules to containers.
+ZooKeeper\cite{zookeeper} is used by admin and container processes
+for overall coordination and process health monitoring. 
+(See figure~\ref{fig:architecture}.)
 
 \subsection{Application Context}
 The foundation of Spring XD is the Spring application context. The application
