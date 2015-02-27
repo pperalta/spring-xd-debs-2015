@@ -164,7 +164,7 @@ development, subsumed under the concepts of \emph{reactive applications} and \em
 programming}. In what follows next, we will describe how these concepts are
 illustrated by Spring XD, both from a runtime platform, as well as from a development perspective.
 
-\subsubsection {Spring XD as a platform for reactive applications}
+\subsubsection {Spring XD as a platform for \\ reactive applications}
 
 Reactive applications, as described by the Reactive Manifesto
 \cite{reactive-manifesto} are \emph{responsive},\emph{resilient},\emph{elastic}
@@ -189,33 +189,46 @@ the processing power by deploying multiple instances of a module or job in a str
 The use of messaging middleware provides backpressure allowing each component in the
 stream to consume data at its own pace.
 
-\emph{Message-driven} represents a system's reliance on asynchronous message passing
-between components. This is a core feature of Spring XD, implemented by its
-message bus (see~\ref{subsec:MessageBus}).
+\emph{Message-driven} represents a system's reliance on \linebreak
+asynchronous message passing between components. This is a core
+feature of Spring XD, implemented by its message bus (see~\ref{subsec:MessageBus}).
 
 This is how Spring XD as a platform allows applications to meet the criteria for being
 considered \emph{reactive}. In conjunction with that, it provides the ability of using
 a development model that is better suited for reactive applications, through its support
 for \emph{reactive programming} and \emph{observable streams}.
 
-\subsubsection {Reactive programming and functional in Spring XD}
+\subsubsection {Reactive programming and functional \\ in Spring XD}
 
-\emph{Reactive programming} is a programming paradigm centered around asynchronous stream processing. The central
-notion is that incoming data can be processed in an ordered, asynchronous and event-driven manner, using functional
-operators to describe transformations that apply to an entire stream of incoming data. The operators can vary from
-individual item transformations, to grouping and aggregation over given time windows, and can be composed into 
-complex data processing pipelines that produce outbound streams of data. 
+\emph{Reactive programming} is a programming paradigm centered around asynchronous
+stream processing. The central notion is that incoming data can be processed in an
+ordered, asynchronous and event-driven manner, using functional operators to describe
+transformations that apply to an entire stream of incoming data. The operators can
+vary from individual item transformations, to grouping and aggregation over given
+time windows, and can be composed into complex data processing pipelines that produce
+outbound streams of data.
 
-ReactiveX~\cite{reactivex} is one of the most common set of APIs, centered around the \texttt{Observable} abstraction that
-extends the observer pattern to streams, together with a rich set of operators for composing and transforming sequences, and
-RxJava~\cite{rxjava} is the Java implementation of the ReactiveX API. Another reactive programming library for Java is provided
-by Project Reactor~\cite{projectreactor}, whose abstraction is called a \texttt{Stream}. Reactive Streams~\cite{reactivestreams} is an initiative 
-to provide a standard for asynchronous stream processing with non-blocking backpressure (the ability of the consumers to regulate
-the data flow and instruct the producers to adjust their production rate) on the JVM.
+ReactiveX~\cite{reactivex} is one of the most common set of APIs, centered around
+the \texttt{Observable} abstraction that extends the observer pattern to streams,
+together with a rich set of operators for composing and transforming sequences, and
+RxJava~\cite{rxjava} is the Java implementation of the ReactiveX API. Another
+reactive programming library for Java is provided by Project 
+Reactor~\cite{projectreactor}, whose abstraction is called a \texttt{Stream}.
+Reactive Streams~\cite{reactivestreams} is an initiative to provide a standard for
+asynchronous stream processing with non-blocking backpressure (the ability of the
+consumers to regulate the data flow and instruct the producers to adjust their
+production rate) on the JVM.
 
-Spring XD provides support for reactive programming through a special type of processors that transform asynchronous streams of 
-data. Both the APIs for RxJava and Project Reactor are supported. An example of an RxJava processor is shown in figure \ref{fig:rxjava}, and 
-Reactor integration is almost identical. Spring XD has the responsibility of transforming the flow of discrete messages arriving on processor's input channel into an RxJava \texttt{Observable}, as well as transforming the \texttt{Observable} returned by the processor module into a flow of discrete messages sent on the output channel. Inside the processor, RxJava operators are applied for performing transformations on the data stream. 
+Spring XD provides support for reactive programming \linebreak
+through a special type of processors that transform asynchronous
+streams of data. Both the APIs for RxJava and Project Reactor are
+supported. An example of an RxJava processor is shown in
+figure \ref{fig:rxjava}, and Reactor integration is almost identical. Spring XD
+has the responsibility of transforming the flow of discrete messages arriving
+on processor's input channel into an RxJava \texttt{Observable}, as well as
+transforming the \texttt{Observable} returned by the processor module into a
+flow of discrete messages sent on the output channel. Inside the processor,
+RxJava operators are applied for performing transformations on the data stream.
 
 \begin{figure}[ht]
 \centering
