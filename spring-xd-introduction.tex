@@ -15,7 +15,7 @@ works best when throughput is more important than latency.
 These requirements have led to the creation of new projects such as Apache Hadoop~\cite{hadoop},
 Apache Spark~\cite{spark}, and Apache Kafka~\cite{kafka}. Each of these projects was conceived
 to solve a specific data processing and/or storage requirement. While some
-of these projects overlap, they are often complementary - for example,
+of these projects overlap, they are often complementary -- for example,
 a streaming application that collects event data in Kafka in real-time and also 
 stores it into Hadoop Distributed File System (HDFS)~\cite{hdfs} for batch processing.
 
@@ -29,7 +29,7 @@ these challenges. Spring XD provides the following features that improve develop
 productivity and operational efficiency for streaming and/or batching
 data applications:
 \begin{itemize*}
-\item A distributed runtime environment to manage streaming and batching applications
+\item A distributed runtime environment to manage and scale streaming and batching applications
 \item Out of the box integration with a plethora of technologies, both established
 and up-and-coming
 \item An interactive shell for creating streams or jobs without writing any Java code
@@ -39,7 +39,7 @@ Although enterprises are interested in adopting these new technologies to
 meet their data demands, they have already invested heavily in older and proven
 technologies such as SQL databases and messaging systems. Spring XD includes
 integrations with these technologies, thus simplifying the connection between
-existing systems with newer ones.
+existing systems and newer ones.
 
 Creating a stream in Spring XD is a simple concept for those familiar with
 UNIX streams and pipes. Consider the following shell command:
@@ -54,7 +54,7 @@ The equivalent using Spring XD looks like this:
 
 \verb;stream create -name error-filter -definition;\\*
 \verb;  "tail -name=/tmp/log.txt | filter;\\*
-\verb;  --expression=payload.contains('ERROR') | log";
+\verb;  --expression=payload.contains(`ERROR') | log";
 
 While this specific example will only tail a local file, a distributed 
 ingestion stream that aggregates, filters, and stores log file analytics
