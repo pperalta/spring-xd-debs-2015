@@ -1,16 +1,14 @@
 \section{Related Work}
 This section compares and contrasts Spring XD to similar projects.
 
-\subsection{Spring XD and Spark}
-Spark\cite{spark} is a general-purpose framework for large scale data processing.
-In comparison with Hadoop's disk based MapReduce programming model, Spark's 
-in-memory primitives provide immediate performance improvements.
+\subsection{Spark}
+Spark\cite{spark} is a general purpose framework for large scale data processing.
+In comparison with Hadoop's disk based MapReduce programming model, Spark's
+in-memory primitives yields performance improvements.
 
 The following features differentiate Spring XD and Spark Streaming.
 
 \begin{itemize*}
-\item Readily available integration adapters for data movements from various 
-data sources in to Hadoop and others.
 \item Ability to microbatch based on event count via Reactor and RxJava APIs.
 \item Ability to create data pipelines to process one event at a time.
 \item Flexibility to specify hosts to dictate the location of data computations.
@@ -20,87 +18,88 @@ The following features differentiate Spring XD and Spark Batch processing.
 
 \begin{itemize*}
 \item Provides REST-API and lifecycle management for Spark jobs.
-\item Extensible to integrate with other Batch systems.
+\item Extensible to integrate with other batch systems.
 \end{itemize*}
 
-Recognizing the strengths of distributed data computations with Spark, Spring XD 
-supports integration with Spark applications such as Spark Streaming, MLLib, and 
-SparkSQL. Users familiar with Spark may implement the computation logic using 
-Spark APIs in Java or Scala, and leave the orchestration to Spring XD. 
-Spring XD also adds value by restarting the Spark Streaming driver to recover 
-from fault scenarios.
+Recognizing the strengths of distributed data computations with Spark, Spring XD
+supports integration with Spark applications such as Spark Streaming, MLLib, and
+SparkSQL. Users familiar with Spark may implement the computation logic using
+Spark APIs in Java or Scala, and leave the orchestration to Spring XD.
+The Spring XD Spark module acts as the driver while the computation defined
+by the streaming application is executed in the Spark cluster. Driver failure
+is automatically handled by Spring XD -- the admin server will re-deploy a
+module from a failed container to another eligible container.
 
 \subsection{Spring XD and Storm}
-Apache Storm\cite{storm} is a distributed computation system for real time stream 
+Apache Storm\cite{storm} is a distributed computation system for real time stream
 processing.
 
 The following features differentiate Spring XD and Storm.
 
 \begin{itemize*}
-\item Spring XD provides interactive Shell as opposed to Storm's API model to
-create data pipelines.
-\item Use of `taps' in Spring XD to build stream pipelines in isolation
-without having to disrupt existing pipelines.
-\item Loosely coupled `modules' in Spring XD are responsible for ingestion, analytics, 
-data processing, machine learning or data export. Modules can be individually managed 
-and dynamically scaled.
-\item The notion of `composite modules' (unit\-of\-work) and colocation 
-capabilities to fine-tune performance characteristics. 
-\item Building upon the functional stream processing model, users have the option 
-to choose from Reactor\cite{reactor}, Spark Streaming or RxJava APIs, to build 
+\item Spring XD provides an interactive shell while Storm requires programming
+to an API to create data pipelines.
+\item Use of `taps' in Spring XD to allows the creation of stream pipelines
+in isolation without having to disrupt existing pipelines.
+\item Loosely coupled modules in Spring XD are responsible for ingestion, analytics,
+data processing, machine learning or data export. Modules can be individually managed
+and dynamically scaled. Additionally modules may be co-located to minimize
+serialization and network usage.
+\item Building upon the functional stream processing model, users have the option
+to choose from Reactor\cite{reactor}, Spark Streaming or RxJava APIs to build
 complex data centric applications.
 \end{itemize*}
 
-Storm and Spring XD supports many common data sources and middleware's. 
-For example, you can read and write data payloads from Apache Kafka topics both 
-in Storm and Spring XD. Bolts/Spouts in Storm is analogous to Source/Processor/Sink 
-in Spring XD. As stream processing frameworks, Storm and Spring XD can be used for 
+Storm and Spring XD support many common data sources and middleware.
+For example, the reading and writing of data payloads from Apache Kafka
+is supported in both in Storm and Spring XD. A Bolt in Storm is analogous to a
+source in Spring XD, and spouts in Storm are similar to processors and sinks
+in Spring XD. As stream processing frameworks, Storm and Spring XD can be used for
 similar use-cases.
 
-\subsection{Spring XD and Flume}
+\subsection{Flume}
 Apache Flume\cite{flume} is a distributed system for collecting, aggregating and 
-moving large data sets. 
+moving large data sets.
 
 The following features differentiate Spring XD and Flume.
 
 \begin{itemize*}
-\item High-level DSL to build streams and jobs.
-\item Ability to monitor data workflows either via DSL, Admin UI, or custom 
-dashboards.
-\item Administer data pipelines through Admin UI.
-\item Granular controls to manifest batch job and step execution to create 
+\item Spring XD uses an interactive shell and DSL for stream creation,
+while Flume uses property (key/value pair) files.
+\item Administration and monitoring via the admin UI.
+\item Granular controls to manifest batch job and step execution to create
 complex data driven workflows.
-\item Flexibility through `Deployment Manifest' to declaratively configure data 
+\item Flexibility through a deployment manifest to declaratively configure data
 partitioning strategy to route data to a specific consumer instance in the cluster.
 \end{itemize*}
 
-Flume offers HBase, Solr, and ElasticSearch sinks along with encryption support 
+Flume offers HBase, Solr, and ElasticSearch sinks along with encryption support
 for Avro sources, which we are planning to address in our future releases.
 
-\subsection{Spring XD and Oozie}
+\subsection{Oozie}
 Oozie\cite{oozie} is a workflow scheduler engine to manage Hadoop \cite{hadoop} 
-workloads such as MapReduce or Pig jobs. 
+workloads such as MapReduce or Pig jobs.
 
 The following features differentiate Spring XD and Oozie.
 
 \begin{itemize*}
-\item Building upon Spring Batch, a JSR standardization (JSR-352) of batch 
-workload data processing, Spring XD inherits workflow scheduling and execution 
-functionaliites.
-\item Provides out of the box batch jobs such as file-to-jdbc, file-to-hdfs, 
-ftp-to-hdfs, hdfs-to-jdbc, hdfs-to-mongo, jdbc-to-hdfs, spark-job, and sqoop-job.
+\item Building upon Spring Batch, a JSR standardization (JSR-352) of batch
+workload data processing, Spring XD inherits workflow scheduling and execution
+functionalities.
+\item Provides out of the box batch jobs that support plain files, JDBC, HDFS,
+FTP, MongoDB, Spark and Sqoop.
 \item Ability to scale jobs without having to bring down the runtime.
-\item Provides bidirectionality between real-time streaming and batch 
+\item Provides bi-directionality between real-time streaming and batch 
 workflows to accommodate complex data processing use cases.
-\item Ability to create and launch workflow-jobs from Admin UI. 
-\item Ability to view historical snapshots of job executions from Admin UI.
+\item Ability to create, and launch jobs from the admin UI.
+\item Ability to view historical snapshots of job executions from the admin UI.
 \end{itemize*}
 
 Oozie offers HCatalog integration, which we are planning to address in our 
 future releases.
 
-\subsection{Spring XD and Sqoop}
-Apache Sqoop\cite{sqoop} assists with data transmission between Hadoop and relational 
+\subsection{Sqoop}
+Apache Sqoop\cite{sqoop} assists with data transmission between Hadoop and relational
 databases.
 
 The following features differentiate Spring XD and Sqoop.
@@ -109,11 +108,10 @@ The following features differentiate Spring XD and Sqoop.
 \item Ability to orchestrate Pig, Hive, HBase, MapReduce or other batch systems.
 \item Flexibility to extend batch workflow infrastructure to write custom tasklets.
 \item High level configuration DSL to create, deploy and destroy batch workflows.
-\item Flexibility to operationalize custom data pipelines through REST-APIs.
+\item Flexibility to operationalize custom data pipelines through REST.
 \item Unified functional programming support to build reactive-style data pipelines.
 \end{itemize*}
 
-Sqoop offers data validation, data merge, incremental data imports, and HCatalog 
-integration among others. Recognizing the importance of these enterprise features, 
-Spring XD provides an out of the box Sqoop job to take advantage and orchestrate 
-data movements.
+Sqoop offers data validation, data merge, incremental data imports, and HCatalog
+integration among others. Recognizing the importance of these enterprise features,
+Spring XD provides an out of the box Sqoop job to take advantage of these features.
