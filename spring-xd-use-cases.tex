@@ -14,7 +14,7 @@ consumption and transformation of data to comply with their
 standards. The predictive models, complying with the PMML specification, were
 generated based on historical trends. Spring XD's `analytic-pmml' processor was
 used in a stream to intercept machine events to compute predictions in
-real-time. The outliers were captured in Redis\cite{redis} for dashboard alerts
+real-time. The outliers were captured in Redis for dashboard alerts
 and ad-hoc data analysis via REST.
 
 \subsection{Hadoop Toolset Consolidation}
@@ -47,7 +47,7 @@ pipeline. Additionally, they needed a solution with minimum downtime.
 thus fulfilling the customer's requirement for minimum downtime.
 Automatic recovery from fault scenarios along with reprocessing of data events 
 fulfilled their SLAs guarantees. For ad-hoc operations such as querying and machine 
-learning, `taps' in Spring XD were adopted to fork the  data from the primary
+learning, \emph{taps} in Spring XD were adopted to fork the  data from the primary
 pipeline. This resulted in no disruption with the primary pipeline, while at
 the same time satisfying ad-hoc demands.
 

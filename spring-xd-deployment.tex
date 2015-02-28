@@ -122,7 +122,7 @@ For example, a job can be launched manually as follows:
 Or, more typically, it can be launched on a schedule:
 
 \verb;stream create --name launchSensorProcess;\\*
-\verb;  --definition "trigger --cron='0/5 * * * * *';\\* 
+\verb;  --definition "trigger --cron=`0/5 * * * * *';\\* 
 \verb;  > queue:job:myCronJob" --deploy;
 
 \subsubsection {Speed layer in Spring XD}
@@ -130,7 +130,7 @@ Or, more typically, it can be launched on a schedule:
 The role of the \emph{speed layer} is to complement the \emph{batch layer} 
 by performing real-time computations on the incoming data, thus filling the 
 inherent latency gap. This functionality can be implemented in Spring XD by 
-the its analytics support (see section~\ref{sec:Analytics}).
+its analytics support (see section~\ref{sec:Analytics}).
 
 Considering the previous example, while ingesting data from sensors and 
 populating the master dataset, the application may perform various computations 
@@ -166,12 +166,12 @@ illustrated by Spring XD, both from a runtime platform, as well as from a develo
 
 \subsubsection {Spring XD as a platform for \\ reactive applications}
 
-Reactive applications, as described by the Reactive Manifesto
-\cite{reactive} are \emph{responsive},\emph{resilient},\emph{elastic}
-and \emph{message-driven}. Spring XD, as a platform, provides the means for creating and
+Reactive applications, as described by the Reactive \linebreak Manifesto
+\cite{reactive} are \emph{responsive}, \emph{resilient}, \emph{elastic}
+and \emph{message driven}. Spring XD, as a platform, provides the means for creating and
 running reactive applications.
 
-\emph{Responsiveness} represents system's ability to respond in a timely manner, if
+\emph{Responsiveness} represents a system's ability to respond in a timely manner, if
 at all, possible. In the case of Spring XD, its stream processing model is designed
 for building fast, low-latency data pipelines.
 
@@ -225,7 +225,7 @@ streams of data. Both the APIs for RxJava and Project Reactor are
 supported. An example of an RxJava processor is shown in
 figure \ref{fig:rxjava}, and Reactor integration is almost identical. Spring XD
 has the responsibility of transforming the flow of discrete messages arriving
-on processor's input channel into an RxJava \texttt{Observable}, as well as
+on a processor's input channel into an RxJava \texttt{Observable}, as well as
 transforming the \texttt{Observable} returned by the processor module into a
 flow of discrete messages sent on the output channel. Inside the processor,
 RxJava operators are applied for performing transformations on the data stream.

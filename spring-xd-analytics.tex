@@ -18,7 +18,8 @@ predictive analytics using PMML\cite{pmml} model scoring. Spring XD also include
 for executing arbitrary shell commands. This shell module can execute an R\cite{r-language}
 or Python\cite{python-language} based processor or sink implementation which could perform
 dynamic model scoring. Additionally, a Spark MLlib job may be executed as a Spring XD job,
-benefiting from Spring XD's capability to monitor and manage the job.
+benefiting from Spring XD's capability to monitor and manage the job. See section~\ref{sec:Spark}
+for more information on Spark integration.
 
 \subsection {Basic Analytics}
 
@@ -38,7 +39,7 @@ of messages sent out at each stage.
 
 This module counts the number of occurrences of a specific field from a message
 flowing through a stream. Spring XD supports the following message payload types
-out of the box: POJO (Java Bean), Tuple and JSON\cite{json} string.
+out of the box: POJO (Java Bean), tuple and JSON\cite{json} string.
 
 \subsubsection {Aggregate Counter}
 
@@ -70,7 +71,7 @@ supports shell command invocation. This support allows for dynamic updating of
 an analytical model based on input data, therefore making predictive analytics more adaptive.
 
 \subsection{Spark MLlib}
-A Spark MLlib algorithm can be run as a sparkApp job in Spring XD. This makes the
+A Spark MLlib algorithm can be run as a `sparkApp' job in Spring XD. This makes the
 orchestration of Spark job workflow, monitoring and management easier.
 A Spark MLlib job can also be triggered by a stream with data that
 would act as the input for the MLlib algorithm. This closed loop

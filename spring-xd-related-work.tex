@@ -2,7 +2,8 @@
 This section compares and contrasts Spring XD to similar projects.
 
 \subsection{Spark}
-Spark\cite{spark} is a general purpose framework for large scale data processing.
+\label{sec:Spark}
+Spark is a general purpose framework for large scale data processing.
 In comparison with Hadoop's disk based MapReduce programming model, Spark's
 in-memory primitives yields performance improvements.
 
@@ -39,7 +40,7 @@ The following features differentiate Spring XD and Storm.
 \begin{itemize*}
 \item Spring XD provides an interactive shell while Storm requires programming
 to an API to create data pipelines.
-\item Use of `taps' in Spring XD to allows the creation of stream pipelines
+\item Use of \emph{taps} in Spring XD allows the creation of stream pipelines
 in isolation without having to disrupt existing pipelines.
 \item Loosely coupled modules in Spring XD are responsible for ingestion, analytics,
 data processing, machine learning or data export. Modules can be individually managed
@@ -50,9 +51,9 @@ to choose from Reactor\cite{reactor}, Spark Streaming or RxJava APIs to build
 complex data centric applications.
 \end{itemize*}
 
-Storm and Spring XD support many common data sources and middleware.
-For example, the reading and writing of data payloads from Apache Kafka
-is supported in both in Storm and Spring XD. A Bolt in Storm is analogous to a
+Storm and Spring XD support many common data sources and middleware;
+for example, the reading and writing of data payloads from Apache Kafka
+is supported in both. A Bolt in Storm is analogous to a
 source in Spring XD, and spouts in Storm are similar to processors and sinks
 in Spring XD. As stream processing frameworks, Storm and Spring XD can be used for
 similar use-cases.
@@ -106,7 +107,7 @@ The following features differentiate Spring XD and Sqoop.
 
 \begin{itemize*}
 \item Ability to orchestrate Pig, Hive, HBase, MapReduce or other batch systems.
-\item Flexibility to extend batch workflow infrastructure to write custom tasklets.
+\item Flexibility to extend and customize batch workflow infrastructure.
 \item High level configuration DSL to create, deploy and destroy batch workflows.
 \item Flexibility to operationalize custom data pipelines through REST.
 \item Unified functional programming support to build reactive-style data pipelines.
