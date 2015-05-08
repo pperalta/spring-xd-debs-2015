@@ -1,30 +1,18 @@
 \section{Deployment}
 This section describes deployment architectures that are possible with Spring XD.
-Note that this is not an exhaustive list of all deployment types. See
-section~\ref{sec:Use Cases} for descriptions of real world deployments.
+While XD does not subscribe to a specific deployment model (Lambda, 
+Reactive or other), it does allow for a user to architect the deployment type 
+that meets their needs.  Note that this is not an exhaustive list of all 
+deployment types, see section~\ref{sec:Use Cases} for descriptions of real 
+world deployments.
 
 \subsection{Lambda Architecture}
 
-The Lambda Architecture, introduced by Nathan Marz \cite{lambda-architecture-paper}
-and shown in figure~\ref{fig:lambda}
-is a generic, scalable and fault tolerant data  processing architecture. It 
+One of the architectures a user can implement using XD is the
+Lambda Architecture, introduced by Nathan Marz \cite{lambda-architecture-paper}. 
+Is a generic, scalable and fault tolerant data  processing architecture that 
 attempts to provide a comprehensive solution to the problem of processing an 
-extremely large set of data.
-
-The Lambda Architecture has the following components:
-
-\begin{itemize*}
-\item A \emph{master dataset} consisting of all data known to the system,
-ideally in its rawest form;
-\item A \emph{serving} or \emph{view layer} that provides the latest,
-most up-to-date view of the processed data, available for low-latency,
-ad-hoc querying;
-\item A \emph{batch layer} that performs computationally intense 
-calculations and prepares the \emph{batch views} displayed by the 
-\emph{serving layer};
-\item A \emph{speed layer} that performs calculations on recent data only, 
-its output combined with the \emph{batch views} by the \emph{serving layer}.
-\end{itemize*}
+large set of data.
 
 The guiding principle of the Lambda architecture is to combine the
 high throughput of batch operations with the low latency of real-time
@@ -36,13 +24,6 @@ results based on latest data quickly, but can't handle the large
 amounts of data that batch processing can. Therefore, instead of relying
 on a single paradigm, the Lambda architecture employs both, allowing them
 to complement each other.
-
-\begin{figure}[ht]
-\centering
-\epsfig{file=lambda.eps, height=2in, width=3in}
-\caption{Lambda Architecture.}
-\label{fig:lambda}
-\end{figure}
 
 In the following subsections we will examine how the different components
 of the Lambda architecture can be implemented with Spring XD.
@@ -94,18 +75,10 @@ created as follows:
 (This example already assumes an existing module job named \emph{sensors} that
 implements the processing logic).
 
-Spring XD supports the partitioning of jobs for concurrent execution on
-separate containers. This allows for increased throughput and reduced latency
-for job executions. Such execution parameters are defined during deployment,
-as follows:
-
-\verb;job deploy sensor-process;\\*
-\verb;  --properties module.sensorProcess.count=3;
-
-An important characteristic of the \emph{batch layer} is the regular
+An important feature of the Spring XD is the regular
 execution of jobs, as well as the ability to replay older datasets, for
 instance reconstructing the \emph{data views} in case of loss or error.
-For that, Spring XD provides the following mechanisms:
+The following mechanisms are available:
 
 \begin{itemize*}
 \item \emph{manual} job launch through its shell user interface or 
@@ -186,8 +159,6 @@ when a module recovers.
 \emph{Elasticity} represents a system's ability to remain responsive under varying
 workload. In Spring XD, this is provided by features such as the ability to scale up
 the processing power by deploying multiple instances of a module or job in a stream.
-The use of messaging middleware provides backpressure allowing each component in the
-stream to consume data at its own pace.
 
 \emph{Message-driven} represents a system's reliance on \linebreak
 asynchronous message passing between components. This is a core
@@ -211,24 +182,18 @@ outbound streams of data.
 ReactiveX~\cite{reactivex} is one of the most common set of APIs, centered around
 the \texttt{Observable} abstraction that extends the observer pattern to streams,
 together with a rich set of operators for composing and transforming sequences, and
-RxJava~\cite{rxjava} is the Java implementation of the ReactiveX API. Another
-reactive programming library for Java is provided by Project 
-Reactor~\cite{reactor}, whose abstraction is called a \texttt{Stream}.
-Reactive Streams~\cite{reactivestreams} is an initiative to provide a standard for
-asynchronous stream processing with non-blocking backpressure (the ability of the
-consumers to regulate the data flow and instruct the producers to adjust their
-production rate) on the JVM.
+RxJava~\cite{rxjava} is the Java implementation of the ReactiveX API. 
 
 Spring XD provides support for reactive programming \linebreak
 through a special type of processors that transform asynchronous
-streams of data. Both the APIs for RxJava and Project Reactor are
-supported. An example of an RxJava processor is shown in
-figure \ref{fig:rxjava}, and Reactor integration is almost identical. Spring XD
-has the responsibility of transforming the flow of discrete messages arriving
-on a processor's input channel into an RxJava \texttt{Observable}, as well as
-transforming the \texttt{Observable} returned by the processor module into a
-flow of discrete messages sent on the output channel. Inside the processor,
-RxJava operators are applied for performing transformations on the data stream.
+streams of data. The API for RxJava is supported. An example of an RxJava 
+processor is shown in figure \ref{fig:rxjava}.
+Spring XD has the responsibility of transforming the 
+flow of discrete messages arriving on a processor's input channel into an
+RxJava \texttt{Observable}, as well as transforming the \texttt{Observable} 
+returned by the processor module into a flow of discrete messages sent on 
+the output channel. Inside the processor, RxJava operators are applied for 
+performing transformations on the data stream.
 
 \begin{figure}[ht]
 \centering
