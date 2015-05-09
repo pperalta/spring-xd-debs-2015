@@ -1,41 +1,19 @@
 \section{Deployment}
 This section describes deployment architectures that are possible with Spring XD.
-While XD does not subscribe to a specific deployment model (Lambda, 
-Reactive or other), it does allow for a user to architect the deployment type 
-that meets their needs.  Note that this is not an exhaustive list of all 
+Note that this is not an exhaustive list of all 
 deployment types, see section~\ref{sec:Use Cases} for descriptions of real 
 world deployments.
 
-\subsection{Lambda Architecture}
+\subsection{Streams and Batch Jobs}
 
-One of the architectures a user can implement using XD is the
-Lambda Architecture, introduced by Nathan Marz \cite{lambda-architecture-paper}. 
-Is a generic, scalable and fault tolerant data  processing architecture that 
-attempts to provide a comprehensive solution to the problem of processing an 
-large set of data.
+XD provides the building blocks to create an event based system as well as
+execute batch jobs on existing data.  
 
-The guiding principle of the Lambda architecture is to combine the
-high throughput of batch operations with the low latency of real-time
-computations. On its own, each has its strengths and weaknesses. While the
-highest throughput for computing large datasets is reached by relying on
-batch computations, the latter have the disadvantage of higher latency.
-Meanwhile, real-time computations may operate with low latency and produce
-results based on latest data quickly, but can't handle the large
-amounts of data that batch processing can. Therefore, instead of relying
-on a single paradigm, the Lambda architecture employs both, allowing them
-to complement each other.
-
-In the following subsections we will examine how the different components
-of the Lambda architecture can be implemented with Spring XD.
-
-\subsubsection {Master dataset with Spring XD}
-
-While Spring XD does not provide a storage mechanism of its own, it
-integrates with a variety of storage technologies, both for reading,
-via source modules (see~\ref{sec:Source}), as well as for writing, via
-sink modules (see~\ref{sec:Sink}). A \emph{data ingestion}
-stream can be used to consolidate data from external sources into
-central storage.
+\subsubsection {Streams}
+A basic stream defines the ingestion of event driven data from 
+a source (see~\ref{sec:Source}) to a sink  (see~\ref{sec:Sink}) that passes 
+through any number of processors (see~\ref{sec:Source}).  Spring XD streams can
+also integrate with other event based solutions such as Apache Spark Streaming.
 
 For example, the following stream definition can be used to ingest 
 MQTT\cite{mqtt} data sent by a number of sensors directly into HDFS:
@@ -44,7 +22,7 @@ MQTT\cite{mqtt} data sent by a number of sensors directly into HDFS:
 
 In a more elaborate setting, an application can collect data from
 different sources, and Spring XD can provide the means to merge them
-in a single master dataset. The streams \texttt{in-mqtt} and \texttt{in-http}
+in a single sink. The streams \texttt{in-mqtt} and \texttt{in-http}
 collect data from sensors via MQTT and HTTP, respectively, and
 contribute to a single queue \texttt{hdfs-in}. The merged result
 is saved into HDFS.
@@ -58,16 +36,34 @@ is saved into HDFS.
 \verb;stream create ingest --definition  ;\\*
 \verb;  "queue:hdfs-in > hdfs";
 
-\subsubsection {Batch layer in Spring XD}
+Processor modules in a stream offer the ability to transform, filter,
+enrich data as it moves from one module to another.  In the example below
+the stream will accept data from a http source and filter out any message
+that does not have the word \emph{ocean} and then transform the message 
+to all caps:
 
-Once data is collected into the \emph{master dataset}, it can be processed
-by \emph{jobs} (see~\ref{sec:Job}). The similarities between Spring XD's
-notion of a \emph{job} and Lambda Architecture's corresponding notion of
-a \emph{batch job} make the mapping straightforward.
+\verb;stream create oceanStream --definition "http |;\\*
+\verb; filter --expression=payload.contains('ocean') |;\\*
+\verb; transform --expression=payload.toUpperCase() |;\\*
+\verb; hdfs";
 
+In cases that a stream should be deactivated but the definition of the stream
+should be maintained, the stream can be \emph{undeployed} as shown below:
 
-The data ingested in the master dataset can be consumed by a batch job,
-created as follows:
+\verb;stream undeploy  oceanStream ;
+
+If the stream is no longer needed it can be \emph{destroyed} as shown below:
+
+\verb;stream destroy  oceanStream ;
+
+\subsubsection {Batch Jobs}
+
+Spring XD allows users to create batch workflow solutions that span traditional
+use-cases such as moving data between flat files and relational databases as 
+well as Hadoop use-cases where analysis logic is broken up into several steps 
+that run on a Hadoop cluster. Spring XD can deploy and launch a Spark application 
+as a batch job.  The example below shows an example of creating a
+job definition in XD.
 
 \verb;job create sensorProcess;\\*
 \verb;  --definition "sensors";
@@ -98,35 +94,24 @@ Or, more typically, it can be launched on a schedule:
 \verb;  --definition "trigger --cron=`0/5 * * * * *';\\* 
 \verb;  > queue:job:myCronJob" --deploy;
 
-\subsubsection {Speed layer in Spring XD}
+\subsubsection {Blending Streams and Jobs}
 
-The role of the \emph{speed layer} is to complement the \emph{batch layer} 
-by performing real-time computations on the incoming data, thus filling the 
-inherent latency gap. This functionality can be implemented in Spring XD by 
-its analytics support (see section~\ref{sec:Analytics}).
+Spring XD offers the ability for streams and jobs to work together in that
+a stream can launch a job or a stream can received notifications from a job
+as it is executing.  In the example below an http source will pass the http
+payload to the "myHttpJob, thus launching the job:
 
-Considering the previous example, while ingesting data from sensors and 
-populating the master dataset, the application may perform various computations 
-on the data stream. For example, it can perform a count of the incoming elements. 
+\verb;stream create --name jobStream --definition ;\\*
+\verb; "http > queue:job:myHttpJob" --deploy;
 
-\verb;stream create count --definition  ;\\*
-\verb;"tap:stream:ingest > aggregate-counter";
+In the example below a stream will receive all events from a job and write 
+the data to the log:
 
-In a more elaborate scenario, it is possible to actually do 
-some processing of the data in-flight and store the results in real-time views
-for being combined with the batch views.
-
-\verb;stream create count --definition  ;\\*
-\verb;"tap:stream:ingest > extract-tags | jdbc";
-
-\subsubsection {Serving layer with Spring XD}
-
-Spring XD provides out-of-the box RESTful services for its counters and gauges,
-which can operate as part of the serving layer. In addition to that,  
-the data stored by the \emph{batch jobs} in the 
-\emph{batch views}, as well as \emph{real time views} produced by the streams, 
-can be easily made available through a serving layer using Spring Boot \cite{spring-boot},
-in combination with Spring Data \cite{spring-data} or Spring Data REST \cite{spring-data-rest}.
+\verb;job create --name myHttpJob --definition;\\* 
+\verb; "httpJob" --deploy;\\*
+\verb;stream create --name aggregatedEvents --definition;\\*
+\verb; "tap:job:myHttpJob >log" --deploy;\\*
+\verb;job launch myHttpJob;
 
 \subsection {Reactive applications}
 
