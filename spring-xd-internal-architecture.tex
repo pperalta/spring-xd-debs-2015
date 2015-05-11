@@ -41,12 +41,12 @@ being executed by the container, the container will also create connections to
 the message bus. The container is responsible for reporting the status of its deployed
 modules to the admin via ZooKeeper (see subsection~\ref{subsec:Admin}.)
 
-Spring XD supports one or more containers within a cluster. The decision criteria
-for selecting the number of containers is based on capacity requirements and/or access
-to specific resources.  A typical Spring XD cluster has a base set of containers
-running at all times so that streams or jobs can be created, deployed or launched
-as needed. A user may spin up extra containers to handle the load during peak times
-and then scale back as required.
+Spring XD supports one or more containers within a cluster. An operator
+chooses the number of containers based on several factors. These include requirements
+for capacity, HA, and/or access to specific resources. A typical Spring XD cluster
+has a base set of containers running at all times (from one to five) so that streams
+or jobs can be created, deployed or launched as needed. A user may start up extra
+containers to handle the load during peak times and then scale back as required.
 
 A container may be associated with one or more groups. This functionality is useful
 for targeting module deployments within a stream or job to specific containers.
