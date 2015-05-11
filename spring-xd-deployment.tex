@@ -46,11 +46,11 @@ to all caps:
 In cases that a stream should be deactivated but the definition of the stream
 should be maintained, the stream can be \emph{undeployed} as shown below:
 
-\verb;stream undeploy  oceanStream ;
+\verb;stream undeploy oceanStream;
 
 If the stream is no longer needed it can be \emph{destroyed} as shown below:
 
-\verb;stream destroy  oceanStream ;
+\verb;stream destroy oceanStream;
 
 \subsection {Batch Jobs}
 
@@ -90,7 +90,7 @@ Or, more typically, it can be launched on a schedule:
 \verb;  --definition "trigger --cron=`0/5 * * * * *';\\*
 \verb;  > queue:job:myCronJob" --deploy;
 
-\subsubsection {Combining Streams and Jobs}
+\subsection {Combining Streams and Jobs}
 
 Spring XD offers the ability for streams and jobs to work together in that
 a stream can launch a job or a stream can received notifications from a job
@@ -110,6 +110,25 @@ the data to the log:
 \verb; "tap:job:myHttpJob >log" --deploy;\\*
 
 \verb;job launch myHttpJob;
+
+\subsection {Tapping a Stream} \label{sssec:deploytap}
+
+A tap ``listens'' to data in an existing stream and passes it into a separate
+stream. The creation and existence of a tap does not modify the stream that
+is being tapped. Typically the underlying message bus uses a publish/subscribe
+message broker, therefore adding a tap simply requires the creation of
+a new channel behind the scenes. This follows the \emph{wiretap}~\cite{wiretap}
+pattern.  Taps are recommended as way to collect metrics and perform
+analytics on a stream of data. An example of this is shown below where a
+tap counts the number of mqtt messages received by a source and sent to an
+HDFS sink:
+
+\verb;stream create ingest;\\* 
+\verb; --definition "mqtt|hdfs" --deploy;
+
+\verb;stream create ingestTap;\\*
+\verb; --definition "tap:stream:ingest>counter;\\*
+\verb; --name=ingestCounter" --deploy;
 
 \subsection {Reactive processors}
 
