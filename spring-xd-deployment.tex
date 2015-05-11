@@ -1,18 +1,14 @@
-\section{Deployment}
-This section describes deployment architectures that are possible with Spring XD.
+\section{Processing models with Spring XD}
+This section describes the various processing data processing models that are possible with
+Spring XD, and provides configuration and deployment examples.
 Note that this is not an exhaustive list of all
 deployment types, see section~\ref{sec:Use Cases} for descriptions of real
 world deployments.
 
-\subsection{Streams and Batch Jobs}
+\subsection {Streams}
 
-XD provides the building blocks to create an event based system as well as
-execute batch jobs on existing data.
-
-\subsubsection {Streams}
-A basic stream defines the ingestion of event driven data from
-a source (see~\ref{sec:Source}) to a sink  (see~\ref{sec:Sink}) that passes
-through any number of processors (see~\ref{sec:Source}).  Spring XD streams can
+A stream defines the near-real time movement of data from a source (see~\ref{sec:Source}) to a
+sink (see~\ref{sec:Sink}), passing through any number of processors (see~\ref{sec:Source}).  Spring XD streams can
 also integrate with other event based solutions such as Apache Spark Streaming.
 
 For example, the following stream definition can be used to ingest
@@ -22,7 +18,7 @@ MQTT\cite{mqtt} data sent by a number of sensors directly into HDFS:
 
 In a more elaborate setting, an application can collect data from
 different sources, and Spring XD can provide the means to merge them
-in a single sink. The streams \texttt{in-mqtt} and \texttt{in-http}
+in a single stream. The streams \texttt{in-mqtt} and \texttt{in-http}
 collect data from sensors via MQTT and HTTP, respectively, and
 contribute to a single queue \texttt{hdfs-in}. The merged result
 is saved into HDFS.
@@ -56,7 +52,7 @@ If the stream is no longer needed it can be \emph{destroyed} as shown below:
 
 \verb;stream destroy  oceanStream ;
 
-\subsubsection {Batch Jobs}
+\subsection {Batch Jobs}
 
 Spring XD allows users to create batch workflow solutions that span traditional
 use-cases such as moving data between flat files and relational databases as
@@ -94,7 +90,7 @@ Or, more typically, it can be launched on a schedule:
 \verb;  --definition "trigger --cron=`0/5 * * * * *';\\*
 \verb;  > queue:job:myCronJob" --deploy;
 
-\subsubsection {Blending Streams and Jobs}
+\subsubsection {Combining Streams and Jobs}
 
 Spring XD offers the ability for streams and jobs to work together in that
 a stream can launch a job or a stream can received notifications from a job
@@ -115,7 +111,7 @@ the data to the log:
 
 \verb;job launch myHttpJob;
 
-\subsection {Reactive applications}
+\subsection {Reactive processors}
 
 The last few years have seen a significant change in application requirements:
 data volumes of terabyte order, response times within tens of milliseconds, stricter
@@ -123,40 +119,6 @@ availability requirements. These new challenges require a new approach to applic
 development, subsumed under the concepts of \emph{reactive applications} and \emph{reactive
 programming}. In what follows next, we will describe how these concepts are
 illustrated by Spring XD, both from a runtime platform, as well as from a development perspective.
-
-\subsubsection {Spring XD as a platform for \\ reactive applications}
-
-Reactive applications, as described by the Reactive \linebreak Manifesto
-\cite{reactive} are \emph{responsive}, \emph{resilient}, \emph{elastic}
-and \emph{message driven}. Spring XD, as a platform, provides the means for creating and
-running reactive applications.
-
-\emph{Responsiveness} represents a system's ability to respond in a timely manner, if
-at all, possible. In the case of Spring XD, its stream processing model is designed
-for building fast, low-latency data pipelines.
-
-\emph{Resilience} represents a system's ability to remain responsive in the face of
-failure. In Spring XD, this is provided out of the box by features such as automatic
-module redeployment if the host container has crashed, or the ability to elect a new
-admin node in case the existing one fails. On a more granular level, automatic retry
-and dead-letter queue support for RabbitMQ and Redis allows tracking and recovery
-from failed computations. The use of messaging middleware ensures redelivery of data
-when a module recovers.
-
-\emph{Elasticity} represents a system's ability to remain responsive under varying
-workload. In Spring XD, this is provided by features such as the ability to scale up
-the processing power by deploying multiple instances of a module or job in a stream.
-
-\emph{Message-driven} represents a system's reliance on \linebreak
-asynchronous message passing between components. This is a core
-feature of Spring XD, implemented by its message bus (see~\ref{subsec:MessageBus}).
-
-This is how Spring XD as a platform allows applications to meet the criteria for being
-considered \emph{reactive}. In conjunction with that, it provides the ability of using
-a development model that is better suited for reactive applications, through its support
-for \emph{reactive programming} and \emph{observable streams}.
-
-\subsubsection {Reactive programming and functional \\ in Spring XD}
 
 \emph{Reactive programming} is a programming paradigm centered around asynchronous
 stream processing. The central notion is that incoming data can be processed in an
