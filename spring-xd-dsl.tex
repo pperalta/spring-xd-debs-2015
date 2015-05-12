@@ -1,0 +1,47 @@
+\section{DSL Support}
+Spring XD provides a DSL for defining a stream. Over time the DSL is likely to evolve significantly as it gains the ability to define more and more sophisticated streams as well as the steps of a batch job.
+\subsection {Pipes and filters}
+A simple linear stream consists of a sequence of modules. Typically an Input Source, (optional) Processing Steps, and an Output Sink. As a simple example consider the collection of data from an HTTP Source writing to a File Sink. Using the DSL the stream description is:
+
+\verb;http | file;
+
+A stream that involves some processing:
+
+\verb;http | filter | transform | file;
+
+The modules in a stream definition are connected together using the pipe symbol |.
+
+\subsection{Module parameters}
+Each module may take parameters. The parameters supported by a module are defined by the module implementation. As an example the http source module exposes port setting which allows the data ingestion port to be changed from the default value.
+
+\verb;http --port=1337;
+
+It is only necessary to quote parameter values if they contain spaces or the | character. Here the transform processor module is being passed a SpEL expression that will be applied to any data it encounters:
+
+\verb;transform --expression=;\\*
+ \verb;'new StringBuilder(payload).reverse()';\\* 
+
+If the parameter value needs to embed a single quote, use two single quotes:
+
+// Query is: Select * from /Sample where name='uid'
+
+\verb;scan --query='Select * from /Sample;\\*
+\verb; where name=''uid''';\\*
+
+\subsection{Labels}
+
+Labels provide a means to alias or group modules. Labels are simply a name followed by a : When used as an alias a label can provide a more descriptive name for a particular configuration of a module and possibly something easier to refer to in other streams.
+
+\verb;http | obfuscator: transform;\\* 
+\verb; --expression=payload.replaceAll('password','*');\\*
+\verb; | file;\\*
+
+Labels are especially useful (and required) for disambiguating when multiple modules of the same name are used:
+
+\verb;mystream = http | uppercaser: transform ;\\* 
+\verb; --expression=payload.toUpperCase();\\*
+\verb; | exclaimer: transform --expression=payload+'!';\\*
+\verb; | file;\\*
+
+
+
