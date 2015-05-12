@@ -3,7 +3,7 @@ This section compares and contrasts Spring XD to similar projects.
 
 \subsection{Spark}
 \label{sec:Spark}
-Spark is a general purpose framework for large scale data processing.
+Apache Spark is a general purpose framework for large scale data processing.
 In comparison with Hadoop's disk based MapReduce programming model, Spark's
 in-memory primitives yields performance improvements.
 
@@ -31,7 +31,7 @@ by the streaming application is executed in the Spark cluster. Driver failure
 is automatically handled by Spring XD -- the admin server will re-deploy a
 module from a failed container to another eligible container.
 
-\subsection{Spring XD and Storm}
+\subsection{Storm}
 Apache Storm\cite{storm} is a distributed computation system for real time stream
 processing.
 
@@ -49,14 +49,65 @@ serialization and network usage.
 \item Building upon the functional stream processing model, users have the option
 to choose from Reactor\cite{reactor}, Spark Streaming or RxJava APIs to build
 complex data centric applications.
+\item As an alternative to linear streaming data pipelines, Spring XD provides 
+support for directed graphs through named channels to combine multiple flows 
+upstream or downstream from the message channel. The behavior of the channel 
+can be either queue-based on topic-based. However, Storm accepts Directed 
+Acyclic Graph (DAG)\cite{dag} of operations that represent streaming 
+computations.\\*
+
+Here is a Spring XD example that shows how you can use a named channel to share 
+a data pipeline driven by different input sources.\\*
+
+\verb;queue:foo > file;\\*
+\verb;http > queue:foo;\\*
+\verb;time > queue:foo;\\*
+
+Now if you post data to the http source, you will see that data intermingled 
+with the time value in the file.\\*
+
+\verb;tap:stream:mystream > file;\\*
+\verb;tap:stream:mystream > log;
+
 \end{itemize*}
 
 Storm and Spring XD support many common data sources and middleware;
 for example, the reading and writing of data payloads from Apache Kafka
-is supported in both. A Bolt in Storm is analogous to a
-source in Spring XD, and spouts in Storm are similar to processors and sinks
+is supported in both. A Spout in Storm is analogous to a
+source in Spring XD, and Bolts in Storm are similar to processors and sinks
 in Spring XD. As stream processing frameworks, Storm and Spring XD can be used for
 similar use-cases.
+
+\subsection{Samza}
+Apache Samza\cite{samza} is a distributed stream processing framework that uses 
+Kafka for messaging and YARN for fault-tolerance and other non-functional
+requirements.
+
+The following features differentiate Spring XD and Samza.
+
+\begin{itemize*}
+\item Spring XD provides out of the box adapters to read and write to wide
+variety of enterprise systems, while Samza requires implementing the programming
+API, which usually is bound to reading and writing to Kafka topics.
+\item Batch processing in Samza is treated as particular case of stream
+processing, by moving data to Kafka and processing. This is generally good, 
+unless the entire dataset needs processed as a whole. The bi-directional 
+communication between stream and batch processing in Spring XD, allows construction
+of complex chains of data processing.
+\item Spring XD's runtime abstraction allows extensions and additional
+customizations. Though extensible, the implementation in Samza should comply with 
+Samza-compatible streaming system, which generally means it is very much Kafka
+or similar.
+\item Spring XD provides built-in fault-tolerance, security, and logging; whereas, 
+Samza relies on YARN to support non-functional requirements.
+\item Spring XD's YARN support provides cluster/group semantics, which allows 
+ramping up/down and also creating such groups dynamically. The container `count' 
+in Samza is static - requires redeployment to rebalance scaling of containers.
+\end{itemize*}
+
+Samza offers local-state repository with the option of log-backed replication, 
+which could be desirable as a standalone general purpose resilient cache, and it 
+is planned for our upcoming releases. 
 
 \subsection{Flume}
 Apache Flume\cite{flume} is a distributed system for collecting, aggregating and 
@@ -78,7 +129,7 @@ Flume offers HBase, Solr, and ElasticSearch sinks along with encryption support
 for Avro sources, which we are planning to address in our future releases.
 
 \subsection{Oozie}
-Oozie\cite{oozie} is a workflow scheduler engine to manage Hadoop \cite{hadoop} 
+Apache Oozie\cite{oozie} is a workflow scheduler engine to manage Hadoop \cite{hadoop} 
 workloads such as MapReduce or Pig jobs.
 
 The following features differentiate Spring XD and Oozie.
@@ -113,6 +164,6 @@ The following features differentiate Spring XD and Sqoop.
 \item Unified functional programming support to build reactive-style data pipelines.
 \end{itemize*}
 
-Sqoop offers data validation, data merge, incremental data imports, and HCatalog
-integration among others. Recognizing the importance of these enterprise features,
-Spring XD provides an out of the box Sqoop job to take advantage of these features.
+Sqoop offers data validation and HCatalog integration among others. Recognizing the
+importance of these enterprise features, Spring XD provides an out of the box Sqoop
+job to take advantage of these features.
