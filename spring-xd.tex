@@ -1,35 +1,51 @@
-% THIS IS SIGPROC-SP.TEX - VERSION 3.1
-% WORKS WITH V3.2SP OF ACM_PROC_ARTICLE-SP.CLS
-% APRIL 2009
+% This is "sig-alternate.tex" V2.0 May 2012
+% This file should be compiled with V2.5 of "sig-alternate.cls" May 2012
 %
-% It is an example file showing how to use the 'acm_proc_article-sp.cls' V3.2SP
-% LaTeX2e document class file for Conference Proceedings submissions.
+% This example file demonstrates the use of the 'sig-alternate.cls'
+% V2.5 LaTeX2e document class file. It is for those submitting
+% articles to ACM Conference Proceedings WHO DO NOT WISH TO
+% STRICTLY ADHERE TO THE SIGS (PUBS-BOARD-ENDORSED) STYLE.
+% The 'sig-alternate.cls' file will produce a similar-looking,
+% albeit, 'tighter' paper resulting in, invariably, fewer pages.
+%
 % ----------------------------------------------------------------------------------------------------------------
-% This .tex file (and associated .cls V3.2SP) *DOES NOT* produce:
+% This .tex file (and associated .cls V2.5) produces:
 %       1) The Permission Statement
 %       2) The Conference (location) Info information
 %       3) The Copyright Line with ACM data
-%       4) Page numbering
+%       4) NO page numbers
+%
+% as against the acm_proc_article-sp.cls file which
+% DOES NOT produce 1) thru' 3) above.
+%
+% Using 'sig-alternate.cls' you have control, however, from within
+% the source .tex file, over both the CopyrightYear
+% (defaulted to 200X) and the ACM Copyright Data
+% (defaulted to X-XXXXX-XX-X/XX/XX).
+% e.g.
+% \CopyrightYear{2007} will cause 2007 to appear in the copyright line.
+% \crdata{0-12345-67-8/90/12} will cause 0-12345-67-8/90/12 to appear in the copyright line.
+%
 % ---------------------------------------------------------------------------------------------------------------
-% It is an example which *does* use the .bib file (from which the .bbl file
-% is produced).
+% This .tex source is an example which *does* use
+% the .bib file (from which the .bbl file % is produced).
 % REMEMBER HOWEVER: After having produced the .bbl file,
-% and prior to final submission,
-% you need to 'insert'  your .bbl file into your source .tex file so as to provide
+% and prior to final submission, you *NEED* to 'insert'
+% your .bbl file into your source .tex file so as to provide
 % ONE 'self-contained' source file.
 %
-% Questions regarding SIGS should be sent to
-% Adrienne Griscti ---> griscti@acm.org
+% ================= IF YOU HAVE QUESTIONS =======================
+% Questions regarding the SIGS styles, SIGS policies and
+% procedures, Conferences etc. should be sent to
+% Adrienne Griscti (griscti@acm.org)
 %
-% Questions/suggestions regarding the guidelines, .tex and .cls files, etc. to
-% Gerald Murray ---> murray@hq.acm.org
+% Technical questions _only_ to
+% Gerald Murray (murray@hq.acm.org)
+% ===============================================================
 %
-% For tracking purposes - this is V3.1SP - APRIL 2009
+% For tracking purposes - this is V2.0 - May 2012
 
-\PassOptionsToPackage{pdfpagelabels=false}{hyperref}
-\setlength{\paperheight}{11in}
-\setlength{\paperwidth}{8.5in}
-\documentclass{acm_proc_article-sp}
+\documentclass{sig-alternate}
 \usepackage{hyperref}
 \usepackage{url}
 \usepackage{mdwlist}
@@ -39,18 +55,19 @@
 % This gives LaTeX permission to insert extra line breaks instead of
 % trying to fit too much in a single line. This helps with the
 % "Overfull \hbox" warnings (but so far doesn't eliminate all of them)
-\pretolerance=2500
+\pretolerance=3500
 
 % This inserts an ugly black box next to blatant violations of the 
 % overfull hbox rule
 \overfullrule=2cm
 
-% Remove the blank space for copyright; see http://www.acm.org/sigs/publications/sigfaq#a21
-\makeatletter
-\let\@copyrightspace\relax
-\makeatother
-
 \begin{document}
+%
+% --- Author Metadata here ---
+\conferenceinfo{WOODSTOCK}{'97 El Paso, Texas USA}
+%\CopyrightYear{2007} % Allows default copyright year (20XX) to be over-ridden - IF NEED BE.
+%\crdata{0-12345-67-8/90/01}  % Allows default copyright data (0-89791-88-6/97/05) to be over-ridden - IF NEED BE.
+% --- End of Author Metadata ---
 
 \title{Spring XD: A Modular Distributed Stream and Batch Processing System}
 
@@ -78,7 +95,9 @@
 % without further effort on your part as the last section in
 % the body of your article BEFORE References or any Appendices.
 
-\numberofauthors{5} %  in this sample file, there are a *total*
+\numberofauthors{5}
+
+% \numberofauthors{8} %  in this sample file, there are a *total*
 % of EIGHT authors. SIX appear on the 'first-page' (for formatting
 % reasons) and the remaining two appear in the \additionalauthors section.
 %
@@ -94,16 +113,28 @@
 % e-mail address with \email.
 %
 % 1st. author
-\alignauthor Sabby Anandan
+\alignauthor
+Sabby Anandan\\
+       \affaddr{San Francisco, CA, USA}\\
+       \email{sanandan@pivotal.io}
 % 2nd. author
-\alignauthor Marius Bogoevici
+\alignauthor
+Marius Bogoevici\\
+       \affaddr{New York, NY, USA}\\
+       \email{mbogoevici@pivotal.io}
 % 3rd. author
-\alignauthor Glenn Renfro
+\alignauthor Glenn Renfro\\
+       \affaddr{Atlanta, GA, USA}\\
+       \email{grenfro@pivotal.io}
 \and  % use '\and' if you need 'another row' of author names
 % 4th. author
-\alignauthor Ilayaperumal Gopinathan
+\alignauthor Ilayaperumal Gopinathan\\
+       \affaddr{Palo Alto, CA, USA}\\
+       \email{igopinathan@pivotal.io}
 % 5th. author
-\alignauthor Patrick Peralta
+\alignauthor Patrick Peralta\\
+       \affaddr{Cambridge, MA, USA}\\
+       \email{pperalta@pivotal.io}
 }
 % There's nothing stopping you putting the seventh, eighth, etc.
 % author on the opening page (as the 'third row') but we ask,
@@ -149,13 +180,13 @@ for Spring XD.
 %\end{document}  % This is where a 'short' article might terminate
 
 %ACKNOWLEDGMENTS are optional
-%\section{Acknowledgments}
-%This section is optional; it is a location for you
-%to acknowledge grants, funding, editing assistance and
-%what have you.  In the present case, for example, the
-%authors would like to thank Gerald Murray of ACM for
-%his help in codifying this \textit{Author's Guide}
-%and the \textbf{.cls} and \textbf{.tex} files that it describes.
+\section{Acknowledgments}
+This section is optional; it is a location for you
+to acknowledge grants, funding, editing assistance and
+what have you.  In the present case, for example, the
+authors would like to thank Gerald Murray of ACM for
+his help in codifying this \textit{Author's Guide}
+and the \textbf{.cls} and \textbf{.tex} files that it describes.
 
 %
 % The following two commands are all you need in the
@@ -170,9 +201,7 @@ for Spring XD.
 %
 % ACM needs 'a single self-contained file'!
 %
-
-% This next section command marks the start of
-% Appendix B, and does not continue the present hierarchy
-\balancecolumns
+%APPENDICES are optional
+%\balancecolumns
 % That's all folks!
 \end{document}
