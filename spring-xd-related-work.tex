@@ -86,9 +86,9 @@ requirements.
 The following features differentiate Spring XD and Samza.
 
 \begin{itemize*}
-\item Spring XD provides out of the box adapters to read and write data fragments,
-while Samza requires implementing the programming API, which usually is bound to 
-reading and writing to Kafka topics.
+\item Spring XD provides out of the box adapters to read and write to wide
+variety of enterprise systems, while Samza requires implementing the programming
+API, which usually is bound to reading and writing to Kafka topics.
 \item Batch processing in Samza is treated as particular case of stream
 processing, by moving data to Kafka and processing. This is generally good, 
 unless the entire dataset needs processed as a whole. The bi-directional 
