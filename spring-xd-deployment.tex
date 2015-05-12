@@ -130,6 +130,39 @@ HDFS sink:
 \verb; --definition "tap:stream:ingest>counter;\\*
 \verb; --name=ingestCounter" --deploy;
 
+\subsection {Module Counts and Stream Partitioning}
+At deployment time a Spring XD stream can be configured to establish the number
+of instances of each module in the stream. For example a stream may contain
+a processor that is resource intensive, and needs to be 
+load balanced across multiple containers. The default 
+settings for a stream deployment will create one module instance for each
+module in the stream definition. In the sample stream below the 
+deployment will create 3 expensiveProcessor instances distributed 
+across 3 containers in the cluster:
+
+\verb;stream create ingest;\\* 
+\verb; --definition "jms|expensiveProcessor|hdfs" ;
+
+\verb; stream deploy --properties;\\*
+\verb; "module.expensiveProcessor.count=3"; 
+
+(By default XD will send messages to each of the \emph{expensiveProcessors} 
+using round robin logic.)
+
+Spring XD Streams can be partitioned at deployment time to route messages to the
+same module instance based on the contents of the message. One example 
+would be if the processor aggregates data by customerId and this step needs to
+run using co-located resources.  An example of this is enumerated below:
+
+\verb;stream create ingest;\\* 
+\verb; --definition "jms|expensiveProcessor|hdfs" ;
+
+\verb; stream deploy --properties;\\*
+\verb; "module.jms.producer.partitionKeyExpression=;\\*
+\verb;   payload.customerId,;\\*
+\verb;   module.expensiveProcessor.count=3"; 
+
+
 \subsection {Reactive processors}
 
 The last few years have seen a significant change in application requirements:
