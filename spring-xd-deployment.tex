@@ -111,6 +111,23 @@ the data to the log:
 
 \verb;job launch myHttpJob;
 
+\subsubsection {Tapping a Stream} \label{sssec:deploytap}
+
+A Tap \emph{listens} to data while it is processed in an existing
+stream and will process the data in a separate stream. The original stream is 
+unaffected by the tap and isn't aware of its presence.  This follows the 
+wiretap~\cite{wiretap} EIP pattern.  Taps are recommended as way to collect 
+metrics and perform analytics on a stream of data. An example of this is shown
+below where a tap counts the number of mqtt messages received by a source 
+and sent to a hdfs sink:
+
+\verb;stream create ingest;\\* 
+\verb; --definition "mqtt|hdfs" --deploy;
+
+\verb;stream create ingestTap;\\*
+\verb; --definition "tap:stream:ingest>counter;\\*
+\verb; --name=ingestCounter" --deploy;
+
 \subsection {Reactive processors}
 
 The last few years have seen a significant change in application requirements:

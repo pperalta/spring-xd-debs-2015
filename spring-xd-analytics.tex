@@ -4,9 +4,7 @@
 Spring XD supports analytics functionality through various sink and processor modules.
 Typically a ``main'' stream which obtains data from an external source (via
 a source module) and writes it to an external data store (via a sink module)
-is ``tapped'' -- meaning that a separate stream is created using the data
-flowing from the first stream. The existence of this tap is unknown by the
-main stream. This allows for analytics to be performed in a non-invasive manner.
+is ``tapped'' (see~\ref{sssec:deploytap}).
 The results of the analytics can be written to another sink module or a
 subsequent processing module for further analysis.
 
