@@ -44,7 +44,7 @@ that does not have the word \emph{ocean} and then transform the message
 to all caps:
 
 \begin{lstlisting}
-stream create oceanStream 
+stream create oceanStream
  --definition "http | filter
  --expression=payload.contains('ocean') |
  transform
@@ -102,9 +102,9 @@ job launch sensor-process
 Or, more typically, it can be launched on a schedule:
 
 \begin{lstlisting}
-stream create 
+stream create
   --name launchSensorProcess
-  --definition 
+  --definition
   "trigger --cron=`0/5 * * * * *'
   > queue:job:myCronJob" --deploy
 \end{lstlisting}
@@ -117,8 +117,8 @@ as it is executing.  In the example below an http source will pass the http
 payload to the "myHttpJob, thus launching the job:
 
 \begin{lstlisting}
-stream create --name 
- jobStream --definition 
+stream create --name
+ jobStream --definition
  "http > queue:job:myHttpJob"
  --deploy
 \end{lstlisting}
@@ -143,9 +143,10 @@ job launch myHttpJob
 A tap ``listens'' to data in an existing stream and passes it into a separate
 stream. The creation and existence of a tap does not modify the stream that
 is being tapped. Typically the underlying message bus uses a publish/subscribe
-message broker, therefore adding a tap simply requires the creation of
-a new channel behind the scenes. This follows the \emph{wiretap}~\cite{wiretap}
-pattern.  Taps are recommended as way to collect metrics and perform
+message broker, and follows the \emph{wiretap}~\cite{wiretap}
+pattern. The tapped stream is processed concurrently with the main stream, so
+ consumers with different speeds downstream from the tapping point do not 
+ interfere with each other. Taps are recommended as way to collect metrics and perform
 analytics on a stream of data. An example of this is shown below where a
 tap counts the number of mqtt messages received by a source and sent to an
 HDFS sink:
