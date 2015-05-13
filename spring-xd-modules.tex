@@ -1,11 +1,10 @@
 \section{Modules}
 \label{sec:Modules}
-A Spring XD module is a unit of data processing. There are four module
-types: source, processor, sink, and job. Modules in Spring XD are defined
-in their own application context. This allows for easy encapsulation and life cycle
-management for modules. Additionally, the use of an application context allows for easy
-module expansion.  Spring XD uses Spring Integration as its foundation for
-implementing modules. A module is comprised of components that
+The four module types in Spring XD are source, processor, sink, and job. Modules
+in Spring XD are defined in their own application context. This allows for encapsulation
+and life cycle management for modules. Additionally, the use of an application context
+enables end users to plug in their own custom modules. Spring XD uses Spring 
+Integration as its foundation for implementing modules. A module is comprised of components that
 implement the data processing logic and one or more connectors (known as \emph{channels})
 that connect to the underlying message bus.
 
