@@ -38,9 +38,9 @@ stream create ingest --definition
 \end{lstlisting}
 
 Processor modules in a stream offer the ability to transform, filter,
-enrich data as it moves from one module to another.  In the example below
+and enrich data as it moves from one module to another.  In the example below
 the stream will accept data from a http source and filter out any message
-that does not have the word \emph{ocean} and then transform the message
+that does not have the word ``ocean'' and then transform the message
 to all caps:
 
 \begin{lstlisting}
@@ -53,13 +53,13 @@ stream create oceanStream
 \end{lstlisting}
 
 In cases that a stream should be deactivated but the definition of the stream
-should be maintained, the stream can be \emph{undeployed} as shown below:
+should be maintained, the stream can be \emph{undeployed}:
 
 \begin{lstlisting}
 stream undeploy oceanStream
 \end{lstlisting}
 
-If the stream is no longer needed it can be \emph{destroyed} as shown below:
+If the stream is no longer needed it can be \emph{destroyed}:
 
 \begin{lstlisting}
 stream destroy oceanStream
@@ -71,56 +71,51 @@ Spring XD allows users to create batch workflow solutions that span traditional
 use-cases such as moving data between flat files and relational databases as
 well as Hadoop use-cases where analysis logic is broken up into several steps
 that run on a Hadoop cluster. Spring XD can deploy and launch a Spark application
-as a batch job.  The example below shows an example of creating a
-job definition in XD.
+as a batch job. The following is an example of creating a
+job definition in XD (this assumes an existing module job named \emph{sensors} that
+implements the processing logic):
 
 \begin{lstlisting}
-job create sensorProcess
-  --definition "sensors"
+job create sensorProcess --definition "sensors"
 \end{lstlisting}
 
-(This example already assumes an existing module job named \emph{sensors} that
-implements the processing logic).
-
-An important feature of the Spring XD is the regular
+An important feature of Spring XD is the regular
 execution of jobs, as well as the ability to replay older datasets, for
-instance reconstructing the \emph{data views} in case of loss or error.
+instance reconstructing the data views in case of loss or error.
 The following mechanisms are available:
 
 \begin{itemize*}
 \item \emph{manual} job launch through its shell user interface or
-administrative UI;
+administrative UI
 \item \emph{stream-controlled} where the jobs are launched by a stream of
-\emph{trigger} messages;
-\item \emph{scheduled} job launch according to a \texttt{cron} expression;
+\emph{trigger} messages
+\item \emph{scheduled} job launch according to a \texttt{cron} expression
 \end{itemize*}
 
 For example, a job can be launched manually as follows:
 
+\begin{lstlisting}
 job launch sensor-process
+\end{lstlisting}
 
 Or, more typically, it can be launched on a schedule:
 
 \begin{lstlisting}
-stream create
-  --name launchSensorProcess
-  --definition
-  "trigger --cron=`0/5 * * * * *'
+stream create --name launchSensorProcess
+  --definition  "trigger --cron=`0/5 * * * * *'
   > queue:job:myCronJob" --deploy
 \end{lstlisting}
 
 \subsection {Combining Streams and Jobs}
 
-Spring XD offers the ability for streams and jobs to work together in that
-a stream can launch a job or a stream can received notifications from a job
+Spring XD offers the ability for streams and jobs to work together. Streams
+can launch jobs, and streams can receive notifications from a job
 as it is executing.  In the example below an http source will pass the http
-payload to the "myHttpJob, thus launching the job:
+payload to the ``myHttpJob'', thus launching the job:
 
 \begin{lstlisting}
-stream create --name
- jobStream --definition
- "http > queue:job:myHttpJob"
- --deploy
+stream create --name jobStream --definition
+  "http > queue:job:myHttpJob" --deploy
 \end{lstlisting}
 
 In the example below a stream will receive all events from a job and write
@@ -128,12 +123,10 @@ the data to the log:
 
 \begin{lstlisting}
 job create --name myHttpJob
- --definition "httpJob"
- --deploy
+ --definition "httpJob" --deploy
 
 stream create --name aggregatedEvents
- --definition
- "tap:job:myHttpJob >log" --deploy
+  --definition "tap:job:myHttpJob >log" --deploy
 
 job launch myHttpJob
 \end{lstlisting}
@@ -148,7 +141,7 @@ pattern. The tapped stream is processed concurrently with the main stream, so
  consumers with different speeds downstream from the tapping point do not 
  interfere with each other. Taps are recommended as way to collect metrics and perform
 analytics on a stream of data. An example of this is shown below where a
-tap counts the number of mqtt messages received by a source and sent to an
+tap counts the number of MQTT messages received by a source and sent to an
 HDFS sink:
 
 \begin{lstlisting}
@@ -167,24 +160,24 @@ a processor that is resource intensive, and needs to be
 load balanced across multiple containers. The default
 settings for a stream deployment will create one module instance for each
 module in the stream definition. In the sample stream below the
-deployment will create 3 data-processor instances distributed
+deployment will create 3 \emph{data-processor} instances distributed
 across 3 containers in the cluster:
 
 \begin{lstlisting}
 stream create ingest
- --definition
- "mqtt | data-processor | hdfs"
+  --definition
+  "mqtt | data-processor | hdfs"
 
- stream deploy --properties
- "module.data-processor.count=3"
+stream deploy --properties
+  "module.data-processor.count=3"
 \end{lstlisting}
 
-(By default XD will send messages to each of the \emph{data-processors}
-using round robin logic.)
+By default Spring XD will send messages to each of the \emph{data-processor}
+instances using round robin logic.
 
-Spring XD Streams can be partitioned at deployment time to route messages to the
+Spring XD streams can be partitioned at deployment time to route messages to the
 same module instance based on the contents of the message. One example
-would be if the processor aggregates data by sensorId and this step needs to
+would be if the processor aggregates data by ``sensorId'' and this step needs to
 run using co-located resources.  An example of this is enumerated below:
 
 \begin{lstlisting}
@@ -198,7 +191,11 @@ stream deploy --properties
  module.data-processor.count=3"
 \end{lstlisting}
 
-\subsection {Reactive processors}
+In this example, instead of round robin processing by the \emph{data-processor}
+module, the data passing through the stream will be partitioned by ``sensorId''
+across the \emph{data-processor} modules.
+
+\subsection {Reactive Processors}
 
 The last few years have seen a significant change in application requirements:
 data volumes of terabyte order, response times within tens of milliseconds, stricter
