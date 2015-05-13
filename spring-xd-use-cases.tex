@@ -37,20 +37,6 @@ unify stream and batch operations.
 A key factor in this decision was the ability of Spring XD to handle streaming
 and batching as first class citizens under a single system.
 
-\subsection{24/7 Production Pipelines}
-\textit{Challenge}: A large IT enterprise wanted to build data pipelines to
-monitor current software and hardware sales in order to predict and forecast.
-They needed the ability to examine current trends without affecting the main
-pipeline. Additionally, they needed a solution with minimum downtime.
-
-\textit{Solution}: Spring XD can be configured with no single points of failure,
-thus fulfilling the customer's requirement for minimum downtime.
-Automatic recovery from fault scenarios along with reprocessing of data events 
-fulfilled their SLAs guarantees. For ad-hoc operations such as querying and machine 
-learning, \emph{taps} in Spring XD were adopted to fork the  data from the primary
-pipeline. This resulted in no disruption with the primary pipeline, while at
-the same time satisfying ad-hoc demands.
-
 \subsection{Closed-loop Analytics}
 \textit{Challenge}: A finance institution wanted to build a platform to detect
 fraudulent transactions. They had years of historical data in varying formats
