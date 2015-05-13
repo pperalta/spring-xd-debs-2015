@@ -1,4 +1,4 @@
-\section{Processing models with Spring XD}
+\section{Processing Models}
 This section describes the various processing data processing models that are possible with
 Spring XD, and provides configuration and deployment examples.
 Note that this is not an exhaustive list of all
@@ -14,7 +14,10 @@ also integrate with other event based solutions such as Apache Spark Streaming.
 For example, the following stream definition can be used to ingest
 MQTT\cite{mqtt} data sent by a number of sensors directly into HDFS:
 
-\verb;stream create ingest --definition "mqtt | hdfs";
+\begin{lstlisting}
+stream create ingest
+  --definition "mqtt | hdfs"
+\end{lstlisting}
 
 In a more elaborate setting, an application can collect data from
 different sources, and Spring XD can provide the means to merge them
@@ -23,14 +26,16 @@ collect data from sensors via MQTT and HTTP, respectively, and
 contribute to a single queue \texttt{hdfs-in}. The merged result
 is saved into HDFS.
 
-\verb;stream create in-mqtt --definition ;\\*
-\verb;  "mqtt > queue:hdfs-in";
+\begin{lstlisting}
+stream create in-mqtt --definition
+  "mqtt > queue:hdfs-in"
 
-\verb;stream create in-http --definition  ;\\*
-\verb;  "http > queue:hdfs-in";
+stream create in-http --definition
+  "http > queue:hdfs-in"
 
-\verb;stream create ingest --definition  ;\\*
-\verb;  "queue:hdfs-in > hdfs";
+stream create ingest --definition
+  "queue:hdfs-in > hdfs"
+\end{lstlisting}
 
 Processor modules in a stream offer the ability to transform, filter,
 enrich data as it moves from one module to another.  In the example below
@@ -38,19 +43,27 @@ the stream will accept data from a http source and filter out any message
 that does not have the word \emph{ocean} and then transform the message
 to all caps:
 
-\verb;stream create oceanStream --definition "http |;\\*
-\verb; filter --expression=payload.contains('ocean') |;\\*
-\verb; transform --expression=payload.toUpperCase() |;\\*
-\verb; hdfs";
+\begin{lstlisting}
+stream create oceanStream 
+ --definition "http | filter
+ --expression=payload.contains('ocean') |
+ transform
+ --expression=payload.toUpperCase() |
+ hdfs"
+\end{lstlisting}
 
 In cases that a stream should be deactivated but the definition of the stream
 should be maintained, the stream can be \emph{undeployed} as shown below:
 
-\verb;stream undeploy oceanStream;
+\begin{lstlisting}
+stream undeploy oceanStream
+\end{lstlisting}
 
 If the stream is no longer needed it can be \emph{destroyed} as shown below:
 
-\verb;stream destroy oceanStream;
+\begin{lstlisting}
+stream destroy oceanStream
+\end{lstlisting}
 
 \subsection {Batch Jobs}
 
@@ -61,8 +74,10 @@ that run on a Hadoop cluster. Spring XD can deploy and launch a Spark applicatio
 as a batch job.  The example below shows an example of creating a
 job definition in XD.
 
-\verb;job create sensorProcess;\\*
-\verb;  --definition "sensors";
+\begin{lstlisting}
+job create sensorProcess
+  --definition "sensors"
+\end{lstlisting}
 
 (This example already assumes an existing module job named \emph{sensors} that
 implements the processing logic).
@@ -82,13 +97,17 @@ administrative UI;
 
 For example, a job can be launched manually as follows:
 
-\verb;job launch sensor-process;
+job launch sensor-process
 
 Or, more typically, it can be launched on a schedule:
 
-\verb;stream create --name launchSensorProcess;\\*
-\verb;  --definition "trigger --cron=`0/5 * * * * *';\\*
-\verb;  > queue:job:myCronJob" --deploy;
+\begin{lstlisting}
+stream create 
+  --name launchSensorProcess
+  --definition 
+  "trigger --cron=`0/5 * * * * *'
+  > queue:job:myCronJob" --deploy
+\end{lstlisting}
 
 \subsection {Combining Streams and Jobs}
 
@@ -97,19 +116,27 @@ a stream can launch a job or a stream can received notifications from a job
 as it is executing.  In the example below an http source will pass the http
 payload to the "myHttpJob, thus launching the job:
 
-\verb;stream create --name jobStream --definition ;\\*
-\verb; "http > queue:job:myHttpJob" --deploy;
+\begin{lstlisting}
+stream create --name 
+ jobStream --definition 
+ "http > queue:job:myHttpJob"
+ --deploy
+\end{lstlisting}
 
 In the example below a stream will receive all events from a job and write
 the data to the log:
 
-\verb;job create --name myHttpJob --definition;\\*
-\verb; "httpJob" --deploy;\\*
+\begin{lstlisting}
+job create --name myHttpJob
+ --definition "httpJob"
+ --deploy
 
-\verb;stream create --name aggregatedEvents --definition;\\*
-\verb; "tap:job:myHttpJob >log" --deploy;\\*
+stream create --name aggregatedEvents
+ --definition
+ "tap:job:myHttpJob >log" --deploy
 
-\verb;job launch myHttpJob;
+job launch myHttpJob
+\end{lstlisting}
 
 \subsection {Tapping a Stream} \label{sssec:deploytap}
 
@@ -123,12 +150,14 @@ analytics on a stream of data. An example of this is shown below where a
 tap counts the number of mqtt messages received by a source and sent to an
 HDFS sink:
 
-\verb;stream create ingest;\\*
-\verb; --definition "mqtt|hdfs" --deploy;
+\begin{lstlisting}
+stream create ingest
+ --definition "mqtt|hdfs" --deploy
 
-\verb;stream create ingestTap;\\*
-\verb; --definition "tap:stream:ingest>counter;\\*
-\verb; --name=ingestCounter" --deploy;
+stream create ingestTap
+ --definition "tap:stream:ingest>counter
+ --name=ingestCounter" --deploy
+\end{lstlisting}
 
 \subsection {Module Counts and Stream Partitioning}
 At deployment time a Spring XD stream can be configured to establish the number
@@ -140,11 +169,14 @@ module in the stream definition. In the sample stream below the
 deployment will create 3 data-processor instances distributed
 across 3 containers in the cluster:
 
-\verb;stream create ingest;\\*
-\verb; --definition "mqtt|data-processor|hdfs" ;
+\begin{lstlisting}
+stream create ingest
+ --definition
+ "mqtt | data-processor | hdfs"
 
-\verb; stream deploy --properties;\\*
-\verb; "module.data-processor.count=3";
+ stream deploy --properties
+ "module.data-processor.count=3"
+\end{lstlisting}
 
 (By default XD will send messages to each of the \emph{data-processors}
 using round robin logic.)
@@ -154,14 +186,16 @@ same module instance based on the contents of the message. One example
 would be if the processor aggregates data by sensorId and this step needs to
 run using co-located resources.  An example of this is enumerated below:
 
-\verb;stream create ingest;\\*
-\verb; --definition "mqtt|data-processor|hdfs" ;
+\begin{lstlisting}
+stream create ingest
+ --definition
+ "mqtt | data-processor | hdfs"
 
-\verb; stream deploy --properties;\\*
-\verb; "module.jms.producer.partitionKeyExpression=;\\*
-\verb;   payload.sensorId,;\\*
-\verb;   module.data-processor.count=3";
-
+stream deploy --properties
+ "module.jms.producer.partitionKeyExpression=
+ payload.sensorId,
+ module.data-processor.count=3"
+\end{lstlisting}
 
 \subsection {Reactive processors}
 

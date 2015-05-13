@@ -10,11 +10,15 @@ A simple stream definition consists of a sequence of modules. At minimum it requ
 source and sink module, with 0 or more processor modules in between. As a simple example
 consider the collection of data from an HTTP source writing to a file sink:
 
-\verb;http | file;
+\begin{lstlisting}
+http | file
+\end{lstlisting}
 
 A stream that involves some processing:
 
-\verb;http | filter | transform | file;
+\begin{lstlisting}
+http | filter | transform | file
+\end{lstlisting}
 
 The modules in a stream definition are connected together using the pipe symbol |.
 
@@ -23,7 +27,9 @@ Each module may take parameters. The parameters supported by a module are define
 the module implementation. For example, the HTTP source module exposes a port setting
 which allows the data ingestion port to be changed from the default value.
 
-\verb;http --port=1337;
+\begin{lstlisting}
+http --port=1337
+\end{lstlisting}
 
 \subsection{Labels}
 
@@ -31,14 +37,20 @@ Labels provide a means to alias or group modules. Labels are a name followed
 by the colon symbol :. When used as an alias a label can provide a more descriptive
 name for a particular configuration of a module.
 
-\verb;http | obfuscator: transform;\\* 
-\verb; --expression=payload.replaceAll('password','*');\\*
-\verb; | file;\\*
+\begin{lstlisting}
+http | obfuscator: transform
+ --expression=
+ payload.replaceAll('password','*')
+ | file
+\end{lstlisting}
 
 Labels are required for disambiguating when multiple modules of the same name are used:
 
-\verb;mystream = http | uppercaser: transform ;\\* 
-\verb; --expression=payload.toUpperCase();\\*
-\verb; | exclaimer: transform --expression=payload+'!';\\*
-\verb; | file;\\*
+\begin{lstlisting}
+mystream = http | uppercaser: transform
+ --expression=payload.toUpperCase()
+ | exclaimer: transform 
+ --expression=payload+'!'
+ | file
+\end{lstlisting}
 

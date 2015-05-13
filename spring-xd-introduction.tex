@@ -44,7 +44,9 @@ existing systems and newer ones.
 Creating a stream in Spring XD is a simple concept for those familiar with
 UNIX streams and pipes. Consider the following shell command:
 
-\verb;tail -f /tmp/log.txt | grep ERROR;
+\begin{lstlisting}
+tail -f /tmp/log.txt | grep ERROR
+\end{lstlisting}
 
 The \texttt{tail} command will continuously display the file contents. The |
 will pipe the output of \texttt{tail} to \texttt{grep}, which will filter 
@@ -52,9 +54,12 @@ out all lines that do not contain the string ERROR.
 
 The equivalent using Spring XD looks like this:
 
-\verb;stream create -name error-filter -definition;\\*
-\verb;  "tail -name=/tmp/log.txt | filter;\\*
-\verb;  --expression=payload.contains(`ERROR') | log";
+\begin{lstlisting}
+stream create -name error-filter
+ -definition "tail -name=/tmp/log.txt |
+ filter --expression=
+ payload.contains(`ERROR') | log"
+\end{lstlisting}
 
 While this specific example will only tail a local file, a distributed 
 ingestion stream that aggregates, filters, and stores log file analytics

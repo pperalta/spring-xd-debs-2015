@@ -54,22 +54,25 @@ support for directed graphs through named channels to combine multiple flows
 upstream or downstream from the message channel. The behavior of the channel
 can be either queue-based on topic-based. However, Storm accepts Directed
 Acyclic Graph (DAG)\cite{dag} of operations that represent streaming
-computations.\\*
+computations.
+\end{itemize*}
 
 Here is a Spring XD example that shows how you can use a named channel to share
-a data pipeline driven by different input sources.\\*
+a data pipeline driven by different input sources.
 
-\verb;queue:foo > file;\\*
-\verb;http > queue:foo;\\*
-\verb;time > queue:foo;\\*
+\begin{lstlisting}
+queue:foo > file
+http > queue:foo
+time > queue:foo
+\end{lstlisting}
 
 Now if you post data to the http source, you will see that data intermingled
-with the time value in the file.\\*
+with the time value in the file.
 
-\verb;tap:stream:mystream > file;\\*
-\verb;tap:stream:mystream > log;
-
-\end{itemize*}
+\begin{lstlisting}
+tap:stream:mystream > file
+tap:stream:mystream > log
+\end{lstlisting}
 
 Storm and Spring XD support many common data sources and middleware;
 for example, the reading and writing of data payloads from Apache Kafka
