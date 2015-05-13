@@ -138,7 +138,7 @@ stream. The creation and existence of a tap does not modify the stream that
 is being tapped. Typically the underlying message bus uses a publish/subscribe
 message broker, and follows the \emph{wiretap}~\cite{wiretap}
 pattern. The tapped stream is processed concurrently with the main stream, so
- consumers with different speeds downstream from the tapping point do not 
+ consumers with different speeds downstream from the tapping point do not
  interfere with each other. Taps are recommended as way to collect metrics and perform
 analytics on a stream of data. An example of this is shown below where a
 tap counts the number of MQTT messages received by a source and sent to an
@@ -195,38 +195,54 @@ In this example, instead of round robin processing by the \emph{data-processor}
 module, the data passing through the stream will be partitioned by ``sensorId''
 across the \emph{data-processor} modules.
 
-\subsection {Reactive Processors}
+\subsection {Reactive Processing}
 
-The last few years have seen a significant change in application requirements:
-data volumes of terabyte order, response times within tens of milliseconds, stricter
-availability requirements. These new challenges require a new approach to application
-development, subsumed under the concepts of \emph{reactive applications} and \emph{reactive
-programming}. In what follows next, we will describe how these concepts are
-illustrated by Spring XD, both from a runtime platform, as well as from a development perspective.
 
 \emph{Reactive programming} is a programming paradigm centered around asynchronous
-stream processing. The central notion is that incoming data can be processed in an
+stream processing. The central concept is that incoming data can be processed in an
 ordered, asynchronous and event-driven manner, using functional operators to describe
-transformations that apply to an entire stream of incoming data. The operators can
+transformations that apply to an entire stream of incoming data. Operators can
 vary from individual item transformations, to grouping and aggregation over given
 time windows, and can be composed into complex data processing pipelines that produce
 outbound streams of data.
 
-ReactiveX~\cite{reactivex} is one of the most common set of APIs, centered around
-the \texttt{Observable} abstraction that extends the observer pattern to streams,
-together with a rich set of operators for composing and transforming sequences, and
+ReactiveX~\cite{reactivex} is one of the most common set of reactive APIs, centered around
+the \texttt{Observable} abstraction of an unbounded stream of asynchronous events,
+together with a rich set of operators for composing and transforming them.
 RxJava~\cite{rxjava} is the Java implementation of the ReactiveX API.
 
-Spring XD provides support for reactive programming \linebreak
-through a special type of processors that transform asynchronous
-streams of data. The API for RxJava is supported. An example of an RxJava
-processor is shown in figure \ref{fig:rxjava}.
-Spring XD has the responsibility of transforming the
+Spring XD provides support for reactive programming through a special type of
+processor that describes the transformations on asynchronous streams of data, as
+opposed to focusing on the transformations that occur on discrete events. For example,
+an RxJava processor for calculating average values over a sliding time window can look as follows:
+
+\begin{lstlisting}
+public class MovingAverage
+  implements Processor<Tuple,Tuple> {
+
+  @Override
+  public Observable<Tuple>
+    process(Observable<Tuple> inputStream) {
+    return inputStream
+      .map(tuple -> tuple.getDouble("measurement"))
+      .window(5,1,SECONDS)
+      .flatMap(data -> average(data))
+      .map(avg -> tuple().of("average", avg)));
+    }
+}
+\end{lstlisting}
+
+The custom module implements the \texttt{Processor} interface and the
+\texttt{process} method, whose role is not to execute transformations
+on the individual messages of the stream, but to describe a series of
+transformations that will be performed on the items emitted by the
+\texttt{Observable}: mapping, windowing and the average calculation.
+
+As shown in figure \ref{fig:rxjava}, Spring XD has the responsibility of transforming the
 flow of discrete messages arriving on a processor's input channel into an
 RxJava \texttt{Observable}, as well as transforming the \texttt{Observable}
 returned by the processor module into a flow of discrete messages sent on
-the output channel. Inside the processor, RxJava operators are applied for
-performing transformations on the data stream.
+the output channel.
 
 \begin{figure}[ht]
 \centering
@@ -234,3 +250,12 @@ performing transformations on the data stream.
 \caption{Reactive module using RxJava}
 \label{fig:rxjava}
 \end{figure}
+
+For example, the processor listed above can then be packaged as part of a regular
+ processor module (called, for example \emph{averages}) and uses as part of a
+ regular stream definition.
+
+\begin{lstlisting}
+stream create --name average-sensors
+  --definition  "mqtt | averages | log" --deploy
+\end{lstlisting}
