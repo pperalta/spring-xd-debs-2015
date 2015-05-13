@@ -28,12 +28,14 @@ SparkSQL. Users familiar with Spark may implement the computation logic using
 Spark APIs in Java or Scala, and leave the orchestration to Spring XD.
 
 \subsubsection{Integration with any Spark application}
- A Spark Application can be deployed and launched from Spring XD as
+A Spark Application can be deployed and launched from Spring XD as
 a \emph{batch} job. A Spring XD batch job submits the Spark application into
-Spark cluster manager using org.apache.spark.deploy.SparkSubmit. The main advantage
+Spark cluster manager using org.apache.spark.deploy.SparkSubmit. One advantage 
 of this approach is that one can launch a Spark application with specific criteria
 via Spring XD stream. For instance, a real time scoring algorithm through Spark MLlib
-job can be triggered based on the criteria from a regular \emph{XD stream} events.
+job can be triggered based on the criteria from a regular \emph{XD stream} events. 
+Another advantage is after the job is complete a notification can be sent to a 
+stream for processing.
 
 \subsubsection{Integration with Spark Streaming}
  Spring XD integrates with Spark streaming to provide better orchestration and
