@@ -50,8 +50,8 @@ out all lines that do not contain the string ERROR.
 The equivalent using Spring XD looks like this:
 
 \begin{lstlisting}
-stream create -name error-filter
- -definition "tail -name=/tmp/log.txt |
+stream create --name error-filter
+ --definition "tail --name=/tmp/log.txt |
  filter --expression=
  payload.contains(`ERROR') | log"
 \end{lstlisting}
