@@ -16,7 +16,7 @@ data stores and processing systems such as JDBC\cite{jdbc}, HDFS, MongoDB\cite{m
 Spark, Kafka, RabbitMQ, Sqoop, etc.  If an existing module does not meet the needs of a
 given use case, Spring XD supports custom modules.
 
-Spring XD sink and source modules are \emph{message endpoints}
+Spring XD source and sink modules are \emph{message endpoints}
 \cite{enterprise-integration-pattern-message-endpoint}
 that are responsible for sending data to and receiving data from external applications
 respectively. A source is the entry point for data into the stream. A sink is
@@ -149,6 +149,9 @@ dependencies inside the module registry. The modules are defined in
 the modules directory and are segregated in subdirectories by
 type: \texttt{modules/source}, \texttt{modules/processor},
 \texttt{modules/sink} and \texttt{modules/job}. The module registry is
-configurable and modules may be uploaded via the admin server REST API.
+configurable and modules may be uploaded via the admin server REST API
+and Spring XD shell.
+This assumes  the admin servers and containers have access to a shared 
+filesystem or HDFS for the module registry
 During the deployment of the module, the Spring XD runtime will load the modules
 dynamically from the module registry.
