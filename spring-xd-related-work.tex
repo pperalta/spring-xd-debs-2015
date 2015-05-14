@@ -114,8 +114,8 @@ or similar.
 create multi-step pipelines as first class components, coordinating the deployment of individual
 modules and the communication between them. Samza's job model is more granular, each
 processing step being a separate deployment unit, with an independent lifecycle.
-As a result, creating multi-step pipelines is possible -- but requires coordination
-between jobs that is left entirely to the user.
+As a result, creating multi-step pipelines is possible, but the coordination of
+jobs is left entirely to the user.
 \item Spring XD provides built-in fault-tolerance, security, and logging; whereas,
 Samza relies on YARN to support non-functional requirements.
 \item Spring XD's YARN support provides cluster/group semantics, which allows
