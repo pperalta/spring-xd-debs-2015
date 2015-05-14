@@ -185,7 +185,7 @@ stream create ingest
  --definition
  "mqtt | data-processor | hdfs"
 
-stream deploy --properties
+stream deploy ingest --properties
  "module.jms.producer.partitionKeyExpression=
  payload.sensorId,
  module.data-processor.count=3"
