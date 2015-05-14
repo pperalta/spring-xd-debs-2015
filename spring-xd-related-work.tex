@@ -30,24 +30,24 @@ Spark APIs in Java or Scala, and leave the orchestration to Spring XD.
 \subsubsection{Integration with any Spark application}
 A Spark Application can be deployed and launched from Spring XD as
 a \emph{batch} job. A Spring XD batch job submits the Spark application into
-Spark cluster manager using org.apache.spark.deploy.SparkSubmit. One advantage 
+Spark cluster manager using \texttt{org.apache.spark.deploy.SparkSubmit}. An advantage
 of this approach is that one can launch a Spark application with specific criteria
-via Spring XD stream. For instance, a real time scoring algorithm through Spark MLlib
-job can be triggered based on the criteria from a regular \emph{XD stream} events. 
-Another advantage is after the job is complete a notification can be sent to a 
+via a Spring XD stream. For instance, a real time scoring algorithm through Spark MLlib
+job can be triggered based on the criteria from a regular stream events.
+Another advantage is after the job is complete a notification can be sent to a
 stream for processing.
 
 \subsubsection{Integration with Spark Streaming}
- Spring XD integrates with Spark streaming to provide better orchestration and
-lifecycle management for spark streaming applications. Spring XD runs the
-Spark Driver as an -- XD module (processor or sink) in the XD container
+Spring XD integrates with Spark streaming to provide better orchestration and
+lifecycle management for Spark streaming applications. Spring XD runs the
+Spark Driver as a module (processor or sink) in the Spring XD container
 while the \emph{spark streaming receiver} and subsequent \emph{data computation} is
 done at the \emph{Spark Cluster}. Driver failure is automatically handled by
 Spring XD -- the admin server will re-deploy a module from a failed container
 to another eligible container.
- Setting up a Spark Streaming module within XD can be beneficial when adding
-streaming data computation logic for a tapped XD stream. While the primary
-stream processes events one at a time (through the regular XD modules),
+Setting up a Spark Streaming module within XD can be beneficial when adding
+streaming data computation logic for a tapped Spring XD stream. While the primary
+stream processes events one at a time (through the regular Spring XD modules),
 the tapped stream will become a source for the Spark Streaming module.
 
 \subsection{Storm}
