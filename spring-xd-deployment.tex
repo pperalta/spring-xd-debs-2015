@@ -168,7 +168,7 @@ stream create ingest
   --definition
   "mqtt | data-processor | hdfs"
 
-stream deploy --properties
+stream deploy ingest --properties
   "module.data-processor.count=3"
 \end{lstlisting}
 
