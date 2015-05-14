@@ -95,7 +95,7 @@ administrative UI
 For example, a job can be launched manually as follows:
 
 \begin{lstlisting}
-job launch sensor-process
+job launch sensorProcess
 \end{lstlisting}
 
 Or, more typically, it can be launched on a schedule:
@@ -103,7 +103,7 @@ Or, more typically, it can be launched on a schedule:
 \begin{lstlisting}
 stream create --name launchSensorProcess
   --definition  "trigger --cron=`0/5 * * * * *'
-  > queue:job:myCronJob" --deploy
+  > queue:job:sensorProcess" --deploy
 \end{lstlisting}
 
 \subsection {Combining Streams and Jobs}
