@@ -39,18 +39,16 @@ name for a particular configuration of a module.
 
 \begin{lstlisting}
 http | obfuscator: transform
- --expression=
- payload.replaceAll('password','*')
- | file
+  --expression=payload.replaceAll('password','*')
+  | file
 \end{lstlisting}
 
 Labels are required for disambiguating when multiple modules of the same name are used:
 
 \begin{lstlisting}
 http | uppercaser: transform
- --expression=payload.toUpperCase()
- | exclaimer: transform 
- --expression=payload+'!'
- | file
+  --expression=payload.toUpperCase()
+  | exclaimer: transform
+  --expression=payload+'!' | file
 \end{lstlisting}
 

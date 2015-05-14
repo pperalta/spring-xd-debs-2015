@@ -39,17 +39,16 @@ stream create ingest --definition
 
 Processor modules in a stream offer the ability to transform, filter,
 and enrich data as it moves from one module to another.  In the example below
-the stream will accept data from a http source and filter out any message
+the stream will accept data from a \emph{http} source and filter out any message
 that does not have the word ``ocean'' and then transform the message
 to all caps:
 
 \begin{lstlisting}
 stream create oceanStream
- --definition "http | filter
- --expression=payload.contains('ocean') |
- transform
- --expression=payload.toUpperCase() |
- hdfs"
+  --definition "http | filter
+  --expression=payload.contains('ocean') |
+  transform --expression=payload.toUpperCase() |
+  hdfs"
 \end{lstlisting}
 
 In cases that a stream should be deactivated but the definition of the stream
@@ -110,8 +109,8 @@ stream create --name launchSensorProcess
 
 Spring XD offers the ability for streams and jobs to work together. Streams
 can launch jobs, and streams can receive notifications from a job
-as it is executing.  In the example below an http source will pass the http
-payload to the ``myHttpJob'', thus launching the job:
+as it is executing.  In the example below an \emph{http} source will pass the 
+HTTP payload to the ``myHttpJob'', thus launching the job:
 
 \begin{lstlisting}
 stream create --name jobStream --definition
@@ -123,10 +122,10 @@ the data to the log:
 
 \begin{lstlisting}
 job create --name myHttpJob
- --definition "httpJob" --deploy
+  --definition "httpJob" --deploy
 
 stream create --name aggregatedEvents
-  --definition "tap:job:myHttpJob >log" --deploy
+   --definition "tap:job:myHttpJob >log" --deploy
 
 job launch myHttpJob
 \end{lstlisting}
