@@ -47,7 +47,7 @@ http | obfuscator: transform
 Labels are required for disambiguating when multiple modules of the same name are used:
 
 \begin{lstlisting}
-mystream = http | uppercaser: transform
+http | uppercaser: transform
  --expression=payload.toUpperCase()
  | exclaimer: transform 
  --expression=payload+'!'
