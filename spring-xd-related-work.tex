@@ -110,6 +110,12 @@ own implementations, using Samza's API.
 customizations. Though extensible, the implementation in Samza should comply with
 Samza-compatible streaming system, which generally means it is very much Kafka
 or similar.
+\item Spring XD provides, through its stream processing model, the ability to
+create multi-step pipelines as first class components, coordinating the deployment of individual
+modules and the communication between them. Samza's Job model is more granular, each
+processing step being a separate deployment unit, with an independent lifecycle - as
+a result, creating multi-step pipelines is possible, but requires a coordination
+between jobs that is left entirely to the user;
 \item Spring XD provides built-in fault-tolerance, security, and logging; whereas,
 Samza relies on YARN to support non-functional requirements.
 \item Spring XD's YARN support provides cluster/group semantics, which allows
@@ -117,8 +123,8 @@ ramping up/down and also creating such groups dynamically. The container `count'
 in Samza is static - requires redeployment to rebalance scaling of containers.
 \end{itemize*}
 
-Samza offers local-state repository with the option of log-backed replication,
-which could be desirable as a standalone general purpose resilient cache.
+Samza provides a local state repository (with the ability for log-backed replication),
+optimizing state management for partitioned processing.
 
 \subsection{Flume}
 Apache Flume\cite{flume} is a distributed system for collecting, aggregating and
